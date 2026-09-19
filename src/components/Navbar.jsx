@@ -56,26 +56,32 @@ export default function Navbar({
       {/* Main Nav */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Brand Wordmark */}
+          {/* Paytm + Sahayak Brand Wordmark */}
           <div className="flex items-center gap-4">
             <button
               onClick={() => setCurrentView('landing')}
-              className="flex items-center gap-2.5 text-left group"
+              className="flex items-center gap-3 text-left group"
             >
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#002970] to-[#00BAF2] flex items-center justify-center shadow-md shadow-[#00BAF2]/20 group-hover:scale-105 transition-transform">
-                <span className="text-white font-extrabold text-xl tracking-tighter">S</span>
+              {/* Paytm Dual-Tone Brand Badge */}
+              <div className="h-10 px-3 rounded-xl bg-white border-2 border-[#002970]/10 flex items-center justify-center shadow-sm group-hover:border-[#00BAF2] transition-colors">
+                <span className="font-black text-xl tracking-tight text-[#002970]">
+                  Pay<span className="text-[#00BAF2]">tm</span>
+                </span>
               </div>
+
+              <div className="h-7 w-px bg-slate-200 hidden sm:block" />
+
               <div>
                 <div className="flex items-center gap-1.5">
-                  <span className="text-2xl font-black tracking-tight text-[#002970]">
+                  <span className="text-xl font-black tracking-tight text-[#002970]">
                     Sahayak
                   </span>
-                  <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-bold bg-[#00BAF2]/15 text-[#0084B4]">
-                    <Sparkles className="w-2.5 h-2.5 mr-0.5 text-[#00BAF2]" /> AI
+                  <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-black bg-[#00BAF2] text-[#002970]">
+                    <Sparkles className="w-2.5 h-2.5 mr-0.5 text-[#002970]" /> AI
                   </span>
                 </div>
-                <p className="text-[11px] font-semibold text-slate-500 tracking-wide -mt-1">
-                  Paytm Loan Rejection Coach
+                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider -mt-0.5">
+                  Financial Journey Advisor
                 </p>
               </div>
             </button>

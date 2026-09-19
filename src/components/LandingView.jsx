@@ -108,6 +108,49 @@ export default function LandingView({
         </div>
       </div>
 
+      {/* Paytm Super-App Integrated Ecosystem Strip */}
+      <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-soft grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div className="flex items-center gap-3 p-2 rounded-xl bg-[#F0F9FE] border border-[#00BAF2]/20">
+          <div className="w-9 h-9 rounded-lg bg-[#002970] text-white flex items-center justify-center font-black text-xs shrink-0">
+            Pay<span className="text-[#00BAF2]">tm</span>
+          </div>
+          <div>
+            <div className="text-xs font-extrabold text-[#002970]">Paytm Bank Credit</div>
+            <p className="text-[10px] text-slate-500 font-medium">Instant IMPS Disbursal</p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3 p-2 rounded-xl bg-slate-50 border border-slate-200/80">
+          <div className="w-9 h-9 rounded-lg bg-blue-50 text-[#00BAF2] flex items-center justify-center font-black text-xs shrink-0">
+            <Zap className="w-5 h-5 text-[#00BAF2]" />
+          </div>
+          <div>
+            <div className="text-xs font-extrabold text-[#002970]">Paytm UPI Auto-Pay</div>
+            <p className="text-[10px] text-slate-500 font-medium">DPD-0 Track Record</p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3 p-2 rounded-xl bg-slate-50 border border-slate-200/80">
+          <div className="w-9 h-9 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center font-black text-xs shrink-0">
+            <Smartphone className="w-5 h-5 text-amber-500" />
+          </div>
+          <div>
+            <div className="text-xs font-extrabold text-[#002970]">Paytm Soundbox</div>
+            <p className="text-[10px] text-slate-500 font-medium">Voice Sanction Alerts</p>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3 p-2 rounded-xl bg-slate-50 border border-slate-200/80">
+          <div className="w-9 h-9 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center font-black text-xs shrink-0">
+            <ShieldCheck className="w-5 h-5 text-emerald-600" />
+          </div>
+          <div>
+            <div className="text-xs font-extrabold text-[#002970]">RBI Account Aggregator</div>
+            <p className="text-[10px] text-slate-500 font-medium">Cashflow Underwriting</p>
+          </div>
+        </div>
+      </div>
+
       {/* 1-Click Hackathon Demo Personas Section */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">

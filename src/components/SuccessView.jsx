@@ -144,38 +144,69 @@ export default function SuccessView({
         {/* 1-Click Disbursement Button & State */}
         <div className="pt-2">
           {isDisbursed ? (
-            <div className="bg-emerald-50 rounded-2xl p-6 border border-emerald-200 text-center space-y-3 animate-in zoom-in-95">
-              <div className="w-12 h-12 bg-emerald-600 text-white rounded-full flex items-center justify-center mx-auto shadow-md">
-                <CheckCircle className="w-7 h-7" />
+            <div className="bg-gradient-to-b from-emerald-50 to-teal-50/60 rounded-3xl p-6 sm:p-8 border-2 border-emerald-200 text-center space-y-4 animate-in zoom-in-95 shadow-soft">
+              {/* Paytm Soundbox Device Simulation Box */}
+              <div className="max-w-md mx-auto bg-gradient-to-b from-[#002970] to-[#001944] text-white rounded-3xl p-6 shadow-xl border-4 border-[#00BAF2] relative overflow-hidden">
+                <div className="flex items-center justify-between pb-3 border-b border-white/15">
+                  <div className="flex items-center gap-2">
+                    <span className="font-black text-lg text-white">
+                      Pay<span className="text-[#00BAF2]">tm</span>
+                    </span>
+                    <span className="text-[10px] font-bold bg-[#00BAF2] text-[#002970] px-1.5 py-0.5 rounded">
+                      Soundbox 4G
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1.5 text-xs text-emerald-400 font-bold">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                    <span>Active</span>
+                  </div>
+                </div>
+
+                <div className="py-5 space-y-2">
+                  <div className="flex justify-center gap-1">
+                    <span className="w-1.5 h-6 bg-[#00BAF2] rounded-full animate-pulse" />
+                    <span className="w-1.5 h-10 bg-emerald-400 rounded-full animate-pulse" style={{ animationDelay: '150ms' }} />
+                    <span className="w-1.5 h-7 bg-[#00BAF2] rounded-full animate-pulse" style={{ animationDelay: '300ms' }} />
+                    <span className="w-1.5 h-12 bg-white rounded-full animate-pulse" style={{ animationDelay: '450ms' }} />
+                    <span className="w-1.5 h-8 bg-emerald-400 rounded-full animate-pulse" style={{ animationDelay: '200ms' }} />
+                  </div>
+
+                  <div className="text-xl sm:text-2xl font-black text-white tracking-tight pt-1">
+                    "Paytm par ₹{loanAmount.toLocaleString('en-IN')} prapt hue"
+                  </div>
+                  <p className="text-xs text-blue-200">
+                    Instant Credit to Paytm Payments Bank (•••• 4092)
+                  </p>
+                </div>
+
+                <div className="pt-2 text-[10px] text-slate-300 flex items-center justify-between border-t border-white/10">
+                  <span>Txn ID: PTM-SAHAYAK-9921</span>
+                  <span>IMPS Fast-Settlement</span>
+                </div>
               </div>
-              <h3 className="text-lg font-black text-emerald-900">
-                ₹{loanAmount.toLocaleString('en-IN')} Disbursed Successfully!
-              </h3>
-              <p className="text-xs text-emerald-700">
-                Credited to Paytm Payments Bank Account (A/C ending in •••• 4092). Reference ID: <strong>PTM-90DAY-SAHAYAK-{Math.floor(100000 + Math.random() * 900000)}</strong>
-              </p>
-              <div className="inline-flex items-center gap-2 bg-emerald-100/80 px-4 py-1.5 rounded-full text-xs font-bold text-emerald-800">
-                <Smartphone className="w-4 h-4" />
-                Paytm Soundbox Chime: "Paytm par ₹{loanAmount.toLocaleString('en-IN')} prapt hue"
+
+              <div className="text-xs font-bold text-emerald-800 flex items-center justify-center gap-1.5 pt-2">
+                <CheckCircle className="w-4 h-4 text-emerald-600" />
+                <span>Loan disbursed instantly. Monthly EMI auto-debit configured via Paytm UPI.</span>
               </div>
             </div>
           ) : isDisbursing ? (
-            <div className="bg-[#002970] text-white p-6 rounded-2xl text-center space-y-3 shadow-lg">
-              <div className="flex items-center justify-center gap-2">
-                <RefreshCw className="w-6 h-6 text-[#00BAF2] animate-spin" />
-                <span className="text-base font-bold">Disbursing Loan via Paytm Payments Bank Instant Rails...</span>
+            <div className="bg-[#002970] text-white p-8 rounded-3xl text-center space-y-4 shadow-xl border border-blue-900">
+              <div className="flex items-center justify-center gap-3">
+                <RefreshCw className="w-7 h-7 text-[#00BAF2] animate-spin" />
+                <span className="text-lg font-bold">Disbursing Loan via Paytm Payments Bank Instant Rails...</span>
               </div>
               <p className="text-xs text-blue-200">
-                Initiating NACH e-mandate & instant IMPS transfer
+                Registering Paytm UPI auto-debit e-mandate & executing instant IMPS settlement
               </p>
             </div>
           ) : (
             <button
               onClick={handleDisburse}
-              className="w-full py-4 px-6 rounded-2xl bg-[#00BAF2] hover:bg-[#00a6d9] text-[#002970] font-black text-base shadow-lg shadow-[#00BAF2]/30 flex items-center justify-center gap-2 transition-all hover:scale-[1.01] active:scale-[0.99]"
+              className="w-full py-5 px-6 rounded-2xl bg-gradient-to-r from-[#00BAF2] to-[#0084B4] hover:opacity-95 text-[#002970] font-black text-lg shadow-xl shadow-[#00BAF2]/30 flex items-center justify-center gap-3 transition-all hover:scale-[1.01] active:scale-[0.99]"
             >
               <span>{t.disburseNow} (₹{loanAmount.toLocaleString('en-IN')})</span>
-              <ArrowRight className="w-5 h-5" />
+              <ArrowRight className="w-5 h-5 text-[#002970]" />
             </button>
           )}
         </div>
