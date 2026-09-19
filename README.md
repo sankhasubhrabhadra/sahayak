@@ -29,8 +29,6 @@ In India's retail and MSME credit ecosystem, automated underwriting algorithms r
 ## 2. Live Production & Source Links
 
 - **Production Application URL:** [https://sahayak-sigma-lyart.vercel.app/](https://sahayak-sigma-lyart.vercel.app/)
-- **Robots.txt Specification:** [https://sahayak-sigma-lyart.vercel.app/robots.txt](https://sahayak-sigma-lyart.vercel.app/robots.txt)
-- **Sitemap XML:** [https://sahayak-sigma-lyart.vercel.app/sitemap.xml](https://sahayak-sigma-lyart.vercel.app/sitemap.xml)
 - **GitHub Repository:** [https://github.com/sankhasubhrabhadra/sahayak](https://github.com/sankhasubhrabhadra/sahayak)
 - **Primary Branch:** `main`
 
