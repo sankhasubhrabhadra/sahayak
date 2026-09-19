@@ -42,8 +42,8 @@ export default function DashboardView({
     if (is100Percent) {
       try {
         confetti({
-          particleCount: 80,
-          spread: 70,
+          particleCount: 70,
+          spread: 60,
           origin: { y: 0.6 }
         });
       } catch (e) {
@@ -53,23 +53,23 @@ export default function DashboardView({
   }, [is100Percent]);
 
   // Circular progress ring parameters
-  const radius = 64;
+  const radius = 54;
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (progressPercent / 100) * circumference;
 
   return (
-    <div className="max-w-6xl mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-8 animate-in fade-in duration-300">
+    <div className="max-w-6xl mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-6 animate-in fade-in duration-200">
       {/* Top Banner: Paytm Financial Fitness Dashboard */}
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pb-2 border-b border-slate-200/80">
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-xs font-black uppercase tracking-wider text-[#002970] bg-[#E8F7FD] px-2.5 py-1 rounded-md border border-[#00BAF2]/30 flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-[#00BAF2] animate-pulse" />
+            <span className="text-xs font-semibold text-slate-700 bg-slate-100 px-2.5 py-0.5 rounded-md border border-slate-200 flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
               Paytm Credit Builder Engine
             </span>
-            <span className="text-xs text-slate-400 font-semibold">• Real-Time UPI & Bureau Sync</span>
+            <span className="text-xs text-slate-500">• Real-Time Bureau Synchronization</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-[#002970] mt-1">
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight mt-1.5">
             {applicant.fullName || 'Rahul'}'s {t.trackerTitle}
           </h1>
         </div>
@@ -78,143 +78,143 @@ export default function DashboardView({
         {is100Percent && (
           <button
             onClick={onProceedToSuccess}
-            className="animate-bounce bg-gradient-to-r from-[#00BAF2] to-[#00B37E] hover:opacity-95 text-[#002970] font-black px-6 py-3 rounded-2xl shadow-lg shadow-[#00BAF2]/30 flex items-center gap-2 text-sm transition-all hover:scale-105"
+            className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-5 py-2.5 rounded-xl shadow-xs flex items-center gap-2 text-xs sm:text-sm transition-all"
           >
-            <Trophy className="w-5 h-5 text-[#002970]" />
-            <span>🎉 100% Score — Claim ₹1,50,000 Pre-Approved Loan!</span>
+            <Trophy className="w-4 h-4 text-white" />
+            <span>100% Score — Claim Pre-Approved Loan</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         )}
       </div>
 
       {/* Hero Stats Row: Fitness Dial + Streak + Level XP */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Card 1: Circular Progress Gauge */}
-        <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-card flex items-center justify-between">
+        <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs flex items-center justify-between">
           <div className="space-y-1">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+            <span className="text-xs font-medium text-slate-500">
               {t.readinessScore}
             </span>
-            <div className="text-3xl font-black text-[#002970]">
+            <div className="text-3xl font-bold tracking-tight text-slate-900">
               {progressPercent}%
             </div>
-            <p className="text-xs font-semibold text-slate-500">
-              {is100Percent ? '🌟 Fully Sanction Ready' : 'In Progress (On Track)'}
+            <p className="text-xs text-slate-600">
+              {is100Percent ? 'Fully Sanction Ready' : 'In Progress (On Track)'}
             </p>
           </div>
 
           {/* Circular SVG Gauge */}
-          <div className="relative w-28 h-28 flex items-center justify-center">
-            <svg className="w-full h-full transform -rotate-90" viewBox="0 0 160 160">
+          <div className="relative w-24 h-24 flex items-center justify-center">
+            <svg className="w-full h-full transform -rotate-90" viewBox="0 0 140 140">
               <circle
-                cx="80"
-                cy="80"
+                cx="70"
+                cy="70"
                 r={radius}
                 stroke="#E2E8F0"
-                strokeWidth="12"
+                strokeWidth="10"
                 fill="transparent"
               />
               <circle
-                cx="80"
-                cy="80"
+                cx="70"
+                cy="70"
                 r={radius}
-                stroke={is100Percent ? '#00B37E' : '#00BAF2'}
-                strokeWidth="12"
+                stroke={is100Percent ? '#10B981' : '#002970'}
+                strokeWidth="10"
                 strokeDasharray={circumference}
                 strokeDashoffset={strokeDashoffset}
                 strokeLinecap="round"
                 fill="transparent"
-                className="transition-all duration-700 ease-out"
+                className="transition-all duration-500 ease-out"
               />
             </svg>
             <div className="absolute flex flex-col items-center">
-              <span className="text-xl font-black text-[#002970]">{progressPercent}%</span>
+              <span className="text-base font-bold text-slate-900">{progressPercent}%</span>
             </div>
           </div>
         </div>
 
         {/* Card 2: Streak Counter */}
-        <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-card flex items-center gap-4">
-          <div className="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-500">
-            <Flame className="w-9 h-9 animate-pulse" />
+        <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs flex items-center gap-4">
+          <div className="w-12 h-12 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600 shrink-0">
+            <Flame className="w-6 h-6" />
           </div>
           <div>
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
-              Repayment Streak
+            <span className="text-xs font-medium text-slate-500">
+              Repayment Discipline
             </span>
-            <div className="text-2xl font-black text-[#002970] flex items-center gap-1.5">
+            <div className="text-2xl font-bold tracking-tight text-slate-900 flex items-center gap-2">
               <span>{streakDays} Days</span>
-              <span className="text-xs bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded-full">🔥 Active</span>
+              <span className="text-[10px] bg-amber-100 text-amber-800 font-semibold px-2 py-0.5 rounded-full">Active</span>
             </div>
             <p className="text-xs text-slate-500 mt-0.5">
-              Top 5% financial consistency among peers.
+              100% on-time UPI auto-debits recorded.
             </p>
           </div>
         </div>
 
         {/* Card 3: Financial Health XP */}
-        <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-card flex items-center gap-4">
-          <div className="w-16 h-16 rounded-2xl bg-[#E8F7FD] border border-[#00BAF2]/30 flex items-center justify-center text-[#00BAF2]">
-            <Coins className="w-8 h-8 text-[#002970]" />
+        <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs flex items-center gap-4">
+          <div className="w-12 h-12 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-700 shrink-0">
+            <Coins className="w-6 h-6" />
           </div>
           <div>
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+            <span className="text-xs font-medium text-slate-500">
               Paytm Reward Points
             </span>
-            <div className="text-2xl font-black text-[#002970]">
+            <div className="text-2xl font-bold tracking-tight text-slate-900">
               Level {progressPercent > 60 ? '3' : progressPercent > 30 ? '2' : '1'}
             </div>
-            <p className="text-xs font-bold text-[#0084B4]">
-              {earnedXp} / {totalXp} Paytm Cashback Points
+            <p className="text-xs font-medium text-slate-600">
+              {earnedXp} / {totalXp} Transformation Points
             </p>
           </div>
         </div>
       </div>
 
       {/* Presenter & Hackathon Demo Superpower: Fast-Forward Slider Bar */}
-      <div className="bg-gradient-to-r from-[#002970] via-[#001f5c] to-[#001438] text-white rounded-3xl p-6 shadow-card border border-blue-900/40 space-y-4">
+      <div className="bg-slate-900 text-white rounded-2xl p-5 shadow-xs space-y-3">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <Sliders className="w-5 h-5 text-[#00BAF2]" />
-            <span className="text-sm font-bold text-white">
+            <Sliders className="w-4 h-4 text-slate-300" />
+            <span className="text-xs sm:text-sm font-semibold text-white">
               {t.fastForwardTitle}
             </span>
           </div>
-          <span className="text-xs text-blue-200">
-            Simulate 90-day progress instantly for hackathon demo:
+          <span className="text-xs text-slate-400">
+            Simulate 90-day progress timeline for demo:
           </span>
         </div>
 
         {/* Quick Jump Buttons */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
           <button
             onClick={() => onFastForward(20)}
-            className="py-2 px-3 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold transition-colors border border-white/10"
+            className="py-1.5 px-3 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-200 transition-colors border border-slate-700"
           >
             Day 1 (20% Start)
           </button>
           <button
             onClick={() => onFastForward(45)}
-            className="py-2 px-3 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold transition-colors border border-white/10"
+            className="py-1.5 px-3 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-200 transition-colors border border-slate-700"
           >
             Day 30 (45% Month 1)
           </button>
           <button
             onClick={() => onFastForward(75)}
-            className="py-2 px-3 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold transition-colors border border-white/10"
+            className="py-1.5 px-3 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-200 transition-colors border border-slate-700"
           >
             Day 60 (75% Month 2)
           </button>
           <button
             onClick={() => onFastForward(100)}
-            className="py-2 px-3 rounded-xl bg-gradient-to-r from-[#00BAF2] to-[#0084B4] hover:opacity-95 text-[#002970] text-xs font-black shadow-md transition-colors"
+            className="py-1.5 px-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold transition-colors"
           >
-            Day 90 (100% Ready 🎉)
+            Day 90 (100% Ready)
           </button>
         </div>
 
         {/* Slider */}
-        <div className="pt-2">
+        <div className="pt-1">
           <input
             type="range"
             min="0"
@@ -222,53 +222,53 @@ export default function DashboardView({
             step="5"
             value={progressPercent}
             onChange={(e) => onFastForward(Number(e.target.value))}
-            className="w-full accent-[#00BAF2] h-2 bg-white/20 rounded-lg cursor-pointer"
+            className="w-full accent-emerald-500 h-1.5 bg-slate-700 rounded-lg cursor-pointer"
           />
         </div>
       </div>
 
       {/* Habit Checklist Section with Month Tabs */}
-      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-card space-y-6">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+      <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs space-y-5">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
           <div>
-            <h2 className="text-lg sm:text-xl font-bold text-[#002970]">
-              Paytm Verified Milestone Habits Checklist
+            <h2 className="text-base sm:text-lg font-bold text-slate-900">
+              Paytm Milestone Habits Checklist
             </h2>
             <p className="text-xs text-slate-500">
-              Check off financial tasks as you complete them to increase your loan readiness score.
+              Complete scheduled tasks to reduce your DTI and build credit velocity.
             </p>
           </div>
 
           {/* Phase Filter Tabs */}
-          <div className="flex items-center gap-1 bg-[#F7F9FC] p-1 rounded-xl text-xs font-bold text-slate-600 border border-slate-200">
+          <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl text-xs font-medium text-slate-600">
             <button
               onClick={() => setActiveTab('all')}
-              className={`px-3 py-1.5 rounded-lg transition-all ${
-                activeTab === 'all' ? 'bg-[#002970] text-white shadow-xs' : 'hover:bg-white/60'
+              className={`px-3 py-1 rounded-lg transition-all ${
+                activeTab === 'all' ? 'bg-white text-slate-900 font-semibold shadow-xs' : 'hover:text-slate-900'
               }`}
             >
               All Phases
             </button>
             <button
               onClick={() => setActiveTab(1)}
-              className={`px-3 py-1.5 rounded-lg transition-all ${
-                activeTab === 1 ? 'bg-[#002970] text-white shadow-xs' : 'hover:bg-white/60'
+              className={`px-3 py-1 rounded-lg transition-all ${
+                activeTab === 1 ? 'bg-white text-slate-900 font-semibold shadow-xs' : 'hover:text-slate-900'
               }`}
             >
               Month 1
             </button>
             <button
               onClick={() => setActiveTab(2)}
-              className={`px-3 py-1.5 rounded-lg transition-all ${
-                activeTab === 2 ? 'bg-[#002970] text-white shadow-xs' : 'hover:bg-white/60'
+              className={`px-3 py-1 rounded-lg transition-all ${
+                activeTab === 2 ? 'bg-white text-slate-900 font-semibold shadow-xs' : 'hover:text-slate-900'
               }`}
             >
               Month 2
             </button>
             <button
               onClick={() => setActiveTab(3)}
-              className={`px-3 py-1.5 rounded-lg transition-all ${
-                activeTab === 3 ? 'bg-[#002970] text-white shadow-xs' : 'hover:bg-white/60'
+              className={`px-3 py-1 rounded-lg transition-all ${
+                activeTab === 3 ? 'bg-white text-slate-900 font-semibold shadow-xs' : 'hover:text-slate-900'
               }`}
             >
               Month 3
@@ -277,55 +277,55 @@ export default function DashboardView({
         </div>
 
         {/* Tasks List */}
-        <div className="space-y-6">
+        <div className="space-y-5">
           {habitPhases
             .filter((phase) => activeTab === 'all' || phase.phaseId === activeTab)
             .map((phase) => (
-              <div key={phase.phaseId} className="space-y-3">
-                <div className="flex items-center justify-between text-xs border-b border-slate-100 pb-2">
-                  <span className="font-extrabold text-[#002970] flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#00BAF2]" />
+              <div key={phase.phaseId} className="space-y-2.5">
+                <div className="flex items-center justify-between text-xs pb-1">
+                  <span className="font-semibold text-slate-900 flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-slate-900" />
                     {phase.phaseTitle}
                   </span>
-                  <span className="text-slate-400 font-semibold">{phase.phaseBadge}</span>
+                  <span className="text-slate-500">{phase.phaseBadge}</span>
                 </div>
 
-                <div className="space-y-2.5">
+                <div className="space-y-2">
                   {phase.tasks.map((task) => (
                     <div
                       key={task.id}
                       onClick={() => onToggleTask(phase.phaseId, task.id)}
-                      className={`p-4 rounded-2xl border transition-all cursor-pointer flex items-start justify-between gap-4 ${
+                      className={`p-3.5 rounded-xl border transition-all cursor-pointer flex items-start justify-between gap-4 ${
                         task.completed
-                          ? 'bg-emerald-50/50 border-emerald-200'
-                          : 'bg-[#F7F9FC] border-slate-200 hover:border-[#00BAF2]'
+                          ? 'bg-slate-50/70 border-slate-200'
+                          : 'bg-white border-slate-200/90 hover:border-slate-300'
                       }`}
                     >
                       <div className="flex items-start gap-3">
-                        <div className="mt-0.5">
+                        <div className="mt-0.5 shrink-0">
                           {task.completed ? (
-                            <CheckCircle className="w-5 h-5 text-emerald-600" />
+                            <CheckCircle className="w-4 h-4 text-emerald-600" />
                           ) : (
-                            <Circle className="w-5 h-5 text-slate-300 hover:text-[#00BAF2]" />
+                            <Circle className="w-4 h-4 text-slate-300 hover:text-slate-500" />
                           )}
                         </div>
-                        <div className="space-y-1">
-                          <h4 className={`text-xs sm:text-sm font-bold ${
-                            task.completed ? 'text-slate-800 line-through opacity-75' : 'text-[#002970]'
+                        <div className="space-y-0.5">
+                          <h4 className={`text-xs font-semibold ${
+                            task.completed ? 'text-slate-500 line-through' : 'text-slate-900'
                           }`}>
                             {task.title}
                           </h4>
-                          <p className="text-[11px] text-slate-500">
+                          <p className="text-[11px] text-slate-500 leading-relaxed">
                             {task.description}
                           </p>
                         </div>
                       </div>
 
                       <div className="flex flex-col items-end gap-1 shrink-0">
-                        <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-[#E8F7FD] text-[#002970] border border-[#00BAF2]/30">
-                          +{task.xp} Points
+                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-slate-100 text-slate-700">
+                          +{task.xp} pts
                         </span>
-                        <span className="text-[10px] text-slate-400 font-medium">
+                        <span className="text-[10px] text-slate-400">
                           {task.dueDate}
                         </span>
                       </div>
@@ -339,21 +339,21 @@ export default function DashboardView({
 
       {/* Bottom CTA when 100% */}
       {is100Percent && (
-        <div className="bg-gradient-to-r from-[#002970] via-[#001f5c] to-[#00B37E] text-white rounded-3xl p-8 shadow-card flex flex-col sm:flex-row items-center justify-between gap-6 animate-in zoom-in-95">
+        <div className="bg-slate-900 text-white rounded-2xl p-6 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="space-y-1 text-center sm:text-left">
-            <h3 className="text-xl font-black">
-              🎉 All 90-Day Milestones Successfully Achieved!
+            <h3 className="text-base font-semibold text-white">
+              All 90-Day Milestones Successfully Achieved
             </h3>
-            <p className="text-xs text-blue-100">
-              Your revised DTI is verified at 34.2% and Paytm Underwriting has unlocked your pre-approved loan offer.
+            <p className="text-xs text-slate-300">
+              Your revised DTI is verified at 34.2% and pre-approved loan sanctions are unlocked.
             </p>
           </div>
 
           <button
             onClick={onProceedToSuccess}
-            className="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-[#00BAF2] to-[#0084B4] hover:opacity-95 text-[#002970] font-black text-sm shadow-lg shadow-[#00BAF2]/30 transition-all hover:scale-105 active:scale-95 whitespace-nowrap"
+            className="w-full sm:w-auto px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs sm:text-sm shadow-xs transition-all whitespace-nowrap"
           >
-            Claim & Disburse Pre-Approved Loan ➔
+            Claim Pre-Approved Loan Offer ➔
           </button>
         </div>
       )}

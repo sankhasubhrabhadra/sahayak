@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { ArrowRight, Sparkles, Shield, AlertTriangle, CheckCircle, Calculator, User, IndianRupee, Briefcase, Clock, RefreshCw } from 'lucide-react';
+import React, { useState } from 'react';
+import { ArrowRight, User, IndianRupee, Briefcase, Clock, RefreshCw, CheckCircle2, AlertCircle } from 'lucide-react';
 import { DEMO_PERSONAS, TRANSLATIONS } from '../data/mockData';
 
 export default function ApplicationFormView({
@@ -25,10 +25,9 @@ export default function ApplicationFormView({
   const excessEmi = Math.max(0, existingEmis - maxSafeEmi);
 
   const scanSteps = [
-    lang === 'en' ? 'Connecting to Account Aggregator (AA)...' : 'अकाउंट एग्रीगेटर से डेटा कनेक्ट हो रहा है...',
-    lang === 'en' ? 'Analyzing Paytm UPI inflow regularity...' : 'Paytm UPI ट्रांजैक्शन की नियमितता जांची जा रही है...',
-    lang === 'en' ? 'Evaluating Debt-to-Income (DTI) serviceability...' : 'ईएमआई बनाम आमदनी (DTI) अनुपात का विश्लेषण...',
-    lang === 'en' ? 'Generating Sahayak AI Underwriting Verdict...' : 'सहायक AI अंडरराइटिंग रिपोर्ट तैयार हो रही है...'
+    lang === 'en' ? 'Verifying Account Aggregator cashflows...' : 'अकाउंट एग्रीगेटर से डेटा कनेक्ट हो रहा है...',
+    lang === 'en' ? 'Calculating Debt-to-Income (DTI) ratio...' : 'ईएमआई बनाम आमदनी (DTI) अनुपात का विश्लेषण...',
+    lang === 'en' ? 'Generating underwriting diagnosis...' : 'सहायक AI अंडरराइटिंग रिपोर्ट तैयार हो रही है...'
   ];
 
   const handleSubmit = (e) => {
@@ -45,11 +44,11 @@ export default function ApplicationFormView({
           setTimeout(() => {
             setIsScanning(false);
             onSubmitEvaluation();
-          }, 600);
+          }, 500);
           return prev;
         }
       });
-    }, 450);
+    }, 400);
   };
 
   const handleInputChange = (field, value) => {
@@ -60,81 +59,47 @@ export default function ApplicationFormView({
   };
 
   return (
-    <div className="max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-8">
-      {/* Header */}
-      <div className="text-center space-y-2">
-        <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-[#00BAF2]/15 text-[#0084B4]">
-          <Sparkles className="w-3.5 h-3.5 text-[#00BAF2]" />
-          Instant Eligibility Underwriting
-        </div>
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-[#002970]">
-          {lang === 'en' ? 'Check Your Loan Eligibility' : 'अपनी लोन पात्रता जांचें'}
+    <div className="max-w-3xl mx-auto py-6 px-4 sm:px-6 space-y-6">
+      {/* Minimal Header */}
+      <div className="space-y-1">
+        <h1 className="text-2xl font-bold text-slate-900">
+          {lang === 'en' ? 'Check Loan Eligibility' : 'अपनी लोन पात्रता जांचें'}
         </h1>
-        <p className="text-xs sm:text-sm text-slate-500 max-w-lg mx-auto">
+        <p className="text-xs sm:text-sm text-slate-500">
           {lang === 'en'
-            ? 'Enter your monthly financial profile. Sahayak AI uses automated DTI & cashflow analysis to simulate lender underwriting.'
-            : 'अपनी मासिक आमदनी और मौजूदा ईएमआई दर्ज करें। सहायक AI तुरंत पात्रता का विश्लेषण करेगा।'}
+            ? 'Enter your monthly financial profile to evaluate debt capacity.'
+            : 'अपनी मासिक आमदनी और मौजूदा ईएमआई दर्ज करें।'}
         </p>
       </div>
 
-      {/* Quick Fill Preset Persona Chips */}
-      <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-soft">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-          <div className="text-xs font-bold text-slate-500 flex items-center gap-1.5">
-            <User className="w-4 h-4 text-[#00BAF2]" />
-            <span>1-Click Preset Personas for Demo:</span>
-          </div>
-          <div className="flex flex-wrap items-center gap-2">
-            {DEMO_PERSONAS.map((p) => (
-              <button
-                key={p.id}
-                type="button"
-                onClick={() => onSelectPersona(p.id)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all ${
-                  activePersonaId === p.id
-                    ? 'bg-[#002970] text-white shadow-sm ring-2 ring-[#00BAF2]'
-                    : 'bg-slate-100 hover:bg-slate-200 text-[#002970]'
-                }`}
-              >
-                <span>{p.avatar}</span>
-                <span>{p.name.split(' ')[0]}</span>
-                <span className="text-[10px] opacity-75">({p.id === 'amit' ? 'Pass 20%' : 'Reject 56%'})</span>
-              </button>
-            ))}
-          </div>
+      {/* Preset Personas */}
+      <div className="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+        <span className="font-semibold text-slate-600">Fill with demo persona:</span>
+        <div className="flex flex-wrap items-center gap-2">
+          {DEMO_PERSONAS.map((p) => (
+            <button
+              key={p.id}
+              type="button"
+              onClick={() => onSelectPersona(p.id)}
+              className={`px-3 py-1.5 rounded-lg font-medium border transition-colors ${
+                activePersonaId === p.id
+                  ? 'bg-slate-900 text-white border-slate-900'
+                  : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
+              }`}
+            >
+              <span>{p.avatar} {p.name.split(' ')[0]}</span>
+              <span className="text-[10px] ml-1 opacity-70">({p.id === 'amit' ? 'Pass' : 'Reject'})</span>
+            </button>
+          ))}
         </div>
       </div>
 
-      {/* Form Card */}
-      <form onSubmit={handleSubmit} className="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-card space-y-8">
-        {/* Paytm e-KYC & DigiLocker Verified Strip */}
-        <div className="bg-[#F0F9FE] rounded-2xl p-4 border border-[#00BAF2]/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-[#002970] text-white font-black text-xs flex items-center justify-center shrink-0">
-              Pay<span className="text-[#00BAF2]">tm</span>
-            </div>
-            <div>
-              <div className="flex items-center gap-1.5 text-xs font-black text-[#002970]">
-                <span>DigiLocker e-KYC Verified</span>
-                <span className="px-1.5 py-0.2 bg-emerald-100 text-emerald-800 rounded font-bold text-[10px]">100% Paperless</span>
-              </div>
-              <p className="text-[11px] text-slate-500">
-                Disbursal Target: <strong>Paytm Payments Bank (•••• 4092)</strong>
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2 text-[11px] font-bold text-[#0084B4] bg-white px-3 py-1.5 rounded-xl border border-blue-100 shadow-xs">
-            <Shield className="w-3.5 h-3.5 text-[#00B37E]" />
-            <span>Bank-Grade 256-bit Security</span>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      {/* Main Form */}
+      <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/90 shadow-xs space-y-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           {/* Full Name */}
           <div className="space-y-1.5">
-            <label className="text-xs font-bold text-[#002970] flex items-center gap-1.5">
-              <User className="w-3.5 h-3.5 text-[#00BAF2]" />
+            <label className="text-xs font-semibold text-slate-700">
               Full Name
             </label>
             <input
@@ -142,42 +107,36 @@ export default function ApplicationFormView({
               required
               value={applicant.fullName}
               onChange={(e) => handleInputChange('fullName', e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#00BAF2] focus:ring-2 focus:ring-[#00BAF2]/20 outline-none text-sm font-semibold text-[#002970] bg-slate-50/50"
-              placeholder="e.g. Rahul Sharma"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-slate-800 outline-none text-sm text-slate-900 bg-slate-50/50"
+              placeholder="Rahul Sharma"
             />
           </div>
 
           {/* Employment Type */}
           <div className="space-y-1.5">
-            <label className="text-xs font-bold text-[#002970] flex items-center gap-1.5">
-              <Briefcase className="w-3.5 h-3.5 text-[#00BAF2]" />
-              Employment Category
+            <label className="text-xs font-semibold text-slate-700">
+              Employment Type
             </label>
             <select
               value={applicant.employmentType}
               onChange={(e) => handleInputChange('employmentType', e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:border-[#00BAF2] focus:ring-2 focus:ring-[#00BAF2]/20 outline-none text-sm font-semibold text-[#002970] bg-slate-50/50"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-slate-800 outline-none text-sm text-slate-900 bg-slate-50/50"
             >
-              <option value="Gig Worker">Gig Worker / Delivery Executive (Zomato/Swiggy/Uber)</option>
-              <option value="Self-Employed Business">Small Business Owner / Retailer / D2C</option>
-              <option value="Salaried Full-Time">Salaried Employee (Private / Govt)</option>
-              <option value="Freelancer">Freelancer / Independent Contractor</option>
+              <option value="Gig Worker">Gig Worker / Delivery Executive</option>
+              <option value="Self-Employed Business">Self-Employed / MSME Owner</option>
+              <option value="Salaried Full-Time">Salaried Employee</option>
+              <option value="Freelancer">Freelancer / Consultant</option>
             </select>
           </div>
 
           {/* Monthly Income */}
           <div className="space-y-1.5">
-            <label className="text-xs font-bold text-[#002970] flex items-center justify-between">
-              <span className="flex items-center gap-1.5">
-                <IndianRupee className="w-3.5 h-3.5 text-[#00B37E]" />
-                Net Monthly Take-Home Income
-              </span>
-              <span className="text-xs font-extrabold text-[#002970]">
-                ₹{Number(applicant.monthlyIncome).toLocaleString('en-IN')}
-              </span>
-            </label>
+            <div className="flex justify-between text-xs font-semibold text-slate-700">
+              <span>Monthly Income</span>
+              <span className="font-bold text-slate-900">₹{Number(applicant.monthlyIncome).toLocaleString('en-IN')}</span>
+            </div>
             <div className="relative">
-              <span className="absolute left-3.5 top-3 text-slate-400 font-bold text-sm">₹</span>
+              <span className="absolute left-3 top-2.5 text-slate-400 text-sm">₹</span>
               <input
                 type="number"
                 min="10000"
@@ -186,33 +145,21 @@ export default function ApplicationFormView({
                 required
                 value={applicant.monthlyIncome}
                 onChange={(e) => handleInputChange('monthlyIncome', Number(e.target.value))}
-                className="w-full pl-8 pr-4 py-3 rounded-xl border border-slate-200 focus:border-[#00BAF2] focus:ring-2 focus:ring-[#00BAF2]/20 outline-none text-sm font-semibold text-[#002970]"
+                className="w-full pl-7 pr-3 py-2.5 rounded-xl border border-slate-200 focus:border-slate-800 outline-none text-sm text-slate-900"
               />
             </div>
-            <input
-              type="range"
-              min="15000"
-              max="200000"
-              step="5000"
-              value={applicant.monthlyIncome}
-              onChange={(e) => handleInputChange('monthlyIncome', Number(e.target.value))}
-              className="w-full accent-[#00BAF2] h-1.5 bg-slate-200 rounded-lg cursor-pointer"
-            />
           </div>
 
-          {/* Existing Total EMIs */}
+          {/* Existing EMIs */}
           <div className="space-y-1.5">
-            <label className="text-xs font-bold text-[#002970] flex items-center justify-between">
-              <span className="flex items-center gap-1.5">
-                <IndianRupee className="w-3.5 h-3.5 text-rose-500" />
-                Current Total Monthly EMIs & BNPLs
-              </span>
-              <span className={`text-xs font-extrabold ${isHighRisk ? 'text-rose-600' : 'text-emerald-600'}`}>
+            <div className="flex justify-between text-xs font-semibold text-slate-700">
+              <span>Existing Monthly EMIs</span>
+              <span className={`font-bold ${isHighRisk ? 'text-rose-600' : 'text-slate-900'}`}>
                 ₹{Number(applicant.existingEmis).toLocaleString('en-IN')}
               </span>
-            </label>
+            </div>
             <div className="relative">
-              <span className="absolute left-3.5 top-3 text-slate-400 font-bold text-sm">₹</span>
+              <span className="absolute left-3 top-2.5 text-slate-400 text-sm">₹</span>
               <input
                 type="number"
                 min="0"
@@ -221,37 +168,19 @@ export default function ApplicationFormView({
                 required
                 value={applicant.existingEmis}
                 onChange={(e) => handleInputChange('existingEmis', Number(e.target.value))}
-                className={`w-full pl-8 pr-4 py-3 rounded-xl border outline-none text-sm font-semibold ${
-                  isHighRisk
-                    ? 'border-rose-300 focus:border-rose-500 focus:ring-2 focus:ring-rose-200'
-                    : 'border-slate-200 focus:border-[#00BAF2] focus:ring-2 focus:ring-[#00BAF2]/20'
-                }`}
+                className="w-full pl-7 pr-3 py-2.5 rounded-xl border border-slate-200 focus:border-slate-800 outline-none text-sm text-slate-900"
               />
             </div>
-            <input
-              type="range"
-              min="0"
-              max="80000"
-              step="1000"
-              value={applicant.existingEmis}
-              onChange={(e) => handleInputChange('existingEmis', Number(e.target.value))}
-              className="w-full accent-rose-500 h-1.5 bg-slate-200 rounded-lg cursor-pointer"
-            />
           </div>
 
-          {/* Requested Loan Amount */}
+          {/* Requested Loan */}
           <div className="space-y-1.5">
-            <label className="text-xs font-bold text-[#002970] flex items-center justify-between">
-              <span className="flex items-center gap-1.5">
-                <Calculator className="w-3.5 h-3.5 text-[#0084B4]" />
-                Loan Amount Requested
-              </span>
-              <span className="text-xs font-extrabold text-[#0084B4]">
-                ₹{Number(applicant.requestedLoanAmount).toLocaleString('en-IN')}
-              </span>
-            </label>
+            <div className="flex justify-between text-xs font-semibold text-slate-700">
+              <span>Loan Amount</span>
+              <span className="font-bold text-slate-900">₹{Number(applicant.requestedLoanAmount).toLocaleString('en-IN')}</span>
+            </div>
             <div className="relative">
-              <span className="absolute left-3.5 top-3 text-slate-400 font-bold text-sm">₹</span>
+              <span className="absolute left-3 top-2.5 text-slate-400 text-sm">₹</span>
               <input
                 type="number"
                 min="20000"
@@ -260,35 +189,23 @@ export default function ApplicationFormView({
                 required
                 value={applicant.requestedLoanAmount}
                 onChange={(e) => handleInputChange('requestedLoanAmount', Number(e.target.value))}
-                className="w-full pl-8 pr-4 py-3 rounded-xl border border-slate-200 focus:border-[#00BAF2] focus:ring-2 focus:ring-[#00BAF2]/20 outline-none text-sm font-semibold text-[#002970]"
+                className="w-full pl-7 pr-3 py-2.5 rounded-xl border border-slate-200 focus:border-slate-800 outline-none text-sm text-slate-900"
               />
             </div>
-            <input
-              type="range"
-              min="25000"
-              max="500000"
-              step="25000"
-              value={applicant.requestedLoanAmount}
-              onChange={(e) => handleInputChange('requestedLoanAmount', Number(e.target.value))}
-              className="w-full accent-[#0084B4] h-1.5 bg-slate-200 rounded-lg cursor-pointer"
-            />
           </div>
 
           {/* Preferred Tenure */}
           <div className="space-y-1.5">
-            <label className="text-xs font-bold text-[#002970] flex items-center gap-1.5">
-              <Clock className="w-3.5 h-3.5 text-[#00BAF2]" />
-              Repayment Tenure
-            </label>
+            <label className="text-xs font-semibold text-slate-700">Tenure</label>
             <div className="grid grid-cols-4 gap-2">
               {[12, 24, 36, 48].map((months) => (
                 <button
                   key={months}
                   type="button"
                   onClick={() => handleInputChange('tenureMonths', months)}
-                  className={`py-2.5 rounded-xl text-xs font-bold border transition-all ${
+                  className={`py-2 rounded-xl text-xs font-medium border transition-colors ${
                     tenureMonths === months
-                      ? 'bg-[#002970] text-white border-[#002970] shadow-sm'
+                      ? 'bg-slate-900 text-white border-slate-900'
                       : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
                   }`}
                 >
@@ -299,98 +216,50 @@ export default function ApplicationFormView({
           </div>
         </div>
 
-        {/* Real-time Dynamic DTI Calculation Gauge Bar */}
-        <div className={`rounded-2xl p-5 border transition-all ${
-          isHighRisk
-            ? 'bg-amber-50/70 border-amber-200'
-            : 'bg-emerald-50/70 border-emerald-200'
-        }`}>
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-3">
-            <div className="flex items-center gap-2">
-              {isHighRisk ? (
-                <AlertTriangle className="w-5 h-5 text-amber-600" />
-              ) : (
-                <CheckCircle className="w-5 h-5 text-emerald-600" />
-              )}
-              <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
-                  Live Underwriting Metric
-                </span>
-                <h4 className="text-sm font-extrabold text-[#002970]">
-                  Debt-to-Income (EMI Ratio): <span className={isHighRisk ? 'text-rose-600' : 'text-emerald-600'}>{currentDti}%</span>
-                </h4>
-              </div>
-            </div>
-
-            <div className="text-right">
-              <span className={`px-2.5 py-1 rounded-full text-xs font-extrabold inline-block ${
-                isHighRisk
-                  ? 'bg-rose-100 text-rose-700'
-                  : 'bg-emerald-100 text-emerald-700'
-              }`}>
-                {isHighRisk ? '⚠️ Stretched (>40% Rule)' : '✅ Safe Zone (<=40%)'}
-              </span>
-            </div>
+        {/* Minimal DTI Metric Gauge */}
+        <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/80 space-y-2.5 text-xs">
+          <div className="flex items-center justify-between">
+            <span className="font-semibold text-slate-600">Debt-to-Income (DTI) Ratio</span>
+            <span className={`font-bold px-2 py-0.5 rounded text-xs ${
+              isHighRisk ? 'bg-rose-100 text-rose-700' : 'bg-emerald-100 text-emerald-700'
+            }`}>
+              {currentDti}% {isHighRisk ? '(Exceeds 40% Guideline)' : '(Safe)'}
+            </span>
           </div>
 
-          {/* Progress bar representing DTI */}
-          <div className="w-full bg-slate-200 h-3 rounded-full overflow-hidden relative">
+          {/* Simple Progress Bar */}
+          <div className="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
             <div
               className={`h-full transition-all duration-300 rounded-full ${
-                isHighRisk
-                  ? 'bg-gradient-to-r from-amber-500 to-rose-500'
-                  : 'bg-gradient-to-r from-emerald-400 to-teal-500'
+                isHighRisk ? 'bg-rose-500' : 'bg-emerald-500'
               }`}
               style={{ width: `${Math.min(100, Math.max(5, currentDti))}%` }}
             />
-            {/* 40% Threshold Marker */}
-            <div className="absolute top-0 bottom-0 left-[40%] w-0.5 bg-[#002970] z-10 opacity-70" title="40% Standard Limit" />
           </div>
 
-          <div className="flex justify-between items-center text-[11px] text-slate-500 mt-2 font-medium">
-            <span>0% (Debt Free)</span>
-            <span className="font-bold text-[#002970]">40% Benchmark Threshold</span>
-            <span>80%+ (High Burden)</span>
-          </div>
-
-          <p className="text-xs text-slate-600 mt-3">
-            {isHighRisk ? (
-              <span>
-                Your current monthly EMIs are <strong>₹{existingEmis.toLocaleString('en-IN')}</strong>. Lenders prefer your total EMIs to stay under <strong>₹{maxSafeEmi.toLocaleString('en-IN')}</strong> (40% of income). This triggers an automated underwriting rejection, but <strong>Sahayak will fix this in 90 days!</strong>
-              </span>
-            ) : (
-              <span>
-                Great! Your EMI burden is within the safe 40% threshold. You are likely eligible for immediate sanction.
-              </span>
-            )}
+          <p className="text-[11px] text-slate-500">
+            {isHighRisk
+              ? `Your EMIs (₹${existingEmis.toLocaleString('en-IN')}) exceed the recommended ₹${maxSafeEmi.toLocaleString('en-IN')} limit. Sahayak will structure a 90-day plan to bring it below 40%.`
+              : `Your monthly EMIs are within the safe 40% benchmark. You are eligible for immediate sanction.`}
           </p>
         </div>
 
-        {/* Submit Button */}
-        <div className="pt-2">
+        {/* Action Button */}
+        <div>
           {isScanning ? (
-            <div className="bg-[#002970] text-white p-6 rounded-2xl text-center space-y-3 shadow-lg">
-              <div className="flex items-center justify-center gap-3">
-                <RefreshCw className="w-6 h-6 text-[#00BAF2] animate-spin" />
-                <span className="text-base font-bold">Sahayak AI Underwriting Engine Active</span>
-              </div>
-              <p className="text-xs text-blue-200 font-mono tracking-wide animate-pulse">
-                {scanSteps[scanStep]}
-              </p>
-              <div className="w-48 mx-auto bg-blue-950 h-1.5 rounded-full overflow-hidden">
-                <div
-                  className="bg-[#00BAF2] h-full transition-all duration-300"
-                  style={{ width: `${((scanStep + 1) / scanSteps.length) * 100}%` }}
-                />
+            <div className="p-4 bg-slate-900 text-white rounded-xl text-center space-y-2">
+              <div className="flex items-center justify-center gap-2 text-xs font-semibold">
+                <RefreshCw className="w-4 h-4 animate-spin text-[#00BAF2]" />
+                <span>{scanSteps[scanStep]}</span>
               </div>
             </div>
           ) : (
             <button
               type="submit"
-              className="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-[#00BAF2] to-[#0084B4] hover:opacity-95 text-[#002970] font-extrabold text-base shadow-lg shadow-[#00BAF2]/30 flex items-center justify-center gap-2 transition-all hover:scale-[1.01] active:scale-[0.99]"
+              className="w-full py-3.5 px-6 rounded-xl bg-[#002970] hover:bg-slate-900 text-white font-bold text-sm transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs"
             >
-              <span>{isHighRisk ? 'Simulate AI Underwriting & Diagnostic Check' : 'Submit for Instant Loan Sanction'}</span>
-              <ArrowRight className="w-5 h-5" />
+              <span>{isHighRisk ? 'Evaluate & View AI Diagnosis' : 'Submit for Instant Sanction'}</span>
+              <ArrowRight className="w-4 h-4 text-[#00BAF2]" />
             </button>
           )}
         </div>

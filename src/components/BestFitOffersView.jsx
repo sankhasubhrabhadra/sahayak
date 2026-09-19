@@ -1,23 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Sparkles,
-  CheckCircle2,
-  ArrowRight,
-  ShieldCheck,
-  TrendingDown,
-  Building2,
-  Clock,
-  IndianRupee,
-  Check,
-  ChevronRight,
-  Info,
-  Calendar,
-  Zap,
-  HelpCircle,
-  X,
-  Smartphone,
-  Shield
-} from 'lucide-react';
+import { CheckCircle2, ArrowRight, Clock, Check, X } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { TRANSLATIONS } from '../data/mockData';
 import { calculateReducingEmi } from '../utils/financialEngine';
@@ -37,20 +19,17 @@ export default function BestFitOffersView({
   const existingEmis = Number(applicant.existingEmis) || 21500;
   const originalRequest = Number(applicant.requestedLoanAmount) || 150000;
 
-  // Realistic eligible amounts calculated with standard reducing-balance EMI formula:
-  // Offer 1: Safe micro-ticket (keeps total DTI <= 36%)
+  // Realistic eligible amounts calculated with reducing-balance EMI formula:
   const offer1Amount = Math.max(30000, Math.min(originalRequest - 30000, Math.round((monthlyIncome * 1.8) / 5000) * 5000));
   const offer1Tenure = 18;
   const offer1Rate = 11.49;
   const offer1Emi = calculateReducingEmi(offer1Amount, offer1Rate, offer1Tenure);
 
-  // Offer 2: Extended Tenure Medium-Ticket (Account Aggregator backed)
   const offer2Amount = Math.max(45000, Math.min(originalRequest - 15000, Math.round((monthlyIncome * 2.4) / 5000) * 5000));
   const offer2Tenure = 24;
   const offer2Rate = 12.25;
   const offer2Emi = calculateReducingEmi(offer2Amount, offer2Rate, offer2Tenure);
 
-  // Offer 3: BNPL Debt Consolidation / Refinance Loan
   const offer3Amount = Math.max(50000, Math.min(originalRequest, Math.round((monthlyIncome * 2.8) / 5000) * 5000));
   const offer3Tenure = 36;
   const offer3Rate = 10.99;
@@ -59,71 +38,53 @@ export default function BestFitOffersView({
   const offers = [
     {
       id: 'offer-1',
-      lenderName: 'Hero FinCorp (Paytm Partner NBFC)',
-      lenderType: 'Pre-Approved Instant Disbursal',
-      logoBadge: 'HF',
-      logoBg: 'bg-rose-50 text-rose-700 border-rose-200',
+      lenderName: 'Hero FinCorp',
+      lenderType: 'Pre-Approved Micro Ticket',
       eligibleAmount: offer1Amount,
       interestRate: offer1Rate,
       tenureMonths: offer1Tenure,
       monthlyEmi: offer1Emi,
       isBestMatch: true,
-      approvalProbability: '96% Match Score',
-      approvalTag: lang === 'en' ? 'Instant Sanction Ready' : 'पक्की अप्रूवल संभावना',
-      tagColor: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-      whyFits: lang === 'en'
-        ? `Based on your monthly income of ₹${monthlyIncome.toLocaleString('en-IN')}, this ₹${offer1Amount.toLocaleString('en-IN')} amount keeps your new EMI to ₹${offer1Emi.toLocaleString('en-IN')}/mo, maintaining your overall DTI under a safe 36%.`
-        : `आपकी ₹${monthlyIncome.toLocaleString('en-IN')} आमदनी के अनुसार, यह ₹${offer1Amount.toLocaleString('en-IN')} लोन आपकी ईएमआई को सुरक्षित 36% सीमा के अंदर रखता है।`,
+      approvalTag: 'High Approval Probability',
+      whyFits: `Keeps new EMI to ₹${offer1Emi.toLocaleString('en-IN')}/mo, holding your total DTI safely under 36%.`,
       features: [
-        'Instant Disbursal via Paytm UPI in 2 mins',
-        '100% Paperless via DigiLocker KYC',
-        'Zero prepayment penalty after 6 months'
+        'Instant disbursal in 2 mins',
+        'DigiLocker paperless KYC',
+        '0 prepayment fee after 6 mo'
       ]
     },
     {
       id: 'offer-2',
       lenderName: 'Tata Capital / Axis Co-Lend',
-      lenderType: 'Paytm Cashflow-Backed Partner',
-      logoBadge: 'TC',
-      logoBg: 'bg-[#E8F7FD] text-[#002970] border-blue-200',
+      lenderType: 'Cashflow-Backed Digital Loan',
       eligibleAmount: offer2Amount,
       interestRate: offer2Rate,
       tenureMonths: offer2Tenure,
       monthlyEmi: offer2Emi,
       isBestMatch: false,
-      approvalProbability: '88% Match Score',
-      approvalTag: lang === 'en' ? 'High Cashflow Fit' : 'कैशफ्लो आधारित ऑफर',
-      tagColor: 'bg-sky-50 text-[#0084B4] border-sky-200',
-      whyFits: lang === 'en'
-        ? `Evaluates your daily Paytm QR & UPI transaction velocity as alternate proof of regular cashflow.`
-        : `यह बैंक आपकी दैनिक UPI ट्रांजैक्शन की स्थिरता को देखकर बिना सैलरी स्लिप के लोन देता है।`,
+      approvalTag: 'Cashflow Fit',
+      whyFits: `Evaluates steady daily UPI transaction velocity instead of mandatory salary slips.`,
       features: [
         'Flexible 12 to 24-month tenure',
-        'Paytm Account Aggregator soft pull verified',
-        'Direct credit to Paytm Payments Bank'
+        'Account Aggregator soft pull',
+        'Direct bank account transfer'
       ]
     },
     {
       id: 'offer-3',
-      lenderName: 'Piramal Finance (Refinance Smart Loan)',
-      lenderType: 'BNPL Debt Consolidation Special',
-      logoBadge: 'PF',
-      logoBg: 'bg-indigo-50 text-indigo-700 border-indigo-200',
+      lenderName: 'Piramal Finance',
+      lenderType: 'BNPL Debt Consolidation',
       eligibleAmount: offer3Amount,
       interestRate: offer3Rate,
       tenureMonths: offer3Tenure,
       monthlyEmi: offer3Emi,
       isBestMatch: false,
-      approvalProbability: '91% Match Score',
-      approvalTag: lang === 'en' ? 'EMI Reducer Special' : 'ईएमआई घटाने वाला ऑफर',
-      tagColor: 'bg-purple-50 text-purple-700 border-purple-200',
-      whyFits: lang === 'en'
-        ? `Consolidates your 2 scattered high-interest BNPLs into one structured loan, saving ₹2,400/month in total monthly outflows.`
-        : `यह आपके 2 महंगे BNPL लोन को एक में जोड़कर हर महीने ₹2,400 की बचत कराता है।`,
+      approvalTag: 'EMI Reducer Special',
+      whyFits: `Directly settles 2 scattered high-interest BNPLs, saving ₹2,400/month in total outflows.`,
       features: [
-        'Directly settles active BNPL accounts',
-        'Lowers monthly debt commitments immediately',
-        'Fast bureau update on next 15-day cycle'
+        'Directly pays off active BNPLs',
+        'Lowers monthly debt commitments',
+        'Clean credit bureau update'
       ]
     }
   ];
@@ -138,274 +99,167 @@ export default function BestFitOffersView({
       setAppliedSuccess(true);
       try {
         confetti({
-          particleCount: 80,
-          spread: 70,
+          particleCount: 70,
+          spread: 60,
           origin: { y: 0.6 }
         });
       } catch (e) {}
-    }, 1200);
+    }, 1000);
   };
 
   return (
-    <div className="max-w-5xl mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-8 animate-in fade-in duration-300">
+    <div className="max-w-5xl mx-auto py-6 px-4 sm:px-6 space-y-6">
       {/* Header */}
-      <div className="space-y-3 text-center sm:text-left">
-        <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#E8F7FD] text-[#002970] border border-[#00BAF2]/30">
-            <Sparkles className="w-3.5 h-3.5 text-[#00BAF2]" />
-            Paytm Lending Marketplace
-          </span>
-          <span className="text-xs text-slate-400 font-semibold">• 3 Verified Partner Offers</span>
-        </div>
-
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-[#002970] tracking-tight">
-          {lang === 'en' ? 'Best-Fit Pre-Approved Loan Offers' : 'आपके लिए सबसे उपयुक्त बैंक ऑफर्स'}
+      <div className="space-y-1">
+        <h1 className="text-2xl font-bold text-slate-900">
+          {lang === 'en' ? 'Matched Alternative Bank Offers' : 'आपके लिए उपयुक्त बैंक ऑफर्स'}
         </h1>
-
-        <p className="text-xs sm:text-sm text-slate-600 max-w-2xl leading-relaxed">
+        <p className="text-xs sm:text-sm text-slate-500 max-w-2xl">
           {lang === 'en'
-            ? `While your original ₹${originalRequest.toLocaleString('en-IN')} request exceeded the standard 40% EMI ratio today, Paytm underwriting matched 3 verified alternative offers tailored to your current cashflow with high approval probability.`
-            : `यद्यपि आपकी पूरी ₹${originalRequest.toLocaleString('en-IN')} की मांग अभी ईएमआई सीमा से अधिक थी, सहायक AI ने आपकी वर्तमान आमदनी के अनुसार 3 बेहतरीन विकल्प तैयार किए हैं।`}
+            ? `These calibrated loan sizes fit within your safe 40% EMI threshold with immediate pre-qualification.`
+            : `यह बैंक विकल्प आपकी वर्तमान आमदनी के अनुसार सुरक्षित ईएमआई सीमा में आते हैं।`}
         </p>
       </div>
 
-      {/* Comparison Overview Banner */}
-      <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-soft flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-[#E8F7FD] flex items-center justify-center text-[#00BAF2] shrink-0 border border-[#00BAF2]/20">
-            <Info className="w-5 h-5 text-[#002970]" />
-          </div>
-          <div>
-            <span className="font-bold text-[#002970] block">
-              Why are these amounts tailored specifically for you?
-            </span>
-            <span className="text-slate-500">
-              Paytm NBFC partners safely sanction these amounts instantly without triggering DTI stress flags.
-            </span>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-4 shrink-0 text-slate-600 font-medium">
-          <div className="text-right">
-            <span className="text-[11px] text-slate-400 block">Original Ask</span>
-            <span className="font-bold text-rose-600 line-through">₹{originalRequest.toLocaleString('en-IN')}</span>
-          </div>
-          <ArrowRight className="w-4 h-4 text-slate-300" />
-          <div className="text-left">
-            <span className="text-[11px] text-[#0084B4] font-bold block">Best-Fit Range</span>
-            <span className="font-black text-emerald-700">₹{offer1Amount.toLocaleString('en-IN')} – ₹{offer3Amount.toLocaleString('en-IN')}</span>
-          </div>
-        </div>
-      </div>
-
       {/* Offers Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         {offers.map((offer) => (
           <div
             key={offer.id}
-            className={`bg-white rounded-3xl p-6 border transition-all flex flex-col justify-between relative shadow-soft hover:shadow-card group ${
+            className={`bg-white rounded-2xl p-6 border transition-all flex flex-col justify-between space-y-4 shadow-xs ${
               offer.isBestMatch
-                ? 'border-[#00BAF2] ring-2 ring-[#00BAF2]/20'
-                : 'border-slate-200/90 hover:border-[#00BAF2]/60'
+                ? 'border-slate-800 ring-1 ring-slate-800'
+                : 'border-slate-200/90 hover:border-slate-400'
             }`}
           >
-            {/* Best Match Top Ribbon */}
-            {offer.isBestMatch && (
-              <div className="absolute -top-3 left-6 right-6 flex justify-center">
-                <span className="bg-[#002970] text-white text-[10px] font-black px-3 py-0.5 rounded-full shadow-sm flex items-center gap-1 uppercase tracking-wider border border-[#00BAF2]/40">
-                  <Sparkles className="w-3 h-3 text-[#00BAF2]" />
-                  Paytm Top Pick
-                </span>
-              </div>
-            )}
-
-            <div className="space-y-4 pt-1">
-              {/* Lender Header */}
+            <div className="space-y-3">
+              {/* Header */}
               <div className="flex items-start justify-between gap-2">
                 <div>
-                  <div className="flex items-center gap-2">
-                    <span className={`w-8 h-8 rounded-xl text-xs font-black flex items-center justify-center border ${offer.logoBg}`}>
-                      {offer.logoBadge}
-                    </span>
-                    <div>
-                      <h3 className="font-bold text-sm text-[#002970] leading-snug">
-                        {offer.lenderName}
-                      </h3>
-                      <span className="text-[11px] text-slate-400 font-medium">
-                        {offer.lenderType}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Approval Probability Tag */}
-              <div>
-                <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-extrabold border ${offer.tagColor}`}>
-                  <CheckCircle2 className="w-3 h-3" />
-                  {offer.approvalTag}
-                </span>
-              </div>
-
-              {/* Primary Loan Metric */}
-              <div className="bg-[#F7F9FC] rounded-2xl p-4 space-y-3 border border-slate-100">
-                <div>
-                  <span className="text-[11px] text-slate-400 font-bold uppercase tracking-wider">
-                    Eligible Loan Amount
+                  <h3 className="font-bold text-sm text-slate-900">
+                    {offer.lenderName}
+                  </h3>
+                  <span className="text-[11px] text-slate-400">
+                    {offer.lenderType}
                   </span>
-                  <div className="text-2xl font-black text-[#002970] flex items-baseline gap-1">
-                    <span>₹{offer.eligibleAmount.toLocaleString('en-IN')}</span>
-                  </div>
+                </div>
+                {offer.isBestMatch && (
+                  <span className="text-[10px] font-bold bg-slate-900 text-white px-2 py-0.5 rounded">
+                    Top Pick
+                  </span>
+                )}
+              </div>
+
+              {/* Amount Box */}
+              <div className="bg-slate-50 rounded-xl p-3.5 space-y-2 border border-slate-100">
+                <div className="text-xs text-slate-500">Approved Loan Amount</div>
+                <div className="text-2xl font-black text-slate-900">
+                  ₹{offer.eligibleAmount.toLocaleString('en-IN')}
                 </div>
 
                 <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-200/60 text-xs">
                   <div>
-                    <span className="text-[10px] text-slate-400 font-semibold block">Interest Rate</span>
-                    <span className="font-extrabold text-[#0084B4]">{offer.interestRate}% p.a.</span>
+                    <span className="text-slate-400 text-[10px] block">Interest</span>
+                    <span className="font-bold text-slate-800">{offer.interestRate}% p.a.</span>
                   </div>
                   <div>
-                    <span className="text-[10px] text-slate-400 font-semibold block">Monthly EMI</span>
-                    <span className="font-extrabold text-[#002970]">₹{offer.monthlyEmi.toLocaleString('en-IN')}/mo</span>
+                    <span className="text-slate-400 text-[10px] block">Monthly EMI</span>
+                    <span className="font-bold text-slate-800">₹{offer.monthlyEmi.toLocaleString('en-IN')}/mo</span>
                   </div>
                 </div>
-
-                <div className="text-[11px] text-slate-500 flex items-center gap-1 pt-1">
-                  <Clock className="w-3.5 h-3.5 text-slate-400" />
-                  <span>Tenure: <strong>{offer.tenureMonths} Months</strong></span>
-                </div>
               </div>
 
-              {/* "Why this fits you" Explanation */}
-              <div className="p-3 rounded-xl bg-[#E8F7FD]/60 border border-[#00BAF2]/20 text-xs text-slate-700 leading-relaxed">
-                <span className="font-bold text-[#002970] block mb-0.5 flex items-center gap-1">
-                  <Sparkles className="w-3 h-3 text-[#00BAF2]" />
-                  Why this fits you:
-                </span>
-                <p className="text-[11px] text-slate-600">
-                  {offer.whyFits}
-                </p>
-              </div>
+              {/* Why it fits */}
+              <p className="text-xs text-slate-600 bg-slate-50 p-2.5 rounded-lg border border-slate-100">
+                {offer.whyFits}
+              </p>
 
-              {/* Feature bullets */}
-              <ul className="space-y-1.5 text-[11px] text-slate-500">
+              {/* Features */}
+              <ul className="space-y-1 text-[11px] text-slate-500">
                 {offer.features.map((feat, fIdx) => (
                   <li key={fIdx} className="flex items-center gap-1.5">
-                    <Check className="w-3 h-3 text-[#00B37E] shrink-0" />
+                    <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
                     <span>{feat}</span>
                   </li>
                 ))}
               </ul>
             </div>
 
-            {/* Action button */}
-            <div className="pt-5">
-              <button
-                onClick={() => handleApplyOffer(offer)}
-                className={`w-full py-3 px-4 rounded-xl text-xs font-black flex items-center justify-center gap-1.5 transition-all ${
-                  offer.isBestMatch
-                    ? 'bg-gradient-to-r from-[#00BAF2] to-[#0084B4] hover:opacity-95 text-[#002970] shadow-md shadow-[#00BAF2]/20 hover:scale-[1.02] active:scale-[0.98]'
-                    : 'bg-[#002970] hover:bg-[#001944] text-white hover:scale-[1.01]'
-                }`}
-              >
-                <span>Apply for ₹{offer.eligibleAmount.toLocaleString('en-IN')}</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </button>
-            </div>
+            {/* CTA */}
+            <button
+              onClick={() => handleApplyOffer(offer)}
+              className={`w-full py-2.5 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer ${
+                offer.isBestMatch
+                  ? 'bg-slate-900 hover:bg-slate-800 text-white'
+                  : 'bg-slate-100 hover:bg-slate-200 text-slate-900'
+              }`}
+            >
+              <span>Apply for ₹{offer.eligibleAmount.toLocaleString('en-IN')}</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
           </div>
         ))}
       </div>
 
-      {/* Dual Path Decision Section */}
-      <div className="bg-gradient-to-br from-white to-slate-50 rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-card flex flex-col md:flex-row items-center justify-between gap-6">
-        <div className="space-y-2 text-center md:text-left max-w-xl">
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[11px] font-black bg-[#002970] text-white">
-            <Calendar className="w-3 h-3 text-[#00BAF2]" />
-            Paytm 90-Day Credit Builder
-          </div>
-          <h3 className="text-base sm:text-lg font-bold text-[#002970]">
-            Still need your full ₹{originalRequest.toLocaleString('en-IN')} requested amount?
-          </h3>
-          <p className="text-xs text-slate-500 leading-relaxed">
-            If these lower amounts don't meet your current needs, follow our structured <strong>90-Day Sahayak Recovery Plan</strong> to eliminate high-cost debt and qualify for your full amount with maximum approval certainty.
+      {/* 90-Day Plan Alternative Banner */}
+      <div className="bg-white rounded-2xl p-6 border border-slate-200/90 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div>
+          <h4 className="text-sm font-bold text-slate-900">
+            Still need your full ₹{originalRequest.toLocaleString('en-IN')} loan amount?
+          </h4>
+          <p className="text-xs text-slate-500 mt-0.5">
+            Follow the structured 90-day recovery plan to systematically reduce your DTI below 40%.
           </p>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
-          <button
-            onClick={onProceedToRoadmap}
-            className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#002970] to-[#001944] hover:opacity-95 text-white font-extrabold text-xs sm:text-sm shadow-md flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98] transition-all whitespace-nowrap"
-          >
-            <span>View 90-Day Roadmap Instead</span>
-            <ArrowRight className="w-4 h-4 text-[#00BAF2]" />
-          </button>
-        </div>
+        <button
+          onClick={onProceedToRoadmap}
+          className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-slate-300 hover:bg-slate-50 text-slate-900 font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer whitespace-nowrap"
+        >
+          <span>View 90-Day Roadmap</span>
+          <ArrowRight className="w-3.5 h-3.5" />
+        </button>
       </div>
 
-      {/* Instant Application Modal Simulation */}
+      {/* Modal */}
       {selectedOfferModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in">
-          <div className="bg-white rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl border border-slate-200 space-y-5 animate-in zoom-in-95">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs">
+          <div className="bg-white rounded-2xl p-6 max-w-md w-full shadow-xl border border-slate-200 space-y-4">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-              <div className="flex items-center gap-2">
-                <div className="flex items-center">
-                  <span className="font-black text-[#002970] text-base">Pay</span>
-                  <span className="font-black text-[#00BAF2] text-base">tm</span>
-                </div>
-                <span className="text-slate-300">|</span>
-                <div>
-                  <h4 className="font-bold text-[#002970] text-sm sm:text-base">
-                    {selectedOfferModal.lenderName}
-                  </h4>
-                  <span className="text-[11px] text-slate-400">Pre-Qualified Instant Loan Form</span>
-                </div>
+              <div>
+                <h4 className="font-bold text-sm text-slate-900">{selectedOfferModal.lenderName}</h4>
+                <span className="text-[11px] text-slate-400">Pre-Qualified Loan Sanction</span>
               </div>
               <button
                 onClick={() => setSelectedOfferModal(null)}
                 className="p-1 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
 
             {isApplying ? (
-              <div className="py-8 text-center space-y-3">
-                <div className="w-10 h-10 border-3 border-[#00BAF2] border-t-transparent rounded-full animate-spin mx-auto" />
-                <h5 className="font-bold text-[#002970] text-sm">Transmitting Pre-Qualified Application...</h5>
-                <p className="text-xs text-slate-400">Locking in {selectedOfferModal.interestRate}% rate via Paytm Account Aggregator rails</p>
+              <div className="py-6 text-center space-y-2">
+                <div className="w-8 h-8 border-2 border-slate-800 border-t-transparent rounded-full animate-spin mx-auto" />
+                <p className="text-xs text-slate-600 font-medium">Processing pre-approval sanction...</p>
               </div>
             ) : appliedSuccess ? (
-              <div className="py-4 text-center space-y-4">
-                <div className="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto shadow-sm">
-                  <CheckCircle2 className="w-8 h-8" />
+              <div className="py-2 text-center space-y-3">
+                <div className="w-12 h-12 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto">
+                  <CheckCircle2 className="w-6 h-6" />
                 </div>
-                <div className="space-y-1">
-                  <h5 className="font-black text-emerald-900 text-lg">
-                    Offer Sanctioned Successfully!
-                  </h5>
-                  <p className="text-xs text-slate-500 max-w-sm mx-auto">
-                    Your <strong>₹{selectedOfferModal.eligibleAmount.toLocaleString('en-IN')}</strong> loan with {selectedOfferModal.lenderName} has been approved. EMI: <strong>₹{selectedOfferModal.monthlyEmi.toLocaleString('en-IN')}/mo</strong> for {selectedOfferModal.tenureMonths} months.
+                <div>
+                  <h5 className="font-bold text-sm text-slate-900">Offer Sanctioned!</h5>
+                  <p className="text-xs text-slate-500 mt-1">
+                    Your ₹{selectedOfferModal.eligibleAmount.toLocaleString('en-IN')} loan has been approved. Monthly EMI: ₹{selectedOfferModal.monthlyEmi.toLocaleString('en-IN')}.
                   </p>
                 </div>
-                <div className="bg-slate-50 p-3 rounded-xl text-xs text-[#002970] font-mono border border-slate-100">
-                  Ref: PTM-MATCH-{Math.floor(100000 + Math.random() * 900000)}
-                </div>
-                <div className="pt-2 flex flex-col sm:flex-row gap-2">
-                  <button
-                    onClick={() => setSelectedOfferModal(null)}
-                    className="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs"
-                  >
-                    Done & Return
-                  </button>
-                  <button
-                    onClick={() => {
-                      setSelectedOfferModal(null);
-                      onProceedToRoadmap();
-                    }}
-                    className="w-full py-2.5 rounded-xl bg-[#E8F7FD] hover:bg-[#d0f0fc] text-[#002970] font-bold text-xs border border-[#00BAF2]/30"
-                  >
-                    Explore 90-Day Plan Too
-                  </button>
-                </div>
+                <button
+                  onClick={() => setSelectedOfferModal(null)}
+                  className="w-full py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs"
+                >
+                  Done
+                </button>
               </div>
             ) : null}
           </div>

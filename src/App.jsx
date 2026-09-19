@@ -14,7 +14,7 @@ import {
   INITIAL_APPLICATION_STATE,
   INITIAL_HABIT_TASKS
 } from './data/mockData';
-import { ShieldCheck, Heart, Sparkles } from 'lucide-react';
+import { ShieldCheck, Home, FileText, Bot, BarChart3, HelpCircle } from 'lucide-react';
 
 export default function App() {
   const [currentView, setCurrentView] = useState('landing');
@@ -110,7 +110,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F7F9FC] text-[#002970]">
+    <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-slate-900">
       {/* Top Navbar */}
       <Navbar
         currentView={currentView}
@@ -205,70 +205,67 @@ export default function App() {
         applicant={applicant}
       />
 
-      {/* Official Paytm Super App Sticky Bottom Action Bar (Mobile & Desktop) */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 py-2 px-4 shadow-lg sm:hidden flex items-center justify-around">
+      {/* Official Paytm Minimalist Sticky Bottom Action Bar (Mobile only) */}
+      <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 py-2 px-4 shadow-xs sm:hidden flex items-center justify-around">
         <button
           onClick={() => setCurrentView('landing')}
-          className={`flex flex-col items-center gap-1 text-[10px] font-black transition-colors ${
-            currentView === 'landing' ? 'text-[#00BAF2]' : 'text-slate-500 hover:text-[#002970]'
+          className={`flex flex-col items-center gap-1 text-[10px] font-medium transition-colors ${
+            currentView === 'landing' ? 'text-[#002970] font-semibold' : 'text-slate-500 hover:text-slate-900'
           }`}
         >
-          <span className="text-lg">🏠</span>
+          <Home className="w-4 h-4" />
           <span>Loans</span>
         </button>
         <button
           onClick={() => setCurrentView('application')}
-          className={`flex flex-col items-center gap-1 text-[10px] font-black transition-colors ${
-            currentView === 'application' ? 'text-[#00BAF2]' : 'text-slate-500 hover:text-[#002970]'
+          className={`flex flex-col items-center gap-1 text-[10px] font-medium transition-colors ${
+            currentView === 'application' ? 'text-[#002970] font-semibold' : 'text-slate-500 hover:text-slate-900'
           }`}
         >
-          <span className="text-lg">📝</span>
+          <FileText className="w-4 h-4" />
           <span>Apply</span>
         </button>
         <button
           onClick={() => setCurrentView('explainer')}
-          className={`flex flex-col items-center gap-1 text-[10px] font-black transition-colors ${
-            currentView === 'explainer' || currentView === 'offers' ? 'text-[#00BAF2]' : 'text-slate-500 hover:text-[#002970]'
+          className={`flex flex-col items-center gap-1 text-[10px] font-medium transition-colors ${
+            currentView === 'explainer' || currentView === 'offers' ? 'text-[#002970] font-semibold' : 'text-slate-500 hover:text-slate-900'
           }`}
         >
-          <span className="text-lg">🤖</span>
+          <Bot className="w-4 h-4" />
           <span>Sahayak</span>
         </button>
         <button
           onClick={() => setCurrentView('dashboard')}
-          className={`flex flex-col items-center gap-1 text-[10px] font-black transition-colors ${
-            currentView === 'dashboard' ? 'text-[#00BAF2]' : 'text-slate-500 hover:text-[#002970]'
+          className={`flex flex-col items-center gap-1 text-[10px] font-medium transition-colors ${
+            currentView === 'dashboard' ? 'text-[#002970] font-semibold' : 'text-slate-500 hover:text-slate-900'
           }`}
         >
-          <span className="text-lg">📊</span>
+          <BarChart3 className="w-4 h-4" />
           <span>Tracker</span>
         </button>
         <button
           onClick={() => setIsChatOpen(true)}
-          className="flex flex-col items-center gap-1 text-[10px] font-black text-[#002970]"
+          className="flex flex-col items-center gap-1 text-[10px] font-medium text-slate-500 hover:text-slate-900"
         >
-          <span className="text-lg">🎧</span>
+          <HelpCircle className="w-4 h-4" />
           <span>24x7 Help</span>
         </button>
       </div>
 
       {/* Official Paytm Super App Footer */}
-      <footer className="bg-white border-t border-slate-200 py-8 px-4 sm:px-6 lg:px-8 space-y-4 mb-14 sm:mb-0">
+      <footer className="bg-white border-t border-slate-200 py-6 px-4 sm:px-6 lg:px-8 space-y-3 mb-14 sm:mb-0">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <div className="flex items-center">
-              <span className="font-black text-[#002970] text-lg tracking-tighter">Pay</span>
-              <span className="font-black text-[#00BAF2] text-lg tracking-tighter">tm</span>
+              <span className="font-bold text-[#002970] text-sm tracking-tight">Pay</span>
+              <span className="font-bold text-[#00BAF2] text-sm tracking-tight">tm</span>
             </div>
             <span className="text-slate-300">|</span>
-            <span className="font-bold text-[#002970]">Sahayak AI Credit & Lending Ecosystem</span>
+            <span className="font-medium text-slate-700">Sahayak AI Financial Coaching System</span>
           </div>
 
-          <div className="flex flex-wrap items-center gap-4 text-[11px] font-semibold text-slate-600">
-            <span className="flex items-center gap-1">
-              <span className="w-2 h-2 rounded-full bg-[#00BAF2]" />
-              Build for India AI Hackathon
-            </span>
+          <div className="flex flex-wrap items-center gap-3 text-[11px] font-medium text-slate-600">
+            <span>Build for India AI Hackathon</span>
             <span>•</span>
             <span className="flex items-center gap-1 text-emerald-700">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
@@ -283,7 +280,7 @@ export default function App() {
           <p>
             © 2026 One97 Communications Limited. Paytm Sahayak is an educational & credit transformation coach built on RBI Digital Lending Guidelines.
           </p>
-          <div className="flex items-center gap-3 text-[11px] text-slate-500 font-medium">
+          <div className="flex items-center gap-3 text-[11px] text-slate-500">
             <span>Security & Privacy</span>
             <span>•</span>
             <span>Grievance Officer</span>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, ArrowRight, ShieldCheck, TrendingUp, CheckCircle2, HeartHandshake, Zap, Clock, Users, UserCheck, Smartphone, CreditCard, Shield, Landmark, Award, ChevronRight, HelpCircle, FileText, Check } from 'lucide-react';
+import { ArrowRight, ShieldCheck, TrendingUp, CheckCircle2, Zap, Clock, Users, CreditCard, Award } from 'lucide-react';
 import { DEMO_PERSONAS, TRANSLATIONS } from '../data/mockData';
 
 export default function LandingView({
@@ -9,156 +9,125 @@ export default function LandingView({
 }) {
   const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
 
-  const paytmQuickServices = [
+  const quickServices = [
     {
       title: 'Personal Loan',
-      badge: 'Up to ₹5 Lakh',
-      desc: 'Instant in 2 mins',
-      color: 'bg-blue-50 text-[#002970] border-blue-200',
-      icon: <CreditCard className="w-6 h-6 text-[#00BAF2]" />,
+      badge: 'Up to ₹5L',
+      desc: 'Instant 2-min approval',
+      icon: <CreditCard className="w-5 h-5 text-slate-700" />,
       action: onStartApplication
     },
     {
       title: 'Free Credit Report',
-      badge: 'CIBIL / Experian',
-      desc: 'RBI 15-Day Sync',
-      color: 'bg-emerald-50 text-emerald-800 border-emerald-200',
-      icon: <Award className="w-6 h-6 text-emerald-600" />,
+      badge: 'RBI 15-Day',
+      desc: 'CIBIL & Experian score',
+      icon: <Award className="w-5 h-5 text-slate-700" />,
       action: onStartApplication
     },
     {
       title: 'Sahayak AI Coach',
-      badge: 'Rejection Cure',
-      desc: '90-Day Approval Path',
-      color: 'bg-[#E8F7FD] text-[#002970] border-[#00BAF2]/40',
-      icon: <Sparkles className="w-6 h-6 text-[#002970]" />,
+      badge: '90-Day Plan',
+      desc: 'Fix high DTI rejections',
+      icon: <TrendingUp className="w-5 h-5 text-slate-700" />,
       action: onStartApplication
     },
     {
       title: 'UPI Auto-Pay',
-      badge: '0 DPD Guarantee',
-      desc: 'Auto-Debit Mandate',
-      color: 'bg-amber-50 text-amber-800 border-amber-200',
-      icon: <Zap className="w-6 h-6 text-amber-600" />,
+      badge: '0 DPD',
+      desc: 'Timely EMI repayment',
+      icon: <Zap className="w-5 h-5 text-slate-700" />,
       action: onStartApplication
     }
   ];
 
   return (
-    <div className="space-y-8 py-4 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      {/* 1. Paytm Super App Top Services Grid */}
-      <div className="bg-white rounded-3xl p-5 sm:p-6 border border-slate-200 shadow-soft">
-        <div className="flex items-center justify-between pb-4 border-b border-slate-100">
-          <div className="flex items-center gap-2">
-            <div className="flex items-center">
-              <span className="font-black text-[#002970] text-base tracking-tighter">Pay</span>
-              <span className="font-black text-[#00BAF2] text-base tracking-tighter">tm</span>
-            </div>
-            <span className="text-slate-300">|</span>
-            <span className="text-xs font-black text-[#002970] uppercase tracking-wider">Financial Services & Loans</span>
-          </div>
-          <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200 flex items-center gap-1">
-            <ShieldCheck className="w-3.5 h-3.5" />
-            100% Digital & RBI Registered
-          </span>
-        </div>
-
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5 pt-4">
-          {paytmQuickServices.map((srv, idx) => (
-            <button
-              key={idx}
-              onClick={srv.action}
-              className="p-4 rounded-2xl bg-[#F7F9FC] hover:bg-[#E8F7FD] border border-slate-200/90 hover:border-[#00BAF2] transition-all text-left group flex flex-col justify-between space-y-3 cursor-pointer shadow-xs hover:shadow-soft"
-            >
-              <div className="flex items-center justify-between">
-                <div className="w-11 h-11 rounded-xl bg-white flex items-center justify-center shadow-xs border border-slate-100 group-hover:scale-105 transition-transform">
-                  {srv.icon}
-                </div>
-                <span className="text-[10px] font-black px-2 py-0.5 rounded-md bg-white text-[#002970] border border-slate-200 shadow-2xs">
-                  {srv.badge}
-                </span>
-              </div>
-              <div>
-                <h4 className="text-xs sm:text-sm font-black text-[#002970] group-hover:text-[#0084B4] transition-colors">
-                  {srv.title}
-                </h4>
-                <p className="text-[11px] text-slate-500 mt-0.5">{srv.desc}</p>
-              </div>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* 2. Official Paytm Hero Banner: Sahayak AI Personal Loan & Credit Coach */}
-      <div className="relative overflow-hidden rounded-3xl bg-[#002970] text-white p-6 sm:p-10 lg:p-12 shadow-card border border-blue-900">
-        <div className="relative z-10 max-w-3xl space-y-5">
-          {/* Tag Badges */}
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-[#00BAF2] text-[#002970] shadow-sm">
-              <Sparkles className="w-3.5 h-3.5" />
-              Paytm Build for India Hackathon 2026
-            </span>
-            <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-white/10 text-blue-100 border border-white/10">
-              <Landmark className="w-3.5 h-3.5 text-[#00BAF2]" />
-              Track: AI-Powered Financial Journeys
-            </span>
+    <div className="space-y-10 py-6 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+      {/* 1. Minimalist Hero Section */}
+      <div className="bg-white rounded-3xl p-8 sm:p-12 border border-slate-200/90 shadow-xs space-y-6">
+        <div className="space-y-4 max-w-3xl">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700">
+            <span className="w-2 h-2 rounded-full bg-[#00BAF2]" />
+            Paytm Financial Services • Sahayak AI Coach
           </div>
 
-          {/* Main Headline */}
-          <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
+          <h1 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight leading-tight">
             {t.heroTagline}
           </h1>
 
-          {/* Subtitle */}
-          <p className="text-sm sm:text-base text-blue-100/90 font-medium leading-relaxed max-w-2xl">
+          <p className="text-sm sm:text-base text-slate-600 leading-relaxed max-w-2xl font-normal">
             {t.heroSubtitle}
           </p>
 
-          {/* Quick CTA Actions */}
           <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
             <button
               onClick={onStartApplication}
-              className="inline-flex items-center justify-center gap-2 bg-[#00BAF2] hover:bg-[#00a6d9] text-[#002970] font-black px-8 py-3.5 rounded-xl text-sm sm:text-base shadow-lg shadow-[#00BAF2]/30 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 bg-[#002970] hover:bg-slate-900 text-white font-bold px-7 py-3.5 rounded-xl text-sm transition-all shadow-xs cursor-pointer"
             >
               <span>{t.checkAppBtn}</span>
-              <ArrowRight className="w-5 h-5 text-[#002970]" />
+              <ArrowRight className="w-4 h-4 text-[#00BAF2]" />
             </button>
 
-            <div className="flex items-center gap-2 px-4 py-3 bg-white/10 rounded-xl border border-white/10 text-xs text-blue-100">
-              <Clock className="w-4 h-4 text-[#00BAF2]" />
-              <span>Evaluated in 30 Seconds • 0 Bureau Score Impact</span>
+            <div className="flex items-center gap-2 px-3 py-2 text-xs text-slate-500 font-medium">
+              <Clock className="w-3.5 h-3.5 text-slate-400" />
+              <span>30-second soft check • Zero bureau score impact</span>
             </div>
           </div>
+        </div>
 
-          {/* Trust Highlights */}
-          <div className="pt-4 grid grid-cols-2 sm:grid-cols-3 gap-3 border-t border-white/15 text-xs text-blue-100 font-semibold">
-            <div className="flex items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-[#00B37E]" />
-              <span>Soft Inquiries Only</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <UserCheck className="w-4 h-4 text-[#00BAF2]" />
-              <span>Tailored for Gig & MSME</span>
-            </div>
-            <div className="flex items-center gap-2 col-span-2 sm:col-span-1">
-              <TrendingUp className="w-4 h-4 text-amber-400" />
-              <span>90-Day Guaranteed Pathway</span>
-            </div>
+        {/* Minimalist Trust Features */}
+        <div className="pt-6 grid grid-cols-1 sm:grid-cols-3 gap-4 border-t border-slate-100 text-xs text-slate-600">
+          <div className="flex items-center gap-2">
+            <ShieldCheck className="w-4 h-4 text-emerald-600" />
+            <span>Soft Bureau Pull (0 Hard Inquiries)</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Zap className="w-4 h-4 text-[#00BAF2]" />
+            <span>RBI Fortnightly Reporting Ingestion</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 text-slate-700" />
+            <span>DigiLocker 100% Paperless KYC</span>
           </div>
         </div>
       </div>
 
-      {/* 3. 1-Click Interactive Hackathon Demo Personas */}
+      {/* 2. Quick Services Grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        {quickServices.map((srv, idx) => (
+          <button
+            key={idx}
+            onClick={srv.action}
+            className="p-5 rounded-2xl bg-white hover:bg-slate-50 border border-slate-200/90 transition-all text-left flex flex-col justify-between space-y-3 cursor-pointer shadow-xs"
+          >
+            <div className="flex items-center justify-between">
+              <div className="w-9 h-9 rounded-xl bg-slate-100 flex items-center justify-center text-slate-700">
+                {srv.icon}
+              </div>
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-700">
+                {srv.badge}
+              </span>
+            </div>
+            <div>
+              <h4 className="text-xs sm:text-sm font-bold text-slate-900">
+                {srv.title}
+              </h4>
+              <p className="text-[11px] text-slate-500 mt-0.5">{srv.desc}</p>
+            </div>
+          </button>
+        ))}
+      </div>
+
+      {/* 3. Demo Personas Section */}
       <div className="space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+        <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-xl sm:text-2xl font-black text-[#002970] flex items-center gap-2">
-              <Users className="w-5 h-5 text-[#00BAF2]" />
-              {lang === 'en' ? 'Select a Persona to Demo the Journey' : 'डेमो प्रोफाइल से तुरंत टेस्ट करें'}
+            <h2 className="text-lg sm:text-xl font-bold text-slate-900 flex items-center gap-2">
+              <Users className="w-5 h-5 text-slate-700" />
+              {lang === 'en' ? 'Interactive Demo Profiles' : 'डेमो प्रोफाइल से टेस्ट करें'}
             </h2>
             <p className="text-xs text-slate-500">
               {lang === 'en'
-                ? 'Test how Paytm Sahayak analyzes high DTI loan rejection and builds an actionable 90-day recovery pathway.'
+                ? 'Select a borrower scenario to experience the automated underwriting & Sahayak recovery journey.'
                 : 'पिच डेमो के लिए नीचे दिए गए किसी भी प्रोफाइल पर क्लिक करके तुरंत पूरी यात्रा देखें।'}
             </p>
           </div>
@@ -170,65 +139,56 @@ export default function LandingView({
             return (
               <div
                 key={persona.id}
-                className="bg-white rounded-3xl p-6 border border-slate-200 hover:border-[#00BAF2] shadow-soft hover:shadow-card transition-all flex flex-col justify-between group"
+                className="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs hover:border-slate-400 transition-all flex flex-col justify-between space-y-4"
               >
-                <div className="space-y-4">
+                <div className="space-y-3">
                   <div className="flex items-start justify-between">
                     <div className="flex items-center gap-3">
-                      <span className="text-3xl p-2.5 bg-[#F7F9FC] rounded-2xl border border-slate-100 group-hover:scale-105 transition-transform">
+                      <span className="text-2xl p-2 bg-slate-100 rounded-xl">
                         {persona.avatar}
                       </span>
                       <div>
-                        <h3 className="font-black text-base text-[#002970]">{persona.name}</h3>
-                        <p className="text-xs font-semibold text-slate-500">{persona.tag}</p>
+                        <h3 className="font-bold text-sm text-slate-900">{persona.name}</h3>
+                        <p className="text-xs text-slate-500">{persona.tag}</p>
                       </div>
                     </div>
                     {isApproved ? (
-                      <span className="bg-emerald-50 text-emerald-800 font-black text-[10px] px-2.5 py-1 rounded-full border border-emerald-200">
+                      <span className="bg-emerald-50 text-emerald-700 font-bold text-[10px] px-2 py-0.5 rounded">
                         20% DTI (Pass)
                       </span>
                     ) : (
-                      <span className="bg-rose-50 text-rose-800 font-black text-[10px] px-2.5 py-1 rounded-full border border-rose-200">
+                      <span className="bg-rose-50 text-rose-700 font-bold text-[10px] px-2 py-0.5 rounded">
                         {persona.diagnosisNotes.dtiPercent}% DTI (Rejected)
                       </span>
                     )}
                   </div>
 
-                  <div className="bg-[#F7F9FC] rounded-2xl p-3.5 space-y-1.5 text-xs text-slate-700 border border-slate-100">
+                  <div className="bg-slate-50 rounded-xl p-3 space-y-1 text-xs text-slate-600 border border-slate-100">
                     <div className="flex justify-between">
-                      <span className="text-slate-500">Monthly Income:</span>
-                      <span className="font-black text-[#002970]">₹{persona.monthlyIncome.toLocaleString('en-IN')}</span>
+                      <span>Income:</span>
+                      <span className="font-bold text-slate-900">₹{persona.monthlyIncome.toLocaleString('en-IN')}/mo</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-500">Existing EMIs:</span>
-                      <span className="font-black text-rose-600">₹{persona.existingEmis.toLocaleString('en-IN')}/mo</span>
+                      <span>Existing EMIs:</span>
+                      <span className="font-bold text-rose-600">₹{persona.existingEmis.toLocaleString('en-IN')}/mo</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-500">Requested Loan:</span>
-                      <span className="font-black text-[#0084B4]">₹{persona.requestedLoanAmount.toLocaleString('en-IN')}</span>
+                      <span>Loan Request:</span>
+                      <span className="font-bold text-slate-900">₹{persona.requestedLoanAmount.toLocaleString('en-IN')}</span>
                     </div>
                   </div>
 
-                  <div className="text-xs text-slate-700 bg-[#E8F7FD] p-3 rounded-xl border border-[#00BAF2]/30 space-y-1">
-                    <span className="text-[10px] font-black text-[#002970] uppercase tracking-wider block">
-                      Paytm Sahayak Diagnosis:
-                    </span>
-                    <p className="text-[11px] text-slate-700 leading-snug">
-                      "{persona.diagnosisNotes.quickWin}"
-                    </p>
-                  </div>
+                  <p className="text-xs text-slate-600 italic bg-slate-50 p-2.5 rounded-lg border border-slate-100">
+                    "{persona.diagnosisNotes.quickWin}"
+                  </p>
                 </div>
 
                 <button
                   onClick={() => onSelectPersona(persona.id)}
-                  className={`mt-5 w-full py-3 px-4 rounded-xl text-xs font-black flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
-                    isApproved
-                      ? 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm'
-                      : 'bg-[#002970] hover:bg-[#001944] text-white shadow-sm'
-                  }`}
+                  className="w-full py-2.5 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 bg-slate-900 hover:bg-slate-800 text-white transition-colors cursor-pointer"
                 >
-                  <span>{isApproved ? 'Test Instant Sanction Flow' : 'Test Rejection & Recovery Journey'}</span>
-                  <ArrowRight className="w-4 h-4 text-[#00BAF2]" />
+                  <span>{isApproved ? 'Test Instant Sanction' : 'Test 90-Day Recovery Journey'}</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
             );
@@ -236,44 +196,18 @@ export default function LandingView({
         </div>
       </div>
 
-      {/* 4. Official Paytm Lending Partners Ribbon */}
-      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-soft space-y-4 text-center">
-        <div className="flex items-center justify-center gap-2 text-xs font-black text-slate-400 uppercase tracking-wider">
-          <span>Official RBI-Registered Paytm Lending Partners</span>
+      {/* 4. Minimalist Partner Lending Strip */}
+      <div className="bg-white rounded-2xl p-6 border border-slate-200/90 shadow-xs space-y-3 text-center">
+        <div className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+          Official RBI-Regulated Lending Partners
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 pt-2">
-          <div className="p-3 bg-[#F7F9FC] rounded-2xl border border-slate-200 flex items-center justify-center gap-2 text-xs font-black text-[#002970]">
-            <span className="w-2.5 h-2.5 rounded-full bg-rose-600 shrink-0" />
-            <span>Hero FinCorp</span>
-          </div>
-          <div className="p-3 bg-[#F7F9FC] rounded-2xl border border-slate-200 flex items-center justify-center gap-2 text-xs font-black text-[#002970]">
-            <span className="w-2.5 h-2.5 rounded-full bg-blue-800 shrink-0" />
-            <span>Tata Capital</span>
-          </div>
-          <div className="p-3 bg-[#F7F9FC] rounded-2xl border border-slate-200 flex items-center justify-center gap-2 text-xs font-black text-[#002970]">
-            <span className="w-2.5 h-2.5 rounded-full bg-indigo-700 shrink-0" />
-            <span>Piramal Capital</span>
-          </div>
-          <div className="p-3 bg-[#F7F9FC] rounded-2xl border border-slate-200 flex items-center justify-center gap-2 text-xs font-black text-[#002970]">
-            <span className="w-2.5 h-2.5 rounded-full bg-red-700 shrink-0" />
-            <span>Aditya Birla Capital</span>
-          </div>
-          <div className="p-3 bg-[#F7F9FC] rounded-2xl border border-slate-200 flex items-center justify-center gap-2 text-xs font-black text-[#002970] col-span-2 sm:col-span-1">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-700 shrink-0" />
-            <span>Suryoday SFB</span>
-          </div>
-        </div>
-
-        <div className="pt-2 flex flex-wrap items-center justify-center gap-4 text-[11px] text-slate-500 font-semibold border-t border-slate-100">
-          <span className="flex items-center gap-1 text-emerald-700">
-            <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-            DigiLocker Paperless e-KYC
-          </span>
-          <span>•</span>
-          <span>RBI Fortnightly Reporting Ingestion</span>
-          <span>•</span>
-          <span>Paytm Payments Bank Instant Credit</span>
+        <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 pt-1 text-xs font-bold text-slate-700">
+          <span className="px-3 py-1.5 bg-slate-50 rounded-lg border border-slate-200">Hero FinCorp</span>
+          <span className="px-3 py-1.5 bg-slate-50 rounded-lg border border-slate-200">Tata Capital</span>
+          <span className="px-3 py-1.5 bg-slate-50 rounded-lg border border-slate-200">Piramal Capital</span>
+          <span className="px-3 py-1.5 bg-slate-50 rounded-lg border border-slate-200">Aditya Birla Capital</span>
+          <span className="px-3 py-1.5 bg-slate-50 rounded-lg border border-slate-200">Suryoday SFB</span>
         </div>
       </div>
     </div>
