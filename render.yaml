@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: sahayak-backend
+    env: node
+    rootDir: server
+    buildCommand: npm install
+    startCommand: node server.js
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
