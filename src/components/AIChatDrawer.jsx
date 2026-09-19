@@ -1,22 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { X, Send, Headphones, ShieldCheck, Lock, ChevronRight, HelpCircle, AlertCircle } from 'lucide-react';
 import { AI_FAQ_KNOWLEDGE } from '../data/mockData';
-import { generateFinancialAdvisorResponse } from '../utils/financialEngine';
+import { generateFinancialAdvisorResponse, extractFactsFromQuery } from '../utils/financialEngine';
 
 // Markdown renderer helper for clean rich text without raw markdown symbols
 function FormattedMessage({ text }) {
   if (!text) return null;
 
-  // Split text into paragraphs
   const paragraphs = text.split('\n\n');
 
   return (
     <div className="space-y-2 text-xs leading-relaxed">
       {paragraphs.map((para, pIdx) => {
-        // Process bold syntax **text**
         const parts = para.split(/(\*\*.*?\*\*)/g);
-
-        // Check if paragraph is a bullet list or single block
         const isBullet = para.trim().startsWith('•') || para.trim().startsWith('*') || para.trim().startsWith('-');
 
         return (
@@ -49,8 +45,22 @@ export default function AIChatDrawer({
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [inputError, setInputError] = useState('');
+  const [conversationContext, setConversationContext] = useState({});
+
+  const messagesEndRef = useRef(null);
 
   const activeName = (applicant?.fullName || 'Applicant').trim();
+
+  // Scroll to bottom when messages update
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      scrollToBottom();
+    }
+  }, [chatMessages, isTyping, isOpen]);
 
   // Initialize greeting if chat is empty
   useEffect(() => {
@@ -61,14 +71,21 @@ export default function AIChatDrawer({
           text: `Hello ${activeName}! I am Paytm Sahayak, your AI Financial Education Coach.\n\nI can help you analyze your Debt-to-Income (DTI) ratio, explore what-if repayment scenarios, or clarify credit reporting guidelines. How can I assist you today?`
         }
       ]);
+      setConversationContext({
+        income: Number(applicant.monthlyIncome) || 0,
+        emi: Number(applicant.existingEmis) || 0,
+        loan: Number(applicant.requestedLoanAmount) || 150000,
+        tenure: Number(applicant.tenureMonths) || 24,
+        score: applicant.cibilScore || null
+      });
     }
-  }, [chatMessages, activeName, setChatMessages]);
+  }, [chatMessages, activeName, applicant, setChatMessages]);
 
   if (!isOpen) return null;
 
   const handleSendPrompt = (question, explicitAnswer) => {
     const q = (question || '').trim();
-    if (!q) return;
+    if (!q || isTyping) return;
 
     setInputError('');
     const userMsg = { sender: 'user', text: q };
@@ -79,8 +96,11 @@ export default function AIChatDrawer({
       setIsTyping(false);
       let aiReply = explicitAnswer;
       if (!aiReply) {
-        const generated = generateFinancialAdvisorResponse(q, applicant, lang);
+        const generated = generateFinancialAdvisorResponse(q, applicant, conversationContext, lang);
         aiReply = generated.answer;
+        if (generated.updatedContext) {
+          setConversationContext((prev) => ({ ...prev, ...generated.updatedContext }));
+        }
       }
       setChatMessages((prev) => [...prev, { sender: 'ai', text: aiReply }]);
     }, 350);
@@ -95,9 +115,23 @@ export default function AIChatDrawer({
       return;
     }
 
+    if (isTyping) return;
+
     setInputError('');
     setInputText('');
-    const generated = generateFinancialAdvisorResponse(query, applicant, lang);
+
+    // Update conversation context with facts extracted from prompt if any
+    const newlyExtracted = extractFactsFromQuery(query);
+    const updatedCtx = { ...conversationContext };
+    if (newlyExtracted.income) updatedCtx.income = newlyExtracted.income;
+    if (newlyExtracted.emi !== null) updatedCtx.emi = newlyExtracted.emi;
+    if (newlyExtracted.loan) updatedCtx.loan = newlyExtracted.loan;
+    if (newlyExtracted.tenure) updatedCtx.tenure = newlyExtracted.tenure;
+    if (newlyExtracted.score) updatedCtx.score = newlyExtracted.score;
+
+    setConversationContext(updatedCtx);
+
+    const generated = generateFinancialAdvisorResponse(query, applicant, updatedCtx, lang);
     handleSendPrompt(query, generated.answer);
   };
 
@@ -117,7 +151,7 @@ export default function AIChatDrawer({
               </div>
               <div className="flex items-center gap-1 text-[11px] text-slate-400 font-medium">
                 <Lock className="w-2.5 h-2.5" />
-                <span>Active Profile: {activeName}</span>
+                <span>Profile: {activeName} ({applicant.isCustom ? 'Custom Data' : 'Demo Profile'})</span>
               </div>
             </div>
           </div>
@@ -170,9 +204,11 @@ export default function AIChatDrawer({
               <div className="w-5 h-5 rounded-md bg-[#002970] text-white flex items-center justify-center text-[10px] font-bold">
                 P
               </div>
-              <span className="text-[11px]">Computing response...</span>
+              <span className="text-[11px] animate-pulse">Analyzing context & computing response...</span>
             </div>
           )}
+
+          <div ref={messagesEndRef} />
         </div>
 
         {/* Input Error Message if submit empty */}
@@ -194,7 +230,8 @@ export default function AIChatDrawer({
               <button
                 key={faq.id}
                 onClick={() => handleSendPrompt(faq.question, faq.answer)}
-                className="text-left p-2 rounded-lg bg-white hover:bg-slate-100 border border-slate-200 text-[11px] font-medium text-slate-700 transition-colors flex items-center justify-between group cursor-pointer"
+                disabled={isTyping}
+                className="text-left p-2 rounded-lg bg-white hover:bg-slate-100 border border-slate-200 text-[11px] font-medium text-slate-700 transition-colors flex items-center justify-between group cursor-pointer disabled:opacity-50"
               >
                 <span className="truncate">{faq.question}</span>
                 <ChevronRight className="w-3 h-3 text-slate-400 group-hover:text-slate-700 shrink-0 ml-1" />
@@ -209,20 +246,21 @@ export default function AIChatDrawer({
             type="text"
             maxLength={500}
             value={inputText}
+            disabled={isTyping}
             onChange={(e) => {
               setInputText(e.target.value);
               if (inputError) setInputError('');
             }}
-            placeholder="Ask Sahayak (e.g. 'How do I cut my DTI to 40%?')..."
+            placeholder="Ask Sahayak (e.g. 'What if I take 1 lakh instead?')..."
             aria-label="Ask Sahayak AI Coach"
-            className="flex-1 px-3 py-2 rounded-lg border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-slate-400 focus:ring-1 focus:ring-slate-400 outline-none text-xs text-slate-900"
+            className="flex-1 px-3 py-2 rounded-lg border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-slate-400 focus:ring-1 focus:ring-slate-400 outline-none text-xs text-slate-900 disabled:opacity-50"
           />
           <button
             type="submit"
-            disabled={!inputText.trim()}
+            disabled={!inputText.trim() || isTyping}
             aria-label="Send Message"
             className={`p-2.5 rounded-lg transition-colors shadow-xs cursor-pointer active:scale-95 ${
-              inputText.trim()
+              inputText.trim() && !isTyping
                 ? 'bg-[#002970] hover:bg-[#001f5c] text-white'
                 : 'bg-slate-200 text-slate-400 cursor-not-allowed'
             }`}

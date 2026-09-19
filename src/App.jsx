@@ -19,11 +19,9 @@ import {
 import { calculateDti } from './utils/financialEngine';
 import { ShieldCheck, Home, FileText, Bot, BarChart3, HelpCircle } from 'lucide-react';
 
-// Storage keys
-const STORAGE_KEY_STATE = 'sahayak_demo_session_v2';
+const STORAGE_KEY_STATE = 'sahayak_demo_session_v3';
 
 export default function App() {
-  // Load initial state from sessionStorage if available
   const [sessionLoaded, setSessionLoaded] = useState(false);
   const [currentView, setCurrentView] = useState('landing');
   const [activePersonaId, setActivePersonaId] = useState('rahul');
@@ -52,6 +50,31 @@ export default function App() {
     }
     setSessionLoaded(true);
   }, []);
+
+  // Browser Back / Forward Navigation Handler via popstate
+  useEffect(() => {
+    const handlePopState = (e) => {
+      if (e.state && e.state.view) {
+        setCurrentView(e.state.view);
+      } else {
+        const hash = window.location.hash.replace('#', '');
+        if (hash) setCurrentView(hash);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  // Custom view navigation helper that syncs browser history
+  const navigateToView = (newView) => {
+    if (newView !== currentView) {
+      setCurrentView(newView);
+      try {
+        window.history.pushState({ view: newView }, '', '#' + newView);
+      } catch (e) {}
+    }
+  };
 
   // Save session to sessionStorage whenever state changes
   useEffect(() => {
@@ -101,9 +124,9 @@ export default function App() {
       ]);
 
       if (persona.id === 'amit') {
-        setCurrentView('instant-approval');
+        navigateToView('instant-approval');
       } else {
-        setCurrentView('explainer');
+        navigateToView('explainer');
       }
     }
   };
@@ -112,9 +135,9 @@ export default function App() {
   const handleSubmitEvaluation = () => {
     const { isSafe } = calculateDti(applicant.existingEmis, applicant.monthlyIncome);
     if (isSafe) {
-      setCurrentView('instant-approval');
+      navigateToView('instant-approval');
     } else {
-      setCurrentView('explainer');
+      navigateToView('explainer');
     }
   };
 
@@ -164,6 +187,7 @@ export default function App() {
   const handleReset = () => {
     try {
       sessionStorage.removeItem(STORAGE_KEY_STATE);
+      window.history.pushState({ view: 'landing' }, '', '#landing');
     } catch (e) {}
 
     setApplicant(INITIAL_APPLICATION_STATE);
@@ -192,7 +216,7 @@ export default function App() {
         {/* Top Navbar */}
         <Navbar
           currentView={currentView}
-          setCurrentView={setCurrentView}
+          setCurrentView={navigateToView}
           activePersonaId={activePersonaId}
           onSelectPersona={handleSelectPersona}
           onReset={handleReset}
@@ -200,13 +224,14 @@ export default function App() {
           setLang={setLang}
           isChatOpen={isChatOpen}
           setIsChatOpen={setIsChatOpen}
+          isCustomUser={applicant.isCustom}
         />
 
         {/* Main View Router */}
         <main className="flex-1 pb-16">
           {currentView === 'landing' && (
             <LandingView
-              onStartApplication={() => setCurrentView('application')}
+              onStartApplication={() => navigateToView('application')}
               onSelectPersona={handleSelectPersona}
               lang={lang}
             />
@@ -226,8 +251,8 @@ export default function App() {
           {currentView === 'explainer' && (
             <RejectionExplainerView
               applicant={applicant}
-              onProceedToOffers={() => setCurrentView('offers')}
-              onProceedToRoadmap={() => setCurrentView('roadmap')}
+              onProceedToOffers={() => navigateToView('offers')}
+              onProceedToRoadmap={() => navigateToView('roadmap')}
               lang={lang}
             />
           )}
@@ -235,7 +260,7 @@ export default function App() {
           {currentView === 'offers' && (
             <BestFitOffersView
               applicant={applicant}
-              onProceedToRoadmap={() => setCurrentView('roadmap')}
+              onProceedToRoadmap={() => navigateToView('roadmap')}
               lang={lang}
             />
           )}
@@ -243,7 +268,7 @@ export default function App() {
           {currentView === 'roadmap' && (
             <RoadmapView
               applicant={applicant}
-              onProceedToDashboard={() => setCurrentView('dashboard')}
+              onProceedToDashboard={() => navigateToView('dashboard')}
               lang={lang}
             />
           )}
@@ -254,7 +279,7 @@ export default function App() {
               habitPhases={habitPhases}
               onToggleTask={handleToggleTask}
               onFastForward={handleFastForward}
-              onProceedToSuccess={() => setCurrentView('success')}
+              onProceedToSuccess={() => navigateToView('success')}
               lang={lang}
             />
           )}
@@ -263,7 +288,7 @@ export default function App() {
             <SuccessView
               applicant={applicant}
               progressPercent={progressPercent}
-              onProceedToDashboard={() => setCurrentView('dashboard')}
+              onProceedToDashboard={() => navigateToView('dashboard')}
               onResetAll={handleReset}
               lang={lang}
             />
@@ -297,7 +322,7 @@ export default function App() {
         {/* Paytm Sticky Bottom Action Bar (Mobile only) */}
         <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 py-2 px-4 shadow-xs sm:hidden flex items-center justify-around">
           <button
-            onClick={() => setCurrentView('landing')}
+            onClick={() => navigateToView('landing')}
             aria-label="Loans Home"
             className={`flex flex-col items-center gap-1 text-[10px] font-medium transition-colors ${
               currentView === 'landing' ? 'text-[#002970] font-semibold' : 'text-slate-500 hover:text-slate-900'
@@ -307,7 +332,7 @@ export default function App() {
             <span>Loans</span>
           </button>
           <button
-            onClick={() => setCurrentView('application')}
+            onClick={() => navigateToView('application')}
             aria-label="Check Eligibility"
             className={`flex flex-col items-center gap-1 text-[10px] font-medium transition-colors ${
               currentView === 'application' ? 'text-[#002970] font-semibold' : 'text-slate-500 hover:text-slate-900'
@@ -317,7 +342,7 @@ export default function App() {
             <span>Apply</span>
           </button>
           <button
-            onClick={() => setCurrentView('explainer')}
+            onClick={() => navigateToView('explainer')}
             aria-label="Sahayak Coach Diagnosis"
             className={`flex flex-col items-center gap-1 text-[10px] font-medium transition-colors ${
               currentView === 'explainer' || currentView === 'offers' ? 'text-[#002970] font-semibold' : 'text-slate-500 hover:text-slate-900'
@@ -327,7 +352,7 @@ export default function App() {
             <span>Sahayak</span>
           </button>
           <button
-            onClick={() => setCurrentView('dashboard')}
+            onClick={() => navigateToView('dashboard')}
             aria-label="90 Day Tracker"
             className={`flex flex-col items-center gap-1 text-[10px] font-medium transition-colors ${
               currentView === 'dashboard' ? 'text-[#002970] font-semibold' : 'text-slate-500 hover:text-slate-900'

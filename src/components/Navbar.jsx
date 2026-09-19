@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Globe, RefreshCw, Headphones, ChevronDown } from 'lucide-react';
+import { Globe, RefreshCw, Headphones, ChevronDown, UserCheck } from 'lucide-react';
 import { DEMO_PERSONAS, TRANSLATIONS } from '../data/mockData';
 
 export default function Navbar({
@@ -11,7 +11,8 @@ export default function Navbar({
   lang,
   setLang,
   isChatOpen,
-  setIsChatOpen
+  setIsChatOpen,
+  isCustomUser = false
 }) {
   const [showPersonaMenu, setShowPersonaMenu] = useState(false);
   const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
@@ -71,6 +72,12 @@ export default function Navbar({
 
           {/* Right Actions */}
           <div className="flex items-center gap-2 sm:gap-3 text-xs">
+            {/* Active Data Source Tag */}
+            <span className="hidden xl:flex items-center gap-1 px-2.5 py-1 rounded-md text-[11px] font-medium bg-slate-100 text-slate-700 border border-slate-200">
+              <UserCheck className="w-3 h-3 text-[#00BAF2]" />
+              <span>{isCustomUser ? 'Custom User Data' : `Demo: ${activePersona.name.split(' ')[0]}`}</span>
+            </span>
+
             {/* Language Switcher */}
             <button
               onClick={() => setLang(lang === 'en' ? 'hi' : 'en')}
@@ -99,10 +106,10 @@ export default function Navbar({
                 className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors shadow-xs cursor-pointer"
               >
                 <div className="w-5 h-5 bg-slate-900 text-white font-semibold text-[10px] rounded-md flex items-center justify-center">
-                  {activePersona.name.charAt(0)}
+                  {isCustomUser ? 'U' : activePersona.name.charAt(0)}
                 </div>
                 <span className="font-semibold text-xs text-slate-900 hidden sm:inline max-w-[80px] truncate">
-                  {activePersona.name.split(' ')[0]}
+                  {isCustomUser ? 'Custom' : activePersona.name.split(' ')[0]}
                 </span>
                 <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
               </button>
@@ -121,7 +128,7 @@ export default function Navbar({
                         setShowPersonaMenu(false);
                       }}
                       className={`w-full text-left p-2.5 rounded-lg flex items-center gap-3 transition-colors cursor-pointer ${
-                        activePersonaId === p.id
+                        activePersonaId === p.id && !isCustomUser
                           ? 'bg-slate-100 font-semibold text-slate-900'
                           : 'hover:bg-slate-50 text-slate-700'
                       }`}
