@@ -81,9 +81,9 @@ export default function RoadmapView({
     <div className="max-w-5xl mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-6 animate-in fade-in duration-200">
       {/* Header */}
       <div className="text-center space-y-2">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200">
-          <Sparkles className="w-3.5 h-3.5 text-[#00BAF2]" />
-          Paytm 90-Day Credit Transformation Pathway
+        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-slate-100 text-slate-800 border border-slate-200">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#00BAF2]" />
+          <span>Paytm 90-Day Credit Transformation Pathway</span>
         </div>
         <h1 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
           {t.roadmapTitle}
@@ -119,7 +119,7 @@ export default function RoadmapView({
               </div>
 
               <div className="flex items-center gap-2">
-                <span className="bg-slate-50 text-slate-700 font-medium text-xs px-3 py-1 rounded-full border border-slate-200">
+                <span className="bg-slate-50 text-slate-700 font-medium text-xs px-2.5 py-1 rounded-md border border-slate-200">
                   {phase.impactBadge}
                 </span>
               </div>
@@ -131,7 +131,7 @@ export default function RoadmapView({
                 <Clock className="w-4 h-4 text-slate-500" />
                 {phase.target}
               </span>
-              <span className="font-semibold text-slate-900 bg-white px-2.5 py-0.5 rounded-full border border-slate-200">30 Days Window</span>
+              <span className="font-semibold text-slate-900 bg-white px-2.5 py-0.5 rounded-md border border-slate-200">30 Days Window</span>
             </div>
 
             {/* Specific Trackable Actions */}

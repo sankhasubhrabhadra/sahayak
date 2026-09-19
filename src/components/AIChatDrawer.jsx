@@ -90,8 +90,8 @@ export default function AIChatDrawer({
               className={`flex gap-2.5 ${m.sender === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               {m.sender === 'ai' && (
-                <div className="w-6 h-6 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center shrink-0 mt-0.5">
-                  <Sparkles className="w-3 h-3 text-slate-700" />
+                <div className="w-6 h-6 rounded-md bg-[#002970] text-white flex items-center justify-center shrink-0 mt-0.5 shadow-2xs">
+                  <span className="text-[10px] font-bold">P</span>
                 </div>
               )}
               <div
@@ -108,8 +108,8 @@ export default function AIChatDrawer({
 
           {isTyping && (
             <div className="flex gap-2 items-center text-xs text-slate-400">
-              <div className="w-5 h-5 rounded-md bg-slate-100 flex items-center justify-center">
-                <Sparkles className="w-3 h-3 text-slate-500 animate-spin" />
+              <div className="w-5 h-5 rounded-md bg-[#002970] text-white flex items-center justify-center text-[10px] font-bold">
+                P
               </div>
               <span className="text-[11px]">Computing response...</span>
             </div>

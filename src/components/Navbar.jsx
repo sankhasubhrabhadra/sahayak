@@ -41,7 +41,7 @@ export default function Navbar({
                 <span className="font-bold text-xl tracking-tight text-[#002970]">Pay</span>
                 <span className="font-bold text-xl tracking-tight text-[#00BAF2]">tm</span>
               </div>
-              <span className="bg-slate-100 text-slate-700 text-[11px] font-semibold px-2 py-0.5 rounded-full border border-slate-200">
+              <span className="bg-slate-100 text-slate-700 text-[11px] font-semibold px-2 py-0.5 rounded-md border border-slate-200">
                 Sahayak
               </span>
             </button>
@@ -125,7 +125,7 @@ export default function Navbar({
                       <div className="overflow-hidden flex-1 text-xs">
                         <div className="font-semibold text-slate-900 flex items-center justify-between">
                           <span>{p.name}</span>
-                          <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${
+                          <span className={`text-[10px] px-2 py-0.5 rounded-md font-medium ${
                             p.id === 'amit' ? 'bg-emerald-50 text-emerald-700' : 'bg-rose-50 text-rose-700'
                           }`}>
                             {p.id === 'amit' ? '20% Pass' : '56% Reject'}

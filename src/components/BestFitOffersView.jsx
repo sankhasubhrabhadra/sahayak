@@ -111,7 +111,7 @@ export default function BestFitOffersView({
     <div className="max-w-5xl mx-auto py-6 px-4 sm:px-6 space-y-6 animate-in fade-in duration-200">
       {/* Header */}
       <div className="space-y-1">
-        <div className="inline-block px-3 py-1 bg-slate-100 rounded-full font-semibold text-xs text-slate-700 border border-slate-200">
+        <div className="inline-block px-2.5 py-1 bg-slate-100 rounded-md font-semibold text-xs text-slate-700 border border-slate-200">
           Paytm Marketplace Matches
         </div>
         <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
@@ -147,7 +147,7 @@ export default function BestFitOffersView({
                   </span>
                 </div>
                 {offer.isBestMatch && (
-                  <span className="text-[10px] font-semibold bg-emerald-50 text-emerald-700 px-2.5 py-0.5 rounded-full border border-emerald-200">
+                  <span className="text-[10px] font-semibold bg-emerald-50 text-emerald-700 px-2.5 py-0.5 rounded-md border border-emerald-200">
                     ⭐ Top Pick
                   </span>
                 )}

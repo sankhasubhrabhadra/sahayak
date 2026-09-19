@@ -28,10 +28,10 @@ export default function RejectionExplainerView({
       {/* Minimalist Diagnosis Header */}
       <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xs space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
-          <span className="font-medium text-slate-500 bg-slate-100 px-3 py-1 rounded-full border border-slate-200">
+          <span className="font-medium text-slate-500 bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200">
             Ref: PTM-LON-884920
           </span>
-          <span className="bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full border border-emerald-200 font-medium">
+          <span className="bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-md border border-emerald-200 font-medium">
             Soft Bureau Pull (0 Score Impact)
           </span>
         </div>
@@ -50,7 +50,7 @@ export default function RejectionExplainerView({
       {/* 3 Core Metric Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
         <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs space-y-2">
-          <span className="text-xs font-semibold text-rose-600 bg-rose-50 px-2.5 py-0.5 rounded-full border border-rose-200 inline-block">
+          <span className="text-xs font-semibold text-rose-600 bg-rose-50 px-2.5 py-0.5 rounded-md border border-rose-200 inline-block">
             Current DTI
           </span>
           <div className="text-3xl font-bold text-rose-600">{currentDti}%</div>
@@ -60,7 +60,7 @@ export default function RejectionExplainerView({
         </div>
 
         <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs space-y-2">
-          <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200 inline-block">
+          <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-md border border-emerald-200 inline-block">
             Safe Benchmark
           </span>
           <div className="text-3xl font-bold text-emerald-600">40.0%</div>
@@ -70,7 +70,7 @@ export default function RejectionExplainerView({
         </div>
 
         <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs space-y-2">
-          <span className="text-xs font-semibold text-slate-700 bg-slate-100 px-2.5 py-0.5 rounded-full border border-slate-200 inline-block">
+          <span className="text-xs font-semibold text-slate-700 bg-slate-100 px-2.5 py-0.5 rounded-md border border-slate-200 inline-block">
             Relief Needed
           </span>
           <div className="text-3xl font-bold text-slate-900">₹{excessEmi.toLocaleString('en-IN')}/mo</div>
@@ -82,7 +82,7 @@ export default function RejectionExplainerView({
 
       {/* Side-by-Side: Automated Filter vs Deep Discovery */}
       <div className="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs space-y-4">
-        <div className="inline-block px-3 py-1 bg-slate-100 rounded-full font-semibold text-xs text-slate-700 border border-slate-200">
+        <div className="inline-block px-2.5 py-1 bg-slate-100 rounded-md font-semibold text-xs text-slate-700 border border-slate-200">
           Forensic Comparison
         </div>
 
@@ -116,7 +116,7 @@ export default function RejectionExplainerView({
               Interactive "What-If" Debt Relief Simulator
             </h3>
           </div>
-          <span className="text-xs font-semibold text-slate-700 bg-slate-100 px-2.5 py-1 rounded-full border border-slate-200">
+          <span className="text-xs font-semibold text-slate-700 bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200">
             -₹{simulatedReduction.toLocaleString('en-IN')}/mo
           </span>
         </div>

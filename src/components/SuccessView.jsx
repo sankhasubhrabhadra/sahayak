@@ -51,9 +51,9 @@ export default function SuccessView({
           <Trophy className="w-6 h-6 text-emerald-400" />
         </div>
 
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-slate-800 text-slate-200 border border-slate-700">
-          <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
-          90-Day Pathway Completed
+        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-slate-800 text-slate-200 border border-slate-700">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+          <span>90-Day Pathway Completed</span>
         </div>
 
         <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
@@ -78,7 +78,7 @@ export default function SuccessView({
               Pre-Approval Sanction Certificate (Simulated Offer)
             </h2>
           </div>
-          <span className="bg-emerald-50 text-emerald-700 font-semibold text-xs px-2.5 py-1 rounded-full border border-emerald-200 flex items-center gap-1.5">
+          <span className="bg-emerald-50 text-emerald-700 font-semibold text-xs px-2.5 py-1 rounded-md border border-emerald-200 flex items-center gap-1.5">
             <CheckCircle className="w-3.5 h-3.5 text-emerald-600" />
             100% Readiness Milestone
           </span>

@@ -49,9 +49,9 @@ export default function LandingView({
       {/* 1. Minimalist Hero Card */}
       <div className="bg-white rounded-3xl p-8 sm:p-12 border border-slate-200/80 shadow-xs space-y-6 relative overflow-hidden">
         <div className="space-y-4 max-w-3xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200">
-            <Sparkles className="w-3.5 h-3.5 text-[#00BAF2]" />
-            Paytm Financial Services • Sahayak AI Coach
+          <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md text-xs font-semibold bg-slate-100 text-slate-800 border border-slate-200">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#00BAF2]" />
+            <span>Paytm Financial Services • Sahayak Credit Coach</span>
           </div>
 
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.1]">
@@ -107,7 +107,7 @@ export default function LandingView({
               <div className={`w-10 h-10 rounded-xl ${srv.color} flex items-center justify-center`}>
                 {srv.icon}
               </div>
-              <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full border border-slate-200 bg-slate-50 text-slate-600">
+              <span className="text-[10px] font-semibold px-2 py-0.5 rounded-md border border-slate-200 bg-slate-50 text-slate-600">
                 {srv.badge}
               </span>
             </div>
@@ -155,11 +155,11 @@ export default function LandingView({
                       </div>
                     </div>
                     {isApproved ? (
-                      <span className="bg-emerald-50 text-emerald-700 font-semibold text-[10px] px-2.5 py-0.5 rounded-full border border-emerald-200">
+                      <span className="bg-emerald-50 text-emerald-700 font-semibold text-[10px] px-2.5 py-0.5 rounded-md border border-emerald-200">
                         20% Pass
                       </span>
                     ) : (
-                      <span className="bg-rose-50 text-rose-700 font-semibold text-[10px] px-2.5 py-0.5 rounded-full border border-rose-200">
+                      <span className="bg-rose-50 text-rose-700 font-semibold text-[10px] px-2.5 py-0.5 rounded-md border border-rose-200">
                         {persona.diagnosisNotes.dtiPercent}% Reject
                       </span>
                     )}

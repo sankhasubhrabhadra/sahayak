@@ -62,7 +62,7 @@ export default function ApplicationFormView({
     <div className="max-w-3xl mx-auto py-6 px-4 sm:px-6 space-y-6 animate-in fade-in duration-200">
       {/* Minimalist Header */}
       <div className="space-y-1">
-        <div className="inline-block px-3 py-1 bg-slate-100 border border-slate-200 rounded-full font-semibold text-xs text-slate-700">
+        <div className="inline-block px-2.5 py-1 bg-slate-100 border border-slate-200 rounded-md font-semibold text-xs text-slate-700">
           Paytm Paperless Loan Application
         </div>
         <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
@@ -223,7 +223,7 @@ export default function ApplicationFormView({
         <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2.5 text-xs">
           <div className="flex items-center justify-between">
             <span className="font-semibold text-slate-700">Debt-to-Income (DTI) Ratio</span>
-            <span className={`font-semibold px-2.5 py-0.5 rounded-full text-xs ${
+            <span className={`font-semibold px-2.5 py-0.5 rounded-md text-xs ${
               isHighRisk ? 'bg-rose-50 text-rose-700 border border-rose-200' : 'bg-emerald-50 text-emerald-700 border border-emerald-200'
             }`}>
               {currentDti}% {isHighRisk ? '⚠️ Exceeds 40%' : '✅ Safe <40%'}

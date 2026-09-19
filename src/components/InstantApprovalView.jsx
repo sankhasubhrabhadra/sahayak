@@ -39,9 +39,9 @@ export default function InstantApprovalView({
           <CheckCircle2 className="w-7 h-7 text-white" />
         </div>
 
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-white/20 text-white border border-white/30">
-          <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-          Paytm Pre-Approved Instant Sanction
+        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-white/20 text-white border border-white/30">
+          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-200" />
+          <span>Paytm Pre-Approved Instant Sanction</span>
         </div>
 
         <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-white">
@@ -64,7 +64,7 @@ export default function InstantApprovalView({
             <span className="text-slate-300">|</span>
             <span className="text-xs font-semibold uppercase text-slate-700">Sanction Summary</span>
           </div>
-          <span className="text-[11px] font-medium text-slate-500 bg-slate-50 px-2.5 py-1 rounded-full border border-slate-200">
+          <span className="text-[11px] font-medium text-slate-500 bg-slate-50 px-2.5 py-1 rounded-md border border-slate-200">
             Ref: PTM-SANCTION-99218
           </span>
         </div>
