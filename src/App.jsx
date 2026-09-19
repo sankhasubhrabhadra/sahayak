@@ -205,8 +205,55 @@ export default function App() {
         applicant={applicant}
       />
 
+      {/* Official Paytm Super App Sticky Bottom Action Bar (Mobile & Desktop) */}
+      <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 py-2 px-4 shadow-lg sm:hidden flex items-center justify-around">
+        <button
+          onClick={() => setCurrentView('landing')}
+          className={`flex flex-col items-center gap-1 text-[10px] font-black transition-colors ${
+            currentView === 'landing' ? 'text-[#00BAF2]' : 'text-slate-500 hover:text-[#002970]'
+          }`}
+        >
+          <span className="text-lg">🏠</span>
+          <span>Loans</span>
+        </button>
+        <button
+          onClick={() => setCurrentView('application')}
+          className={`flex flex-col items-center gap-1 text-[10px] font-black transition-colors ${
+            currentView === 'application' ? 'text-[#00BAF2]' : 'text-slate-500 hover:text-[#002970]'
+          }`}
+        >
+          <span className="text-lg">📝</span>
+          <span>Apply</span>
+        </button>
+        <button
+          onClick={() => setCurrentView('explainer')}
+          className={`flex flex-col items-center gap-1 text-[10px] font-black transition-colors ${
+            currentView === 'explainer' || currentView === 'offers' ? 'text-[#00BAF2]' : 'text-slate-500 hover:text-[#002970]'
+          }`}
+        >
+          <span className="text-lg">🤖</span>
+          <span>Sahayak</span>
+        </button>
+        <button
+          onClick={() => setCurrentView('dashboard')}
+          className={`flex flex-col items-center gap-1 text-[10px] font-black transition-colors ${
+            currentView === 'dashboard' ? 'text-[#00BAF2]' : 'text-slate-500 hover:text-[#002970]'
+          }`}
+        >
+          <span className="text-lg">📊</span>
+          <span>Tracker</span>
+        </button>
+        <button
+          onClick={() => setIsChatOpen(true)}
+          className="flex flex-col items-center gap-1 text-[10px] font-black text-[#002970]"
+        >
+          <span className="text-lg">🎧</span>
+          <span>24x7 Help</span>
+        </button>
+      </div>
+
       {/* Official Paytm Super App Footer */}
-      <footer className="bg-white border-t border-slate-200 py-8 px-4 sm:px-6 lg:px-8 space-y-4">
+      <footer className="bg-white border-t border-slate-200 py-8 px-4 sm:px-6 lg:px-8 space-y-4 mb-14 sm:mb-0">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <div className="flex items-center gap-3">
             <div className="flex items-center">
