@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Globe, RefreshCw, Search, Headphones, ChevronDown, CheckCircle2, Sparkles } from 'lucide-react';
+import { Globe, RefreshCw, Headphones, ChevronDown } from 'lucide-react';
 import { DEMO_PERSONAS } from '../data/mockData';
 
 export default function Navbar({
@@ -28,36 +28,36 @@ export default function Navbar({
   ];
 
   return (
-    <header className="sticky top-0 z-40 bg-[#FFFDF5] border-b-[3px] border-black shadow-brutal-sm transition-all">
+    <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200/80 transition-all">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 gap-4">
           {/* Logo & Brand */}
           <div className="flex items-center gap-6">
             <button
               onClick={() => setCurrentView('landing')}
-              className="flex items-center gap-2 text-left group bg-white px-3 py-1.5 border-2 border-black shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all"
+              className="flex items-center gap-2 text-left group transition-transform active:scale-95"
             >
               <div className="flex items-baseline">
-                <span className="font-black text-xl tracking-tighter text-[#002970]">Pay</span>
-                <span className="font-black text-xl tracking-tighter text-[#00BAF2]">tm</span>
+                <span className="font-bold text-xl tracking-tight text-[#002970]">Pay</span>
+                <span className="font-bold text-xl tracking-tight text-[#00BAF2]">tm</span>
               </div>
-              <span className="bg-[#FFD200] text-black text-[10px] font-black px-1.5 py-0.5 border border-black uppercase tracking-wider">
+              <span className="bg-slate-100 text-slate-700 text-[11px] font-semibold px-2 py-0.5 rounded-full border border-slate-200">
                 Sahayak
               </span>
             </button>
 
             {/* Desktop Navigation Tabs */}
-            <nav className="hidden lg:flex items-center gap-1.5">
+            <nav className="hidden lg:flex items-center gap-1 bg-slate-100/80 p-1 rounded-xl border border-slate-200/60">
               {paytmTabs.map((tab) => {
                 const isActive = currentView === tab.id;
                 return (
                   <button
                     key={tab.id}
                     onClick={() => setCurrentView(tab.id)}
-                    className={`px-3 py-1.5 rounded-md text-xs font-black transition-all border-2 border-black ${
+                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
                       isActive
-                        ? 'bg-[#00BAF2] text-black shadow-brutal-sm translate-x-[1px] translate-y-[1px]'
-                        : 'bg-white text-black hover:bg-[#FFD200] shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none'
+                        ? 'bg-white text-slate-900 shadow-xs font-semibold'
+                        : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
                     }`}
                   >
                     {tab.label}
@@ -68,45 +68,45 @@ export default function Navbar({
           </div>
 
           {/* Right Actions */}
-          <div className="flex items-center gap-2 sm:gap-3 text-xs font-bold">
+          <div className="flex items-center gap-2 sm:gap-3 text-xs">
             {/* Language Switcher */}
             <button
               onClick={() => setLang(lang === 'en' ? 'hi' : 'en')}
-              className="flex items-center gap-1.5 bg-white px-3 py-1.5 border-2 border-black shadow-brutal-sm hover:bg-[#FFD200] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all"
+              className="flex items-center gap-1.5 bg-white text-slate-700 font-medium px-3 py-1.5 rounded-xl border border-slate-200 hover:bg-slate-50 transition-colors shadow-xs"
             >
-              <Globe className="w-3.5 h-3.5 text-black" />
+              <Globe className="w-3.5 h-3.5 text-slate-500" />
               <span>{lang === 'en' ? 'हिन्दी' : 'English'}</span>
             </button>
 
             {/* 24x7 Help Trigger */}
             <button
               onClick={() => setIsChatOpen(!isChatOpen)}
-              className="flex items-center gap-1.5 bg-[#FFD200] text-black px-3 py-1.5 border-2 border-black shadow-brutal-sm hover:bg-[#FFE55B] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all"
+              className="flex items-center gap-1.5 bg-[#002970] text-white font-medium px-3.5 py-1.5 rounded-xl hover:bg-[#001f5c] transition-colors shadow-xs"
             >
-              <Headphones className="w-4 h-4 text-black" />
-              <span className="hidden sm:inline font-black">Ask AI</span>
+              <Headphones className="w-3.5 h-3.5 text-slate-200" />
+              <span className="hidden sm:inline">Ask AI</span>
             </button>
 
             {/* Persona Switcher Dropdown */}
             <div className="relative">
               <button
                 onClick={() => setShowPersonaMenu(!showPersonaMenu)}
-                className="flex items-center gap-2 bg-white px-3 py-1.5 border-2 border-black shadow-brutal-sm hover:bg-[#E6F8FE] transition-all"
+                className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-xl border border-slate-200 hover:bg-slate-50 transition-colors shadow-xs"
               >
-                <div className="w-5 h-5 bg-[#002970] text-white font-black text-[10px] flex items-center justify-center border border-black">
+                <div className="w-5 h-5 bg-slate-900 text-white font-semibold text-[10px] rounded-full flex items-center justify-center">
                   {activePersona.name.charAt(0)}
                 </div>
-                <span className="font-black text-xs hidden sm:inline max-w-[80px] truncate">
+                <span className="font-semibold text-xs text-slate-900 hidden sm:inline max-w-[80px] truncate">
                   {activePersona.name.split(' ')[0]}
                 </span>
-                <ChevronDown className="w-3.5 h-3.5 text-black" />
+                <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
               </button>
 
               {showPersonaMenu && (
-                <div className="absolute right-0 mt-2 w-72 bg-[#FFFDF5] border-[3px] border-black shadow-brutal-lg p-2.5 z-50 animate-in fade-in zoom-in-95">
-                  <div className="px-2 py-1 text-[10px] font-black text-black uppercase tracking-wider flex items-center justify-between border-b-2 border-black mb-2 bg-[#FFD200]">
+                <div className="absolute right-0 mt-2 w-72 bg-white rounded-2xl border border-slate-200 shadow-xl p-2 z-50 animate-in fade-in zoom-in-95">
+                  <div className="px-2.5 py-1.5 text-[11px] font-semibold text-slate-400 uppercase tracking-wider flex items-center justify-between border-b border-slate-100 mb-1.5">
                     <span>Select Persona</span>
-                    <span className="font-mono">PROFILES</span>
+                    <span className="font-normal text-[10px]">Demo Profiles</span>
                   </div>
                   {DEMO_PERSONAS.map((p) => (
                     <button
@@ -115,23 +115,23 @@ export default function Navbar({
                         onSelectPersona(p.id);
                         setShowPersonaMenu(false);
                       }}
-                      className={`w-full text-left p-2 rounded-lg flex items-center gap-3 transition-all mb-1 border-2 border-black ${
+                      className={`w-full text-left p-2.5 rounded-xl flex items-center gap-3 transition-colors ${
                         activePersonaId === p.id
-                          ? 'bg-[#00BAF2] shadow-brutal-sm font-black'
-                          : 'bg-white hover:bg-[#FFE55B] shadow-brutal-sm hover:shadow-none'
+                          ? 'bg-slate-100 font-semibold text-slate-900'
+                          : 'hover:bg-slate-50 text-slate-700'
                       }`}
                     >
-                      <span className="text-xl p-1 bg-white border border-black rounded">{p.avatar}</span>
+                      <span className="text-xl p-1 bg-white border border-slate-200 rounded-lg shadow-2xs">{p.avatar}</span>
                       <div className="overflow-hidden flex-1 text-xs">
-                        <div className="font-black text-black flex items-center justify-between">
+                        <div className="font-semibold text-slate-900 flex items-center justify-between">
                           <span>{p.name}</span>
-                          <span className={`text-[9px] px-1.5 py-0.5 border border-black font-black uppercase ${
-                            p.id === 'amit' ? 'bg-[#00B37E] text-white' : 'bg-[#FF4D4D] text-white'
+                          <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${
+                            p.id === 'amit' ? 'bg-emerald-50 text-emerald-700' : 'bg-rose-50 text-rose-700'
                           }`}>
                             {p.id === 'amit' ? '20% Pass' : '56% Reject'}
                           </span>
                         </div>
-                        <div className="text-[11px] text-black font-medium truncate">{p.tag}</div>
+                        <div className="text-[11px] text-slate-500 truncate mt-0.5">{p.tag}</div>
                       </div>
                     </button>
                   ))}
@@ -143,7 +143,7 @@ export default function Navbar({
             <button
               onClick={onReset}
               title="Reset Demo"
-              className="p-2 bg-white text-black border-2 border-black shadow-brutal-sm hover:bg-[#FF4D4D] hover:text-white hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none transition-all"
+              className="p-2 bg-white text-slate-500 rounded-xl border border-slate-200 hover:text-slate-900 hover:bg-slate-50 transition-colors shadow-xs"
             >
               <RefreshCw className="w-3.5 h-3.5" />
             </button>

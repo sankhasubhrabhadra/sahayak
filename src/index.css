@@ -4,44 +4,38 @@
 
 @layer base {
   body {
-    background-color: #FFFDF5;
-    background-image: radial-gradient(#000000 0.75px, transparent 0.75px);
-    background-size: 20px 20px;
-    color: #000000;
-    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+    background-color: #F8FAFC;
+    color: #0F172A;
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
   }
 }
 
-/* Custom Neo-Brutalist scrollbar */
+/* Minimalist sleek scrollbar */
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #FFFDF5;
-  border-left: 2px solid #000;
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #00BAF2;
-  border: 2px solid #000;
+  background: #CBD5E1;
+  border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #FFD200;
+  background: #94A3B8;
 }
 
-.brutal-btn {
-  @apply border-2 border-black shadow-brutal font-black transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-brutal-sm active:translate-x-[4px] active:translate-y-[4px] active:shadow-none cursor-pointer;
+/* Minimalist Utility Classes */
+.minimal-card {
+  @apply bg-white border border-slate-200/80 rounded-2xl shadow-xs transition-all;
 }
 
-.brutal-card {
-  @apply bg-white border-2 border-black shadow-brutal rounded-xl transition-all;
+.minimal-btn-primary {
+  @apply bg-[#002970] hover:bg-[#001f5c] text-white font-semibold rounded-xl shadow-xs transition-all flex items-center justify-center;
 }
 
-.brutal-card-lg {
-  @apply bg-white border-[3px] border-black shadow-brutal-lg rounded-2xl transition-all;
-}
-
-.brutal-tag {
-  @apply border-2 border-black font-black uppercase tracking-wider text-[11px] px-2.5 py-1 rounded-md shadow-brutal-sm;
+.minimal-btn-secondary {
+  @apply bg-white hover:bg-slate-50 text-slate-700 font-semibold border border-slate-200 rounded-xl shadow-xs transition-all flex items-center justify-center;
 }
 

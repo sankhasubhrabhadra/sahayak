@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowRight, User, IndianRupee, Briefcase, Clock, RefreshCw, CheckCircle2, AlertCircle, Sparkles } from 'lucide-react';
+import { ArrowRight, Clock, RefreshCw, AlertCircle, Sparkles } from 'lucide-react';
 import { DEMO_PERSONAS, TRANSLATIONS } from '../data/mockData';
 
 export default function ApplicationFormView({
@@ -60,15 +60,15 @@ export default function ApplicationFormView({
 
   return (
     <div className="max-w-3xl mx-auto py-6 px-4 sm:px-6 space-y-6 animate-in fade-in duration-200">
-      {/* Neo-Brutalist Header */}
+      {/* Minimalist Header */}
       <div className="space-y-1">
-        <div className="inline-block px-3 py-1 bg-[#FFD200] border-2 border-black font-black text-xs uppercase tracking-wider shadow-brutal-sm">
+        <div className="inline-block px-3 py-1 bg-slate-100 border border-slate-200 rounded-full font-semibold text-xs text-slate-700">
           Paytm Paperless Loan Application
         </div>
-        <h1 className="text-2xl sm:text-3xl font-black text-black tracking-tight">
+        <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
           {lang === 'en' ? 'Check Loan Eligibility' : 'अपनी लोन पात्रता जांचें'}
         </h1>
-        <p className="text-xs sm:text-sm text-black/70 font-medium">
+        <p className="text-xs sm:text-sm text-slate-500 font-normal">
           {lang === 'en'
             ? 'Enter your monthly financial profile to evaluate debt capacity.'
             : 'अपनी मासिक आमदनी और मौजूदा ईएमआई दर्ज करें।'}
@@ -76,18 +76,18 @@ export default function ApplicationFormView({
       </div>
 
       {/* Preset Personas */}
-      <div className="bg-white rounded-xl p-4 border-[3px] border-black shadow-brutal flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
-        <span className="font-black text-black uppercase tracking-wider">Fast Demo Profiles:</span>
+      <div className="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+        <span className="font-semibold text-slate-700">Fast Demo Profiles:</span>
         <div className="flex flex-wrap items-center gap-2">
           {DEMO_PERSONAS.map((p) => (
             <button
               key={p.id}
               type="button"
               onClick={() => onSelectPersona(p.id)}
-              className={`px-3 py-1.5 rounded-lg font-black border-2 border-black transition-all cursor-pointer ${
+              className={`px-3 py-1.5 rounded-xl font-medium border transition-colors cursor-pointer ${
                 activePersonaId === p.id
-                  ? 'bg-[#00BAF2] text-black shadow-brutal-sm translate-x-[1px] translate-y-[1px]'
-                  : 'bg-[#FFFDF5] text-black hover:bg-[#FFD200] shadow-brutal-sm hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-none'
+                  ? 'bg-slate-900 text-white border-slate-900 shadow-xs font-semibold'
+                  : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
               }`}
             >
               <span>{p.avatar} {p.name.split(' ')[0]}</span>
@@ -98,11 +98,11 @@ export default function ApplicationFormView({
       </div>
 
       {/* Main Form */}
-      <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-6 sm:p-8 border-[3px] border-black shadow-brutal-lg space-y-6">
+      <form onSubmit={handleSubmit} className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xs space-y-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           {/* Full Name */}
           <div className="space-y-1.5">
-            <label className="text-xs font-black text-black uppercase tracking-wider">
+            <label className="text-xs font-semibold text-slate-700">
               Full Name
             </label>
             <input
@@ -110,20 +110,20 @@ export default function ApplicationFormView({
               required
               value={applicant.fullName}
               onChange={(e) => handleInputChange('fullName', e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-xl border-2 border-black focus:bg-[#FFFDF5] outline-none text-sm font-bold text-black shadow-brutal-sm"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-slate-400 focus:ring-1 focus:ring-slate-400 outline-none text-sm text-slate-900 transition-all"
               placeholder="Rahul Sharma"
             />
           </div>
 
           {/* Employment Type */}
           <div className="space-y-1.5">
-            <label className="text-xs font-black text-black uppercase tracking-wider">
+            <label className="text-xs font-semibold text-slate-700">
               Employment Type
             </label>
             <select
               value={applicant.employmentType}
               onChange={(e) => handleInputChange('employmentType', e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-xl border-2 border-black focus:bg-[#FFFDF5] outline-none text-sm font-bold text-black shadow-brutal-sm"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-slate-400 focus:ring-1 focus:ring-slate-400 outline-none text-sm text-slate-900 transition-all"
             >
               <option value="Gig Worker">Gig Worker / Delivery Executive</option>
               <option value="Self-Employed Business">Self-Employed / MSME Owner</option>
@@ -134,12 +134,12 @@ export default function ApplicationFormView({
 
           {/* Monthly Income */}
           <div className="space-y-1.5">
-            <div className="flex justify-between text-xs font-black text-black">
-              <span className="uppercase tracking-wider">Monthly Income</span>
-              <span className="font-mono bg-[#FFD200] px-1.5 border border-black">₹{Number(applicant.monthlyIncome).toLocaleString('en-IN')}</span>
+            <div className="flex justify-between text-xs font-medium text-slate-700">
+              <span>Monthly Income</span>
+              <span className="font-semibold text-slate-900">₹{Number(applicant.monthlyIncome).toLocaleString('en-IN')}</span>
             </div>
             <div className="relative">
-              <span className="absolute left-3 top-2.5 text-black font-black text-sm">₹</span>
+              <span className="absolute left-3.5 top-2.5 text-slate-400 text-sm">₹</span>
               <input
                 type="number"
                 min="10000"
@@ -148,21 +148,21 @@ export default function ApplicationFormView({
                 required
                 value={applicant.monthlyIncome}
                 onChange={(e) => handleInputChange('monthlyIncome', Number(e.target.value))}
-                className="w-full pl-7 pr-3 py-2.5 rounded-xl border-2 border-black focus:bg-[#FFFDF5] outline-none text-sm font-bold text-black shadow-brutal-sm"
+                className="w-full pl-8 pr-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-slate-400 focus:ring-1 focus:ring-slate-400 outline-none text-sm text-slate-900 transition-all"
               />
             </div>
           </div>
 
           {/* Existing EMIs */}
           <div className="space-y-1.5">
-            <div className="flex justify-between text-xs font-black text-black">
-              <span className="uppercase tracking-wider">Existing EMIs</span>
-              <span className={`font-mono px-1.5 border border-black ${isHighRisk ? 'bg-[#FF4D4D] text-white' : 'bg-[#00B37E] text-white'}`}>
+            <div className="flex justify-between text-xs font-medium text-slate-700">
+              <span>Existing EMIs</span>
+              <span className={`font-semibold ${isHighRisk ? 'text-rose-600' : 'text-emerald-600'}`}>
                 ₹{Number(applicant.existingEmis).toLocaleString('en-IN')}
               </span>
             </div>
             <div className="relative">
-              <span className="absolute left-3 top-2.5 text-black font-black text-sm">₹</span>
+              <span className="absolute left-3.5 top-2.5 text-slate-400 text-sm">₹</span>
               <input
                 type="number"
                 min="0"
@@ -171,19 +171,19 @@ export default function ApplicationFormView({
                 required
                 value={applicant.existingEmis}
                 onChange={(e) => handleInputChange('existingEmis', Number(e.target.value))}
-                className="w-full pl-7 pr-3 py-2.5 rounded-xl border-2 border-black focus:bg-[#FFFDF5] outline-none text-sm font-bold text-black shadow-brutal-sm"
+                className="w-full pl-8 pr-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-slate-400 focus:ring-1 focus:ring-slate-400 outline-none text-sm text-slate-900 transition-all"
               />
             </div>
           </div>
 
           {/* Requested Loan */}
           <div className="space-y-1.5">
-            <div className="flex justify-between text-xs font-black text-black">
-              <span className="uppercase tracking-wider">Loan Amount</span>
-              <span className="font-mono bg-[#00BAF2] px-1.5 border border-black">₹{Number(applicant.requestedLoanAmount).toLocaleString('en-IN')}</span>
+            <div className="flex justify-between text-xs font-medium text-slate-700">
+              <span>Loan Amount</span>
+              <span className="font-semibold text-slate-900">₹{Number(applicant.requestedLoanAmount).toLocaleString('en-IN')}</span>
             </div>
             <div className="relative">
-              <span className="absolute left-3 top-2.5 text-black font-black text-sm">₹</span>
+              <span className="absolute left-3.5 top-2.5 text-slate-400 text-sm">₹</span>
               <input
                 type="number"
                 min="20000"
@@ -192,24 +192,24 @@ export default function ApplicationFormView({
                 required
                 value={applicant.requestedLoanAmount}
                 onChange={(e) => handleInputChange('requestedLoanAmount', Number(e.target.value))}
-                className="w-full pl-7 pr-3 py-2.5 rounded-xl border-2 border-black focus:bg-[#FFFDF5] outline-none text-sm font-bold text-black shadow-brutal-sm"
+                className="w-full pl-8 pr-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-slate-400 focus:ring-1 focus:ring-slate-400 outline-none text-sm text-slate-900 transition-all"
               />
             </div>
           </div>
 
           {/* Preferred Tenure */}
           <div className="space-y-1.5">
-            <label className="text-xs font-black text-black uppercase tracking-wider">Tenure</label>
+            <label className="text-xs font-semibold text-slate-700">Tenure</label>
             <div className="grid grid-cols-4 gap-2">
               {[12, 24, 36, 48].map((months) => (
                 <button
                   key={months}
                   type="button"
                   onClick={() => handleInputChange('tenureMonths', months)}
-                  className={`py-2 rounded-xl text-xs font-black border-2 border-black transition-all cursor-pointer ${
+                  className={`py-2 rounded-xl text-xs font-medium transition-all cursor-pointer ${
                     tenureMonths === months
-                      ? 'bg-black text-white shadow-brutal-sm'
-                      : 'bg-[#FFFDF5] text-black hover:bg-[#FFD200] shadow-brutal-sm hover:shadow-none'
+                      ? 'bg-slate-900 text-white font-semibold shadow-xs'
+                      : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200'
                   }`}
                 >
                   {months} Mo
@@ -219,28 +219,28 @@ export default function ApplicationFormView({
           </div>
         </div>
 
-        {/* Neo-Brutalist DTI Metric Box */}
-        <div className="p-4 rounded-xl bg-[#FFFDF5] border-2 border-black shadow-brutal space-y-2.5 text-xs">
+        {/* Minimalist DTI Metric Box */}
+        <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2.5 text-xs">
           <div className="flex items-center justify-between">
-            <span className="font-black text-black uppercase tracking-wider">Debt-to-Income (DTI) Ratio</span>
-            <span className={`font-black px-2.5 py-1 rounded border-2 border-black text-xs shadow-brutal-sm ${
-              isHighRisk ? 'bg-[#FF4D4D] text-white' : 'bg-[#00B37E] text-white'
+            <span className="font-semibold text-slate-700">Debt-to-Income (DTI) Ratio</span>
+            <span className={`font-semibold px-2.5 py-0.5 rounded-full text-xs ${
+              isHighRisk ? 'bg-rose-50 text-rose-700 border border-rose-200' : 'bg-emerald-50 text-emerald-700 border border-emerald-200'
             }`}>
               {currentDti}% {isHighRisk ? '⚠️ Exceeds 40%' : '✅ Safe <40%'}
             </span>
           </div>
 
-          {/* Brutalist Progress Bar */}
-          <div className="w-full bg-white h-4 rounded-md border-2 border-black overflow-hidden p-0.5">
+          {/* Minimalist Progress Bar */}
+          <div className="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
             <div
-              className={`h-full transition-all duration-300 rounded-sm ${
-                isHighRisk ? 'bg-[#FF4D4D]' : 'bg-[#00B37E]'
+              className={`h-full transition-all duration-300 rounded-full ${
+                isHighRisk ? 'bg-rose-500' : 'bg-emerald-500'
               }`}
               style={{ width: `${Math.min(100, Math.max(5, currentDti))}%` }}
             />
           </div>
 
-          <p className="text-[11px] text-black font-medium leading-relaxed">
+          <p className="text-[11px] text-slate-500 font-normal leading-relaxed">
             {isHighRisk
               ? `Your EMIs (₹${existingEmis.toLocaleString('en-IN')}) exceed the recommended ₹${maxSafeEmi.toLocaleString('en-IN')} limit. Sahayak will structure a 90-day plan to bring it below 40%.`
               : `Your monthly EMIs are within the safe 40% benchmark. You are eligible for immediate sanction.`}
@@ -250,8 +250,8 @@ export default function ApplicationFormView({
         {/* Action Button */}
         <div>
           {isScanning ? (
-            <div className="p-4 bg-black text-white rounded-xl text-center space-y-2 border-2 border-black shadow-brutal">
-              <div className="flex items-center justify-center gap-2 text-xs font-black">
+            <div className="p-4 bg-slate-900 text-white rounded-2xl text-center space-y-2">
+              <div className="flex items-center justify-center gap-2 text-xs font-semibold">
                 <RefreshCw className="w-4 h-4 animate-spin text-[#00BAF2]" />
                 <span>{scanSteps[scanStep]}</span>
               </div>
@@ -259,10 +259,10 @@ export default function ApplicationFormView({
           ) : (
             <button
               type="submit"
-              className="w-full py-4 px-6 rounded-xl bg-[#00BAF2] hover:bg-[#FFD200] text-black font-black text-base border-[3px] border-black shadow-brutal hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-brutal-sm active:translate-x-[4px] active:translate-y-[4px] active:shadow-none transition-all flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full py-3.5 px-6 rounded-xl bg-[#002970] hover:bg-[#001f5c] text-white font-semibold text-sm shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-[0.99]"
             >
               <span>{isHighRisk ? 'Evaluate & View AI Diagnosis ➔' : 'Submit for Instant Sanction ➔'}</span>
-              <ArrowRight className="w-5 h-5 text-black" />
+              <ArrowRight className="w-4 h-4 text-white" />
             </button>
           )}
         </div>

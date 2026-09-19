@@ -23,14 +23,10 @@ export default {
         sans: ['Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
-        'brutal-sm': '2px 2px 0px #000000',
-        'brutal': '4px 4px 0px #000000',
-        'brutal-lg': '6px 6px 0px #000000',
-        'brutal-xl': '8px 8px 0px #000000',
-        'brutal-navy': '4px 4px 0px #002970',
-        'brutal-cyan': '4px 4px 0px #00BAF2',
-        'brutal-yellow': '4px 4px 0px #FFD200',
-        'brutal-green': '4px 4px 0px #10B981',
+        'xs': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+        '2xs': '0 1px 1px 0 rgba(0, 0, 0, 0.03)',
+        'subtle': '0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.03)',
+        'card': '0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02)',
       }
     },
   },
