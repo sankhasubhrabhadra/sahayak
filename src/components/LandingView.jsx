@@ -65,13 +65,13 @@ export default function LandingView({
           <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
             <button
               onClick={onStartApplication}
-              className="inline-flex items-center justify-center gap-2 bg-[#002970] hover:bg-[#001f5c] text-white font-semibold px-8 py-3.5 rounded-xl text-sm shadow-xs transition-all active:scale-[0.99] cursor-pointer"
+              className="inline-flex items-center justify-center gap-2 bg-[#002970] hover:bg-[#001f5c] text-white font-semibold px-6 py-3 rounded-lg text-sm shadow-xs transition-all active:scale-[0.99] cursor-pointer"
             >
               <span>{t.checkAppBtn}</span>
               <ArrowRight className="w-4 h-4 text-white" />
             </button>
 
-            <div className="inline-flex items-center gap-2 px-3.5 py-2.5 bg-slate-50 border border-slate-200/80 rounded-xl text-xs font-medium text-slate-600">
+            <div className="inline-flex items-center gap-2 px-3.5 py-2.5 bg-slate-50 border border-slate-200/80 rounded-lg text-xs font-medium text-slate-600">
               <Clock className="w-4 h-4 text-slate-500" />
               <span>30-second soft check • Zero bureau score impact</span>
             </div>
@@ -101,10 +101,10 @@ export default function LandingView({
           <button
             key={idx}
             onClick={srv.action}
-            className="p-5 rounded-2xl bg-white border border-slate-200/80 shadow-xs hover:border-slate-300 hover:shadow-sm transition-all text-left flex flex-col justify-between space-y-4 cursor-pointer group"
+            className="p-5 rounded-xl bg-white border border-slate-200/80 shadow-xs hover:border-slate-300 hover:shadow-sm transition-all text-left flex flex-col justify-between space-y-4 cursor-pointer group"
           >
             <div className="flex items-center justify-between">
-              <div className={`w-10 h-10 rounded-xl ${srv.color} flex items-center justify-center`}>
+              <div className={`w-10 h-10 rounded-lg ${srv.color} flex items-center justify-center`}>
                 {srv.icon}
               </div>
               <span className="text-[10px] font-semibold px-2 py-0.5 rounded-md border border-slate-200 bg-slate-50 text-slate-600">
@@ -141,12 +141,12 @@ export default function LandingView({
             return (
               <div
                 key={persona.id}
-                className="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs hover:border-slate-300 hover:shadow-sm transition-all flex flex-col justify-between space-y-4"
+                className="bg-white rounded-xl p-6 border border-slate-200/80 shadow-xs hover:border-slate-300 hover:shadow-sm transition-all flex flex-col justify-between space-y-4"
               >
                 <div className="space-y-3.5">
                   <div className="flex items-start justify-between">
                     <div className="flex items-center gap-3">
-                      <span className="text-2xl p-2 bg-slate-50 border border-slate-200 rounded-xl">
+                      <span className="text-2xl p-2 bg-slate-50 border border-slate-200 rounded-lg">
                         {persona.avatar}
                       </span>
                       <div>
@@ -165,7 +165,7 @@ export default function LandingView({
                     )}
                   </div>
 
-                  <div className="bg-slate-50 rounded-xl p-3.5 space-y-1.5 text-xs border border-slate-100">
+                  <div className="bg-slate-50 rounded-lg p-3.5 space-y-1.5 text-xs border border-slate-100">
                     <div className="flex justify-between text-slate-600">
                       <span>Income:</span>
                       <span className="font-semibold text-slate-900">₹{persona.monthlyIncome.toLocaleString('en-IN')}/mo</span>
@@ -180,14 +180,14 @@ export default function LandingView({
                     </div>
                   </div>
 
-                  <p className="text-xs text-slate-600 italic bg-amber-50/60 p-3 rounded-xl border border-amber-200/60">
+                  <p className="text-xs text-slate-600 italic bg-amber-50/60 p-3 rounded-lg border border-amber-200/60">
                     "{persona.diagnosisNotes.quickWin}"
                   </p>
                 </div>
 
                 <button
                   onClick={() => onSelectPersona(persona.id)}
-                  className={`w-full py-2.5 px-4 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-xs cursor-pointer ${
+                  className={`w-full py-2.5 px-4 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-xs cursor-pointer ${
                     isApproved
                       ? 'bg-emerald-600 hover:bg-emerald-700 text-white'
                       : 'bg-[#002970] hover:bg-[#001f5c] text-white'

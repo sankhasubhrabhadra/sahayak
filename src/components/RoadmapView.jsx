@@ -100,12 +100,12 @@ export default function RoadmapView({
         {phases.map((phase) => (
           <div
             key={phase.phaseNumber}
-            className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs hover:border-slate-300 transition-all space-y-4"
+            className="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs hover:border-slate-300 transition-all space-y-4"
           >
             {/* Top Phase Header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100">
               <div className="flex items-center gap-3">
-                <div className={`w-9 h-9 rounded-xl ${phase.color} font-bold flex items-center justify-center text-xs border`}>
+                <div className={`w-9 h-9 rounded-lg ${phase.color} font-bold flex items-center justify-center text-xs border`}>
                   M{phase.phaseNumber}
                 </div>
                 <div>
@@ -126,7 +126,7 @@ export default function RoadmapView({
             </div>
 
             {/* Target Goal Summary */}
-            <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-100 flex items-center justify-between text-xs">
+            <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-100 flex items-center justify-between text-xs">
               <span className="font-medium text-slate-700 flex items-center gap-2">
                 <Clock className="w-4 h-4 text-slate-500" />
                 {phase.target}
@@ -139,10 +139,10 @@ export default function RoadmapView({
               {phase.actions.map((action, actionIdx) => (
                 <div
                   key={actionIdx}
-                  className="bg-slate-50/60 p-4 rounded-2xl border border-slate-100 space-y-1.5"
+                  className="bg-slate-50/60 p-4 rounded-xl border border-slate-100 space-y-1.5"
                 >
                   <div className="flex items-start gap-3">
-                    <div className="p-2 rounded-xl bg-white border border-slate-200 mt-0.5 shrink-0 shadow-2xs">
+                    <div className="p-2 rounded-lg bg-white border border-slate-200 mt-0.5 shrink-0 shadow-2xs">
                       {action.icon}
                     </div>
                     <div>
@@ -162,7 +162,7 @@ export default function RoadmapView({
       </div>
 
       {/* RBI Regulatory Compliance Note */}
-      <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="space-y-1 max-w-xl">
           <div className="flex items-center gap-2 text-xs font-semibold text-slate-900">
             <Activity className="w-4 h-4 text-emerald-600" />
@@ -175,7 +175,7 @@ export default function RoadmapView({
 
         <button
           onClick={onProceedToDashboard}
-          className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-[#002970] hover:bg-[#001f5c] text-white font-semibold text-xs sm:text-sm shadow-xs transition-all flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer active:scale-[0.99]"
+          className="w-full sm:w-auto px-6 py-3 rounded-lg bg-[#002970] hover:bg-[#001f5c] text-white font-semibold text-xs sm:text-sm shadow-xs transition-all flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer active:scale-[0.99]"
         >
           <span>Open Interactive Progress Tracker</span>
           <ArrowRight className="w-4 h-4 text-white" />

@@ -127,7 +127,7 @@ export default function AIChatDrawer({
               <button
                 key={faq.id}
                 onClick={() => handleSendPrompt(faq.question, faq.answer)}
-                className="text-left p-2 rounded-xl bg-white hover:bg-slate-100 border border-slate-200 text-[11px] font-medium text-slate-700 transition-colors flex items-center justify-between group cursor-pointer"
+                className="text-left p-2 rounded-lg bg-white hover:bg-slate-100 border border-slate-200 text-[11px] font-medium text-slate-700 transition-colors flex items-center justify-between group cursor-pointer"
               >
                 <span className="truncate">{faq.question}</span>
                 <ChevronRight className="w-3 h-3 text-slate-400 group-hover:text-slate-700 shrink-0 ml-1" />
@@ -143,11 +143,11 @@ export default function AIChatDrawer({
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
             placeholder="Ask Sahayak (e.g. 'How do I cut my DTI to 40%?')..."
-            className="flex-1 px-3 py-2 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-slate-400 focus:ring-1 focus:ring-slate-400 outline-none text-xs text-slate-900"
+            className="flex-1 px-3 py-2 rounded-lg border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-slate-400 focus:ring-1 focus:ring-slate-400 outline-none text-xs text-slate-900"
           />
           <button
             type="submit"
-            className="p-2.5 rounded-xl bg-[#002970] hover:bg-[#001f5c] text-white transition-colors shadow-xs cursor-pointer active:scale-95"
+            className="p-2.5 rounded-lg bg-[#002970] hover:bg-[#001f5c] text-white transition-colors shadow-xs cursor-pointer active:scale-95"
           >
             <Send className="w-4 h-4 text-white" />
           </button>

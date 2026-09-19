@@ -201,7 +201,7 @@ export default function SuccessView({
           ) : (
             <button
               onClick={handleDisburse}
-              className="w-full py-3.5 px-5 rounded-xl bg-[#002970] hover:bg-[#001f5c] text-white font-semibold text-sm shadow-xs flex items-center justify-center gap-2 transition-all active:scale-[0.99] cursor-pointer"
+              className="w-full py-3 px-5 rounded-lg bg-[#002970] hover:bg-[#001f5c] text-white font-semibold text-sm shadow-xs flex items-center justify-center gap-2 transition-all active:scale-[0.99] cursor-pointer"
             >
               <span>{t.disburseNow} (₹{loanAmount.toLocaleString('en-IN')})</span>
               <ArrowRight className="w-4 h-4" />
@@ -214,7 +214,7 @@ export default function SuccessView({
       <div className="flex items-center justify-center text-xs">
         <button
           onClick={onResetAll}
-          className="flex items-center gap-2 text-slate-600 hover:text-slate-900 font-medium py-2 px-4 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 transition-colors shadow-xs cursor-pointer"
+          className="flex items-center gap-2 text-slate-600 hover:text-slate-900 font-medium py-2 px-4 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 transition-colors shadow-xs cursor-pointer"
         >
           <RefreshCw className="w-3.5 h-3.5" />
           <span>Reset Demo Flow & Try Other Personas</span>

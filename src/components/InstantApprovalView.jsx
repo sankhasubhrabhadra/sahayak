@@ -144,7 +144,7 @@ export default function InstantApprovalView({
           ) : (
             <button
               onClick={handleDisburse}
-              className="w-full py-4 px-5 rounded-xl bg-[#002970] hover:bg-[#001f5c] text-white font-semibold text-sm shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-[0.99]"
+              className="w-full py-3 px-5 rounded-lg bg-[#002970] hover:bg-[#001f5c] text-white font-semibold text-sm shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-[0.99]"
             >
               <span>Disburse ₹{loanAmount.toLocaleString('en-IN')} Instantly via Paytm IMPS</span>
               <ArrowRight className="w-5 h-5" />
@@ -156,7 +156,7 @@ export default function InstantApprovalView({
       <div className="flex justify-center">
         <button
           onClick={onResetAll}
-          className="text-xs font-medium text-slate-600 hover:text-slate-900 flex items-center gap-2 py-2.5 px-4 bg-white rounded-xl border border-slate-200 shadow-xs hover:bg-slate-50 transition-colors cursor-pointer"
+          className="text-xs font-medium text-slate-600 hover:text-slate-900 flex items-center gap-2 py-2 px-4 bg-white rounded-lg border border-slate-200 shadow-xs hover:bg-slate-50 transition-colors cursor-pointer"
         >
           <RefreshCw className="w-3.5 h-3.5 text-slate-400" />
           <span>Switch Persona to Test Rahul Sharma (56.6% DTI Rejection & 90-Day Coach)</span>

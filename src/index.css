@@ -28,14 +28,14 @@
 
 /* Minimalist Utility Classes */
 .minimal-card {
-  @apply bg-white border border-slate-200/80 rounded-2xl shadow-xs transition-all;
+  @apply bg-white border border-slate-200/80 rounded-xl shadow-xs transition-all;
 }
 
 .minimal-btn-primary {
-  @apply bg-[#002970] hover:bg-[#001f5c] text-white font-semibold rounded-xl shadow-xs transition-all flex items-center justify-center;
+  @apply bg-[#002970] hover:bg-[#001f5c] text-white font-semibold rounded-lg shadow-xs transition-all flex items-center justify-center;
 }
 
 .minimal-btn-secondary {
-  @apply bg-white hover:bg-slate-50 text-slate-700 font-semibold border border-slate-200 rounded-xl shadow-xs transition-all flex items-center justify-center;
+  @apply bg-white hover:bg-slate-50 text-slate-700 font-medium border border-slate-200 rounded-lg shadow-xs transition-all flex items-center justify-center;
 }
 

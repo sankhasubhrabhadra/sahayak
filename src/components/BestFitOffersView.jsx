@@ -191,7 +191,7 @@ export default function BestFitOffersView({
             {/* CTA */}
             <button
               onClick={() => handleApplyOffer(offer)}
-              className={`w-full py-3 px-4 rounded-xl text-xs font-semibold transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-[0.99] ${
+              className={`w-full py-2.5 px-4 rounded-lg text-xs font-semibold transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer active:scale-[0.99] ${
                 offer.isBestMatch
                   ? 'bg-[#002970] hover:bg-[#001f5c] text-white'
                   : 'bg-slate-100 hover:bg-slate-200 text-slate-800'
@@ -205,7 +205,7 @@ export default function BestFitOffersView({
       </div>
 
       {/* 90-Day Plan Alternative Banner */}
-      <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
         <div>
           <h4 className="text-base font-semibold text-slate-900">
             Still need your full ₹{originalRequest.toLocaleString('en-IN')} loan amount?
@@ -217,7 +217,7 @@ export default function BestFitOffersView({
 
         <button
           onClick={onProceedToRoadmap}
-          className="w-full sm:w-auto px-6 py-3 rounded-xl bg-slate-900 hover:bg-black text-white font-semibold text-xs sm:text-sm shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap active:scale-[0.99]"
+          className="w-full sm:w-auto px-6 py-2.5 rounded-lg bg-slate-900 hover:bg-black text-white font-semibold text-xs sm:text-sm shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap active:scale-[0.99]"
         >
           <span>View 90-Day Roadmap</span>
           <ArrowRight className="w-4 h-4" />
@@ -227,7 +227,7 @@ export default function BestFitOffersView({
       {/* Modal */}
       {selectedOfferModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs animate-in fade-in">
-          <div className="bg-white rounded-3xl p-6 max-w-md w-full border border-slate-200 shadow-xl space-y-4">
+          <div className="bg-white rounded-2xl p-6 max-w-md w-full border border-slate-200 shadow-xl space-y-4">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <div>
                 <h4 className="font-semibold text-base text-slate-900">{selectedOfferModal.lenderName}</h4>
@@ -235,7 +235,7 @@ export default function BestFitOffersView({
               </div>
               <button
                 onClick={() => setSelectedOfferModal(null)}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+                className="p-1.5 rounded-md text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -259,7 +259,7 @@ export default function BestFitOffersView({
                 </div>
                 <button
                   onClick={() => setSelectedOfferModal(null)}
-                  className="w-full py-3 rounded-xl bg-[#002970] hover:bg-[#001f5c] text-white font-semibold text-xs transition-colors cursor-pointer"
+                  className="w-full py-2.5 rounded-lg bg-[#002970] hover:bg-[#001f5c] text-white font-semibold text-xs transition-colors cursor-pointer"
                 >
                   Done
                 </button>

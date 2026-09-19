@@ -76,10 +76,10 @@ export default function DashboardView({
         {is100Percent && (
           <button
             onClick={onProceedToSuccess}
-            className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-6 py-3 rounded-xl shadow-xs transition-all flex items-center gap-2 text-xs sm:text-sm cursor-pointer active:scale-[0.99]"
+            className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-5 py-2.5 rounded-lg shadow-xs transition-all flex items-center gap-2 text-xs sm:text-sm cursor-pointer active:scale-[0.99]"
           >
             <Trophy className="w-5 h-5 text-white" />
-            <span>🎉 100% Ready — Claim ₹1,50,000 Loan!</span>
+            <span>100% Ready — Claim ₹1,50,000 Loan!</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         )}
@@ -88,7 +88,7 @@ export default function DashboardView({
       {/* Hero Stats Row: Fitness Dial + Streak + Level XP */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         {/* Card 1: Circular Progress Gauge */}
-        <div className="bg-white rounded-3xl p-5 border border-slate-200/80 shadow-xs flex items-center justify-between">
+        <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex items-center justify-between">
           <div className="space-y-1">
             <span className="text-xs font-medium text-slate-500 uppercase tracking-wider">
               {t.readinessScore}
@@ -97,7 +97,7 @@ export default function DashboardView({
               {progressPercent}%
             </div>
             <p className="text-xs text-slate-500">
-              {is100Percent ? '🌟 Fully Sanction Ready' : 'In Progress (On Track)'}
+              {is100Percent ? 'Fully Sanction Ready' : 'In Progress (On Track)'}
             </p>
           </div>
 
@@ -132,8 +132,8 @@ export default function DashboardView({
         </div>
 
         {/* Card 2: Streak Counter */}
-        <div className="bg-white rounded-3xl p-5 border border-slate-200/80 shadow-xs flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
+        <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex items-center gap-4">
+          <div className="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
             <Flame className="w-6 h-6" />
           </div>
           <div>
@@ -151,8 +151,8 @@ export default function DashboardView({
         </div>
 
         {/* Card 3: Financial Health XP */}
-        <div className="bg-white rounded-3xl p-5 border border-slate-200/80 shadow-xs flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+        <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs flex items-center gap-4">
+          <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
             <Coins className="w-6 h-6" />
           </div>
           <div>
@@ -170,7 +170,7 @@ export default function DashboardView({
       </div>
 
       {/* Presenter & Hackathon Demo Superpower: Fast-Forward Slider Bar */}
-      <div className="bg-slate-900 text-white rounded-3xl p-6 shadow-xs space-y-4">
+      <div className="bg-slate-900 text-white rounded-2xl p-6 shadow-xs space-y-4">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
           <div className="flex items-center gap-2">
             <Sliders className="w-4 h-4 text-amber-400" />
@@ -187,27 +187,27 @@ export default function DashboardView({
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
           <button
             onClick={() => onFastForward(20)}
-            className="py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-medium transition-colors border border-slate-700 text-slate-300 cursor-pointer"
+            className="py-2 px-3 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-medium transition-colors border border-slate-700 text-slate-300 cursor-pointer"
           >
             Day 1 (20% Start)
           </button>
           <button
             onClick={() => onFastForward(45)}
-            className="py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-medium transition-colors border border-slate-700 text-slate-300 cursor-pointer"
+            className="py-2 px-3 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-medium transition-colors border border-slate-700 text-slate-300 cursor-pointer"
           >
             Day 30 (45% Month 1)
           </button>
           <button
             onClick={() => onFastForward(75)}
-            className="py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-medium transition-colors border border-slate-700 text-slate-300 cursor-pointer"
+            className="py-2 px-3 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-medium transition-colors border border-slate-700 text-slate-300 cursor-pointer"
           >
             Day 60 (75% Month 2)
           </button>
           <button
             onClick={() => onFastForward(100)}
-            className="py-2 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold shadow-xs transition-colors cursor-pointer"
+            className="py-2 px-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold shadow-xs transition-colors cursor-pointer"
           >
-            Day 90 (100% Ready 🎉)
+            Day 90 (100% Ready)
           </button>
         </div>
 
@@ -226,7 +226,7 @@ export default function DashboardView({
       </div>
 
       {/* Habit Checklist Section with Month Tabs */}
-      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xs space-y-6">
+      <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/80 shadow-xs space-y-6">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
           <div>
             <h2 className="text-base sm:text-xl font-bold text-slate-900">
@@ -238,10 +238,10 @@ export default function DashboardView({
           </div>
 
           {/* Phase Filter Tabs */}
-          <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl text-xs font-medium">
+          <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-lg text-xs font-medium">
             <button
               onClick={() => setActiveTab('all')}
-              className={`px-3 py-1.5 rounded-lg transition-all ${
+              className={`px-3 py-1.5 rounded-md transition-all cursor-pointer ${
                 activeTab === 'all' ? 'bg-white text-slate-900 font-semibold shadow-xs' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
@@ -249,7 +249,7 @@ export default function DashboardView({
             </button>
             <button
               onClick={() => setActiveTab(1)}
-              className={`px-3 py-1.5 rounded-lg transition-all ${
+              className={`px-3 py-1.5 rounded-md transition-all cursor-pointer ${
                 activeTab === 1 ? 'bg-white text-slate-900 font-semibold shadow-xs' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
@@ -257,7 +257,7 @@ export default function DashboardView({
             </button>
             <button
               onClick={() => setActiveTab(2)}
-              className={`px-3 py-1.5 rounded-lg transition-all ${
+              className={`px-3 py-1.5 rounded-md transition-all cursor-pointer ${
                 activeTab === 2 ? 'bg-white text-slate-900 font-semibold shadow-xs' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
@@ -265,7 +265,7 @@ export default function DashboardView({
             </button>
             <button
               onClick={() => setActiveTab(3)}
-              className={`px-3 py-1.5 rounded-lg transition-all ${
+              className={`px-3 py-1.5 rounded-md transition-all cursor-pointer ${
                 activeTab === 3 ? 'bg-white text-slate-900 font-semibold shadow-xs' : 'text-slate-600 hover:text-slate-900'
               }`}
             >
@@ -293,7 +293,7 @@ export default function DashboardView({
                     <div
                       key={task.id}
                       onClick={() => onToggleTask(phase.phaseId, task.id)}
-                      className={`p-4 rounded-2xl border transition-all cursor-pointer flex items-start justify-between gap-4 ${
+                      className={`p-4 rounded-xl border transition-all cursor-pointer flex items-start justify-between gap-4 ${
                         task.completed
                           ? 'bg-slate-50/70 border-slate-200/60 opacity-80'
                           : 'bg-white border-slate-200/80 shadow-xs hover:border-slate-300'
@@ -337,10 +337,10 @@ export default function DashboardView({
 
       {/* Bottom CTA when 100% */}
       {is100Percent && (
-        <div className="bg-emerald-600 text-white rounded-3xl p-6 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="bg-emerald-600 text-white rounded-2xl p-6 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="space-y-1 text-center sm:text-left">
             <h3 className="text-lg font-bold text-white">
-              🎉 All 90-Day Milestones Successfully Achieved!
+              All 90-Day Milestones Successfully Achieved!
             </h3>
             <p className="text-xs text-emerald-100 font-normal">
               Your revised DTI is verified at 34.2% and pre-approved loan sanctions are unlocked.
@@ -349,7 +349,7 @@ export default function DashboardView({
 
           <button
             onClick={onProceedToSuccess}
-            className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-white text-emerald-800 hover:bg-emerald-50 font-semibold text-xs sm:text-sm shadow-xs transition-all whitespace-nowrap cursor-pointer active:scale-[0.99]"
+            className="w-full sm:w-auto px-6 py-3 rounded-lg bg-white text-emerald-800 hover:bg-emerald-50 font-semibold text-xs sm:text-sm shadow-xs transition-all whitespace-nowrap cursor-pointer active:scale-[0.99]"
           >
             Claim Pre-Approved Loan Offer ➔
           </button>

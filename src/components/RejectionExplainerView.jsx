@@ -150,7 +150,7 @@ export default function RejectionExplainerView({
       </div>
 
       {/* Next Step Options */}
-      <div className="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="bg-white rounded-xl p-6 border border-slate-200/80 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
         <div>
           <h4 className="text-base font-semibold text-slate-900">
             Choose Your Next Step
@@ -163,7 +163,7 @@ export default function RejectionExplainerView({
         <div className="flex items-center gap-3 w-full sm:w-auto">
           <button
             onClick={onProceedToOffers}
-            className="w-full sm:w-auto px-6 py-3 rounded-xl bg-[#002970] hover:bg-[#001f5c] text-white font-semibold text-xs sm:text-sm shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-[0.99]"
+            className="w-full sm:w-auto px-6 py-2.5 rounded-lg bg-[#002970] hover:bg-[#001f5c] text-white font-semibold text-xs sm:text-sm shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-[0.99]"
           >
             <span>View Alternative Bank Offers</span>
             <ArrowRight className="w-4 h-4" />

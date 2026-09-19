@@ -76,7 +76,7 @@ export default function ApplicationFormView({
       </div>
 
       {/* Preset Personas */}
-      <div className="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+      <div className="bg-white rounded-xl p-4 border border-slate-200/80 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
         <span className="font-semibold text-slate-700">Fast Demo Profiles:</span>
         <div className="flex flex-wrap items-center gap-2">
           {DEMO_PERSONAS.map((p) => (
@@ -84,7 +84,7 @@ export default function ApplicationFormView({
               key={p.id}
               type="button"
               onClick={() => onSelectPersona(p.id)}
-              className={`px-3 py-1.5 rounded-xl font-medium border transition-colors cursor-pointer ${
+              className={`px-3 py-1.5 rounded-lg font-medium border transition-colors cursor-pointer ${
                 activePersonaId === p.id
                   ? 'bg-slate-900 text-white border-slate-900 shadow-xs font-semibold'
                   : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
@@ -98,7 +98,7 @@ export default function ApplicationFormView({
       </div>
 
       {/* Main Form */}
-      <form onSubmit={handleSubmit} className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xs space-y-6">
+      <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/80 shadow-xs space-y-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           {/* Full Name */}
           <div className="space-y-1.5">
@@ -110,7 +110,7 @@ export default function ApplicationFormView({
               required
               value={applicant.fullName}
               onChange={(e) => handleInputChange('fullName', e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-slate-400 focus:ring-1 focus:ring-slate-400 outline-none text-sm text-slate-900 transition-all"
+              className="w-full px-3.5 py-2.5 rounded-lg border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-slate-400 focus:ring-1 focus:ring-slate-400 outline-none text-sm text-slate-900 transition-all"
               placeholder="Rahul Sharma"
             />
           </div>
@@ -123,7 +123,7 @@ export default function ApplicationFormView({
             <select
               value={applicant.employmentType}
               onChange={(e) => handleInputChange('employmentType', e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-slate-400 focus:ring-1 focus:ring-slate-400 outline-none text-sm text-slate-900 transition-all"
+              className="w-full px-3.5 py-2.5 rounded-lg border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-slate-400 focus:ring-1 focus:ring-slate-400 outline-none text-sm text-slate-900 transition-all"
             >
               <option value="Gig Worker">Gig Worker / Delivery Executive</option>
               <option value="Self-Employed Business">Self-Employed / MSME Owner</option>
@@ -148,7 +148,7 @@ export default function ApplicationFormView({
                 required
                 value={applicant.monthlyIncome}
                 onChange={(e) => handleInputChange('monthlyIncome', Number(e.target.value))}
-                className="w-full pl-8 pr-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-slate-400 focus:ring-1 focus:ring-slate-400 outline-none text-sm text-slate-900 transition-all"
+                className="w-full pl-8 pr-3 py-2.5 rounded-lg border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-slate-400 focus:ring-1 focus:ring-slate-400 outline-none text-sm text-slate-900 transition-all"
               />
             </div>
           </div>
@@ -171,7 +171,7 @@ export default function ApplicationFormView({
                 required
                 value={applicant.existingEmis}
                 onChange={(e) => handleInputChange('existingEmis', Number(e.target.value))}
-                className="w-full pl-8 pr-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-slate-400 focus:ring-1 focus:ring-slate-400 outline-none text-sm text-slate-900 transition-all"
+                className="w-full pl-8 pr-3 py-2.5 rounded-lg border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-slate-400 focus:ring-1 focus:ring-slate-400 outline-none text-sm text-slate-900 transition-all"
               />
             </div>
           </div>
@@ -192,7 +192,7 @@ export default function ApplicationFormView({
                 required
                 value={applicant.requestedLoanAmount}
                 onChange={(e) => handleInputChange('requestedLoanAmount', Number(e.target.value))}
-                className="w-full pl-8 pr-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-slate-400 focus:ring-1 focus:ring-slate-400 outline-none text-sm text-slate-900 transition-all"
+                className="w-full pl-8 pr-3 py-2.5 rounded-lg border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-slate-400 focus:ring-1 focus:ring-slate-400 outline-none text-sm text-slate-900 transition-all"
               />
             </div>
           </div>
@@ -206,7 +206,7 @@ export default function ApplicationFormView({
                   key={months}
                   type="button"
                   onClick={() => handleInputChange('tenureMonths', months)}
-                  className={`py-2 rounded-xl text-xs font-medium transition-all cursor-pointer ${
+                  className={`py-2 rounded-lg text-xs font-medium transition-all cursor-pointer ${
                     tenureMonths === months
                       ? 'bg-slate-900 text-white font-semibold shadow-xs'
                       : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200'
@@ -220,7 +220,7 @@ export default function ApplicationFormView({
         </div>
 
         {/* Minimalist DTI Metric Box */}
-        <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-2.5 text-xs">
+        <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/80 space-y-2.5 text-xs">
           <div className="flex items-center justify-between">
             <span className="font-semibold text-slate-700">Debt-to-Income (DTI) Ratio</span>
             <span className={`font-semibold px-2.5 py-0.5 rounded-md text-xs ${
@@ -250,7 +250,7 @@ export default function ApplicationFormView({
         {/* Action Button */}
         <div>
           {isScanning ? (
-            <div className="p-4 bg-slate-900 text-white rounded-2xl text-center space-y-2">
+            <div className="p-4 bg-slate-900 text-white rounded-xl text-center space-y-2">
               <div className="flex items-center justify-center gap-2 text-xs font-semibold">
                 <RefreshCw className="w-4 h-4 animate-spin text-[#00BAF2]" />
                 <span>{scanSteps[scanStep]}</span>
@@ -259,7 +259,7 @@ export default function ApplicationFormView({
           ) : (
             <button
               type="submit"
-              className="w-full py-3.5 px-6 rounded-xl bg-[#002970] hover:bg-[#001f5c] text-white font-semibold text-sm shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-[0.99]"
+              className="w-full py-3 px-6 rounded-lg bg-[#002970] hover:bg-[#001f5c] text-white font-semibold text-sm shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-[0.99]"
             >
               <span>{isHighRisk ? 'Evaluate & View AI Diagnosis ➔' : 'Submit for Instant Sanction ➔'}</span>
               <ArrowRight className="w-4 h-4 text-white" />
