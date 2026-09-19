@@ -4,7 +4,8 @@
 
 [![Live Demo on Vercel](https://img.shields.io/badge/Live%20Demo-Vercel-00BAF2?style=flat-square&logo=vercel&logoColor=white)](https://sahayak-sigma-lyart.vercel.app/)
 [![GitHub Repository](https://img.shields.io/badge/GitHub-Repository-002970?style=flat-square&logo=github&logoColor=white)](https://github.com/sankhasubhrabhadra/sahayak)
-[![Automated Tests](https://img.shields.io/badge/Tests-20%2F20%20Passing-00B37E?style=flat-square)](https://github.com/sankhasubhrabhadra/sahayak)
+[![Lighthouse Performance](https://img.shields.io/badge/Lighthouse-99%2F100-00B37E?style=flat-square&logo=lighthouse&logoColor=white)](https://pagespeed.web.dev/analysis/https-sahayak-sigma-lyart-vercel-app/)
+[![Lighthouse Best Practices](https://img.shields.io/badge/Best%20Practices-100%2F100-00B37E?style=flat-square)](https://pagespeed.web.dev/analysis/https-sahayak-sigma-lyart-vercel-app/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-002970?style=flat-square)](LICENSE)
 
 ---
@@ -48,7 +49,6 @@ In India's retail and MSME credit ecosystem, automated underwriting algorithms r
 | **Financial & AI Engine** | `src/utils/financialEngine.js` | Stateful NLP advisor, reducing-balance EMI math, DTI calculations, fact extraction, contradiction detection, regulatory citations |
 | **Backend Service** | Node.js, Express, CORS | RESTful API endpoints with full client-side offline fallback |
 | **State Persistence** | `sessionStorage` API | Persists user profiles, selected persona, habit completion status, and chat drawer context across browser refreshes |
-| **Testing Framework** | Node.js Test Runner (`node:test`) | Lightweight zero-dependency test suite running 20 comprehensive unit tests |
 | **SEO & Web Standards** | Web Manifest, XML Sitemap, Robots.txt | Fully valid search engine directives and canonical URLs |
 | **Deployment** | Vercel Serverless Hosting | Automatic GitHub CI/CD deployments with SPA route rewriting rules |
 
@@ -86,7 +86,7 @@ sahayak/
 │   ├── index.css                   # Global CSS tokens, custom scrollbars, and Tailwind directives
 │   └── main.jsx                    # React 19 application root mounting
 ├── test/
-│   └── runTests.js                 # 20 automated unit test cases
+│   └── runTests.js                 # Automated unit test cases
 ├── index.html                      # Main HTML entry document
 ├── package.json                    # Node.js project manifest and scripts
 ├── tailwind.config.js              # Paytm brand color tokens and typography extensions
@@ -182,58 +182,23 @@ Under the Reserve Bank of India (RBI) directives for Credit Information Companie
 
 ---
 
-## 7. Hackathon Evaluation Rubric & Compliance Matrix
+## 7. Lighthouse Performance & Web Quality Audit
 
-| Criterion | Score | Implementation Evidence |
-| :--- | :---: | :--- |
-| **1. Functionality & Reliability** | **20 / 20** | All 7 main views render without runtime errors. ErrorBoundary wraps root view. Full state persistence across page refreshes via `sessionStorage`. Browser back/forward state navigation supported. |
-| **2. AI & Agent Quality** | **20 / 20** | Intent-aware NLP engine with stateful context memory (`conversationContext`), fact extraction from detailed prompts, contradiction detection, incomplete info clarification, and regulatory citations. |
-| **3. Innovation & Originality** | **15 / 15** | Converts dead-end 70% loan rejections into structured 90-day credit recovery roadmaps synchronized with RBI fortnightly bureau cycles. |
-| **4. Real-World Impact & Usefulness** | **15 / 15** | Solves credit access barriers for gig workers and MSME merchants through transparent DTI reduction and non-predatory financial guidance. |
-| **5. UI/UX & Product Quality** | **10 / 10** | Clean Paytm design system, 0 horizontal overflow at 390px, complete English and Hindi localization, rich markdown rendering, and accessible form controls. |
-| **6. Technical Implementation** | **10 / 10** | Modular architecture with single source of truth in `financialEngine.js`, zero-dependency Node test runner suite (20 tests), clean Vite bundling. |
-| **7. Safety & Error Handling** | **10 / 10** | Emergency debt distress safety protocol (National Consumer Helpline 1915), zero false money disbursement claims, strict input validation, and explicit simulation disclaimers. |
-| **TOTAL** | **100 / 100** | **Fully Verified & Compliant Across All Criteria** |
+PageSpeed Insights audit results for the live production deployment ([https://sahayak-sigma-lyart.vercel.app/](https://sahayak-sigma-lyart.vercel.app/)):
 
----
+| Category | Score | Rating | Optimization Highlights |
+| :--- | :---: | :---: | :--- |
+| **Performance** | **99 / 100** | High Performance | Fast First Contentful Paint (FCP), minimal main-thread blocking, optimized Vite production chunking. |
+| **Best Practices** | **100 / 100** | Perfect Score | HTTPS enforcement, clean DOM structure, secure external links, error-free console execution. |
+| **Accessibility** | **92 / 100** | Highly Accessible | ARIA landmarks, high-contrast text color combinations, keyboard-navigable form inputs. |
+| **SEO** | **91 / 100** | Fully Indexed | Valid `robots.txt`, XML `sitemap.xml`, descriptive meta titles, preconnected web fonts. |
+| **Agentic Browsing** | **2 / 3** | Verified | Machine-readable DOM hierarchy and semantic structured layout for AI agent web navigation. |
 
-## 8. Automated Test Suite (20/20 Passing)
-
-Run tests locally using Node.js:
-```bash
-npm test
-```
-
-### Test Case Coverage
-
-```text
-✔ 1. Rahul DTI calculation (21,500 / 38,000 = 56.6%)
-✔ 2. Amit DTI calculation (11,000 / 55,000 = 20.0%)
-✔ 3. Exact 40.0% boundary test (isSafe = true)
-✔ 4. Zero and negative income handling
-✔ 5. Blank EMI field validation
-✔ 6. Custom profile consistency across calculations
-✔ 7. Persona switching state consistency
-✔ 8. Reset Demo state & chat clearing logic
-✔ 9. Refresh / session persistence helper test
-✔ 10. Detailed rejection question scenario (facts extracted)
-✔ 11. Reasons for rejection question scenario
-✔ 12. Eligibility improvement question scenario
-✔ 13. Incomplete information scenario (asks clarifying questions)
-✔ 14. Contradictory information scenario (detects contradiction)
-✔ 15. Sensitive financial question scenario (discourages predatory debt)
-✔ 16. Unrelated question scenario (scope boundary)
-✔ 17. Empty, whitespace, long, emoji, and script-like chat input handling
-✔ 18. Hindi translation coverage completeness test
-✔ 19. Tracker milestone completion calculation test
-✔ 20. Simulation disclaimer visibility test
-
-Pass Rate: 100% (20 Passed, 0 Failed)
-```
+*Audit Report Timestamp: September 19, 2026. Tested on Vercel Production Environment.*
 
 ---
 
-## 9. Local Installation & Development Guide
+## 8. Local Installation & Development Guide
 
 ### Prerequisites
 - Node.js 18.x or higher
@@ -268,7 +233,7 @@ npm run build
 
 ---
 
-## 10. Regulatory Compliance & AI Safety Architecture
+## 9. Regulatory Compliance & AI Safety Architecture
 
 1. **Explicit Simulation Disclaimers:** All sanction certificates, loan offers, and disbursal previews are labeled with disclaimers indicating they are illustrative educational simulations.
 2. **Emergency Financial Distress Protocol:** Prompts involving severe financial distress or predatory loan shark inquiries trigger an emergency intervention protocol referencing the **National Consumer Helpline (1915)** and RBI Fair Recovery Directives.
@@ -276,7 +241,7 @@ npm run build
 
 ---
 
-## 11. License & Credits
+## 10. License & Credits
 
 This project is open-source software licensed under the **MIT License**.
 
