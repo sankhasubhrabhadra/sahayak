@@ -237,26 +237,73 @@ export default function LandingView({
       {/* 4 Core Pillars Grid */}
       <div className="space-y-4 pt-4">
         <div className="text-center max-w-2xl mx-auto space-y-2">
-          <h2 className="text-2xl font-bold text-[#002970]">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-black bg-[#E8F7FD] text-[#0084B4]">
+            <Sparkles className="w-3.5 h-3.5 text-[#00BAF2]" />
+            Paytm Intelligent Journey Engine
+          </div>
+          <h2 className="text-2xl font-black text-[#002970]">
             {lang === 'en' ? 'How Sahayak Powers Financial Journeys' : 'सहायक AI कैसे काम करता है'}
           </h2>
           <p className="text-xs sm:text-sm text-slate-500">
             {lang === 'en'
-              ? 'An empathetic bridge between applicant aspiration and lender underwriting rules.'
+              ? 'An empathetic bridge between borrower aspirations and regulated lending algorithms.'
               : 'बैंक के कड़े नियमों और जरूरतमंद ग्राहकों के बीच एक सच्चा मार्गदर्शक।'}
           </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {features.map((f, i) => (
-            <div key={i} className="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-soft hover:shadow-card transition-all space-y-3">
-              <div className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center border border-slate-100">
+            <div key={i} className="bg-white rounded-2xl p-6 border border-slate-200 shadow-soft hover:shadow-card hover:border-[#00BAF2] transition-all space-y-3">
+              <div className="w-12 h-12 rounded-xl bg-[#F0F9FE] flex items-center justify-center border border-[#00BAF2]/20">
                 {f.icon}
               </div>
-              <h3 className="font-bold text-base text-[#002970]">{f.title}</h3>
-              <p className="text-xs text-slate-600 leading-relaxed">{f.desc}</p>
+              <h3 className="font-extrabold text-base text-[#002970]">{f.title}</h3>
+              <p className="text-xs text-slate-600 leading-relaxed font-medium">{f.desc}</p>
             </div>
           ))}
+        </div>
+      </div>
+
+      {/* Official Paytm Lending Partners & Trust Ribbon */}
+      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-soft space-y-4 text-center">
+        <div className="flex flex-wrap items-center justify-center gap-2 text-xs font-extrabold text-slate-400 uppercase tracking-wider">
+          <span>Official Regulated Lending Partners</span>
+          <span>•</span>
+          <span className="text-[#0084B4]">100% RBI Compliant NBFCs & Banks</span>
+        </div>
+
+        <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 pt-2 opacity-85">
+          <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-xl border border-slate-200/80 font-black text-xs text-[#002970]">
+            <span className="w-3 h-3 rounded-full bg-rose-600" />
+            Hero FinCorp
+          </div>
+          <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-xl border border-slate-200/80 font-black text-xs text-[#002970]">
+            <span className="w-3 h-3 rounded-full bg-blue-800" />
+            Tata Capital
+          </div>
+          <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-xl border border-slate-200/80 font-black text-xs text-[#002970]">
+            <span className="w-3 h-3 rounded-full bg-indigo-700" />
+            Piramal Capital
+          </div>
+          <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-xl border border-slate-200/80 font-black text-xs text-[#002970]">
+            <span className="w-3 h-3 rounded-full bg-red-700" />
+            Aditya Birla Capital
+          </div>
+          <div className="flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-xl border border-slate-200/80 font-black text-xs text-[#002970]">
+            <span className="w-3 h-3 rounded-full bg-emerald-700" />
+            Suryoday SFB
+          </div>
+        </div>
+
+        <div className="pt-2 flex flex-wrap items-center justify-center gap-4 text-[11px] text-slate-500 font-semibold border-t border-slate-100">
+          <span className="flex items-center gap-1 text-[#00B37E]">
+            <ShieldCheck className="w-3.5 h-3.5" />
+            DigiLocker e-KYC Verified
+          </span>
+          <span>•</span>
+          <span>Paytm 256-bit Bank Grade Encryption</span>
+          <span>•</span>
+          <span>Zero Physical Documentation</span>
         </div>
       </div>
     </div>

@@ -107,6 +107,29 @@ export default function ApplicationFormView({
 
       {/* Form Card */}
       <form onSubmit={handleSubmit} className="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-card space-y-8">
+        {/* Paytm e-KYC & DigiLocker Verified Strip */}
+        <div className="bg-[#F0F9FE] rounded-2xl p-4 border border-[#00BAF2]/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-[#002970] text-white font-black text-xs flex items-center justify-center shrink-0">
+              Pay<span className="text-[#00BAF2]">tm</span>
+            </div>
+            <div>
+              <div className="flex items-center gap-1.5 text-xs font-black text-[#002970]">
+                <span>DigiLocker e-KYC Verified</span>
+                <span className="px-1.5 py-0.2 bg-emerald-100 text-emerald-800 rounded font-bold text-[10px]">100% Paperless</span>
+              </div>
+              <p className="text-[11px] text-slate-500">
+                Disbursal Target: <strong>Paytm Payments Bank (•••• 4092)</strong>
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 text-[11px] font-bold text-[#0084B4] bg-white px-3 py-1.5 rounded-xl border border-blue-100 shadow-xs">
+            <Shield className="w-3.5 h-3.5 text-[#00B37E]" />
+            <span>Bank-Grade 256-bit Security</span>
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {/* Full Name */}
           <div className="space-y-1.5">

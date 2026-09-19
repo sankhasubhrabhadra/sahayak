@@ -205,24 +205,45 @@ export default function App() {
         applicant={applicant}
       />
 
-      {/* Footer */}
-      <footer className="bg-white border-t border-slate-200 py-6 px-4 text-center text-xs text-slate-500 space-y-2">
-        <div className="flex flex-wrap items-center justify-center gap-4 text-slate-600 font-semibold">
-          <span className="flex items-center gap-1">
-            <span className="w-2 h-2 rounded-full bg-[#00BAF2]" />
-            Paytm Build for India AI Hackathon
-          </span>
-          <span>•</span>
-          <span>Track: AI-Powered Financial Journeys</span>
-          <span>•</span>
-          <span className="flex items-center gap-1 text-[#00B37E]">
-            <ShieldCheck className="w-3.5 h-3.5" />
-            100% Mock Simulated Logic
-          </span>
+      {/* Official Paytm Super App Footer */}
+      <footer className="bg-white border-t border-slate-200 py-8 px-4 sm:px-6 lg:px-8 space-y-4">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center">
+              <span className="font-black text-[#002970] text-lg tracking-tighter">Pay</span>
+              <span className="font-black text-[#00BAF2] text-lg tracking-tighter">tm</span>
+            </div>
+            <span className="text-slate-300">|</span>
+            <span className="font-bold text-[#002970]">Sahayak AI Credit & Lending Ecosystem</span>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-4 text-[11px] font-semibold text-slate-600">
+            <span className="flex items-center gap-1">
+              <span className="w-2 h-2 rounded-full bg-[#00BAF2]" />
+              Build for India AI Hackathon
+            </span>
+            <span>•</span>
+            <span className="flex items-center gap-1 text-emerald-700">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+              RBI Fortnightly Synchronized
+            </span>
+            <span>•</span>
+            <span className="text-slate-400">256-Bit SSL Encrypted</span>
+          </div>
         </div>
-        <p className="text-[11px] text-slate-400">
-          "Sahayak" — Transforming Loan Rejections into Guaranteed 90-Day Approval Pathways. Built for Indian Borrowers.
-        </p>
+
+        <div className="max-w-6xl mx-auto border-t border-slate-100 pt-3 text-center md:text-left text-[11px] text-slate-400 flex flex-col md:flex-row items-center justify-between gap-2">
+          <p>
+            © 2026 One97 Communications Limited. Paytm Sahayak is an educational & credit transformation coach built on RBI Digital Lending Guidelines.
+          </p>
+          <div className="flex items-center gap-3 text-[11px] text-slate-500 font-medium">
+            <span>Security & Privacy</span>
+            <span>•</span>
+            <span>Grievance Officer</span>
+            <span>•</span>
+            <span>NBFC Partner Disclosures</span>
+          </div>
+        </div>
       </footer>
     </div>
   );

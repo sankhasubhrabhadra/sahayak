@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Sparkles, Flame, CheckCircle, Circle, Trophy, ArrowRight, Zap, RefreshCw, Award, Sliders, ShieldCheck, TrendingUp, Calendar } from 'lucide-react';
+import { Sparkles, Flame, CheckCircle, Circle, Trophy, ArrowRight, Zap, RefreshCw, Award, Sliders, ShieldCheck, TrendingUp, Calendar, Volume2, Coins } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { TRANSLATIONS } from '../data/mockData';
 
@@ -59,14 +59,15 @@ export default function DashboardView({
 
   return (
     <div className="max-w-6xl mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-8 animate-in fade-in duration-300">
-      {/* Top Banner: Financial Fitness Dashboard */}
+      {/* Top Banner: Paytm Financial Fitness Dashboard */}
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-xs font-extrabold uppercase tracking-wider text-[#0084B4] bg-blue-50 px-2.5 py-1 rounded-md">
-              Sahayak Habit Engine
+            <span className="text-xs font-black uppercase tracking-wider text-[#002970] bg-[#E8F7FD] px-2.5 py-1 rounded-md border border-[#00BAF2]/30 flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-[#00BAF2] animate-pulse" />
+              Paytm Credit Builder Engine
             </span>
-            <span className="text-xs text-slate-400 font-semibold">• Real-Time Tracking</span>
+            <span className="text-xs text-slate-400 font-semibold">• Real-Time UPI & Bureau Sync</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-[#002970] mt-1">
             {applicant.fullName || 'Rahul'}'s {t.trackerTitle}
@@ -77,10 +78,10 @@ export default function DashboardView({
         {is100Percent && (
           <button
             onClick={onProceedToSuccess}
-            className="animate-bounce bg-gradient-to-r from-emerald-500 to-teal-600 hover:opacity-95 text-white font-extrabold px-6 py-3 rounded-2xl shadow-lg shadow-emerald-500/30 flex items-center gap-2 text-sm transition-all hover:scale-105"
+            className="animate-bounce bg-gradient-to-r from-[#00BAF2] to-[#00B37E] hover:opacity-95 text-[#002970] font-black px-6 py-3 rounded-2xl shadow-lg shadow-[#00BAF2]/30 flex items-center gap-2 text-sm transition-all hover:scale-105"
           >
-            <Trophy className="w-5 h-5 text-amber-300" />
-            <span>🎉 100% Ready — Claim Pre-Approved Loan!</span>
+            <Trophy className="w-5 h-5 text-[#002970]" />
+            <span>🎉 100% Score — Claim ₹1,50,000 Pre-Approved Loan!</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         )}
@@ -139,7 +140,7 @@ export default function DashboardView({
           </div>
           <div>
             <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
-              Discipline Streak
+              Repayment Streak
             </span>
             <div className="text-2xl font-black text-[#002970] flex items-center gap-1.5">
               <span>{streakDays} Days</span>
@@ -153,25 +154,25 @@ export default function DashboardView({
 
         {/* Card 3: Financial Health XP */}
         <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-card flex items-center gap-4">
-          <div className="w-16 h-16 rounded-2xl bg-[#00BAF2]/10 border border-[#00BAF2]/20 flex items-center justify-center text-[#0084B4]">
-            <Trophy className="w-8 h-8" />
+          <div className="w-16 h-16 rounded-2xl bg-[#E8F7FD] border border-[#00BAF2]/30 flex items-center justify-center text-[#00BAF2]">
+            <Coins className="w-8 h-8 text-[#002970]" />
           </div>
           <div>
             <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">
-              Financial Level
+              Paytm Reward Points
             </span>
             <div className="text-2xl font-black text-[#002970]">
               Level {progressPercent > 60 ? '3' : progressPercent > 30 ? '2' : '1'}
             </div>
-            <p className="text-xs font-semibold text-[#0084B4]">
-              {earnedXp} / {totalXp} XP points earned
+            <p className="text-xs font-bold text-[#0084B4]">
+              {earnedXp} / {totalXp} Paytm Cashback Points
             </p>
           </div>
         </div>
       </div>
 
       {/* Presenter & Hackathon Demo Superpower: Fast-Forward Slider Bar */}
-      <div className="bg-gradient-to-r from-[#002970] to-[#001944] text-white rounded-3xl p-6 shadow-card border border-blue-900/40 space-y-4">
+      <div className="bg-gradient-to-r from-[#002970] via-[#001f5c] to-[#001438] text-white rounded-3xl p-6 shadow-card border border-blue-900/40 space-y-4">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
           <div className="flex items-center gap-2">
             <Sliders className="w-5 h-5 text-[#00BAF2]" />
@@ -180,7 +181,7 @@ export default function DashboardView({
             </span>
           </div>
           <span className="text-xs text-blue-200">
-            Click presets or drag slider to demonstrate 90-day progress to hackathon judges:
+            Simulate 90-day progress instantly for hackathon demo:
           </span>
         </div>
 
@@ -206,7 +207,7 @@ export default function DashboardView({
           </button>
           <button
             onClick={() => onFastForward(100)}
-            className="py-2 px-3 rounded-xl bg-[#00BAF2] hover:bg-[#00a6d9] text-[#002970] text-xs font-extrabold shadow-md transition-colors"
+            className="py-2 px-3 rounded-xl bg-gradient-to-r from-[#00BAF2] to-[#0084B4] hover:opacity-95 text-[#002970] text-xs font-black shadow-md transition-colors"
           >
             Day 90 (100% Ready 🎉)
           </button>
@@ -231,7 +232,7 @@ export default function DashboardView({
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div>
             <h2 className="text-lg sm:text-xl font-bold text-[#002970]">
-              Actionable Milestone Habits Checklist
+              Paytm Verified Milestone Habits Checklist
             </h2>
             <p className="text-xs text-slate-500">
               Check off financial tasks as you complete them to increase your loan readiness score.
@@ -239,7 +240,7 @@ export default function DashboardView({
           </div>
 
           {/* Phase Filter Tabs */}
-          <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl text-xs font-bold text-slate-600">
+          <div className="flex items-center gap-1 bg-[#F7F9FC] p-1 rounded-xl text-xs font-bold text-slate-600 border border-slate-200">
             <button
               onClick={() => setActiveTab('all')}
               className={`px-3 py-1.5 rounded-lg transition-all ${
@@ -297,7 +298,7 @@ export default function DashboardView({
                       className={`p-4 rounded-2xl border transition-all cursor-pointer flex items-start justify-between gap-4 ${
                         task.completed
                           ? 'bg-emerald-50/50 border-emerald-200'
-                          : 'bg-slate-50/70 border-slate-200 hover:border-[#00BAF2]'
+                          : 'bg-[#F7F9FC] border-slate-200 hover:border-[#00BAF2]'
                       }`}
                     >
                       <div className="flex items-start gap-3">
@@ -321,8 +322,8 @@ export default function DashboardView({
                       </div>
 
                       <div className="flex flex-col items-end gap-1 shrink-0">
-                        <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-[#00BAF2]/10 text-[#0084B4]">
-                          +{task.xp} XP
+                        <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-[#E8F7FD] text-[#002970] border border-[#00BAF2]/30">
+                          +{task.xp} Points
                         </span>
                         <span className="text-[10px] text-slate-400 font-medium">
                           {task.dueDate}
@@ -338,19 +339,19 @@ export default function DashboardView({
 
       {/* Bottom CTA when 100% */}
       {is100Percent && (
-        <div className="bg-gradient-to-r from-emerald-600 to-teal-700 text-white rounded-3xl p-8 shadow-card flex flex-col sm:flex-row items-center justify-between gap-6 animate-in zoom-in-95">
+        <div className="bg-gradient-to-r from-[#002970] via-[#001f5c] to-[#00B37E] text-white rounded-3xl p-8 shadow-card flex flex-col sm:flex-row items-center justify-between gap-6 animate-in zoom-in-95">
           <div className="space-y-1 text-center sm:text-left">
             <h3 className="text-xl font-black">
               🎉 All 90-Day Milestones Successfully Achieved!
             </h3>
-            <p className="text-xs text-emerald-100">
+            <p className="text-xs text-blue-100">
               Your revised DTI is verified at 34.2% and Paytm Underwriting has unlocked your pre-approved loan offer.
             </p>
           </div>
 
           <button
             onClick={onProceedToSuccess}
-            className="w-full sm:w-auto px-8 py-4 rounded-xl bg-white text-emerald-800 font-extrabold text-sm shadow-lg hover:bg-emerald-50 transition-all hover:scale-105 active:scale-95 whitespace-nowrap"
+            className="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-[#00BAF2] to-[#0084B4] hover:opacity-95 text-[#002970] font-black text-sm shadow-lg shadow-[#00BAF2]/30 transition-all hover:scale-105 active:scale-95 whitespace-nowrap"
           >
             Claim & Disburse Pre-Approved Loan ➔
           </button>

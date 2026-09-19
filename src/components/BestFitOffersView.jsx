@@ -14,7 +14,9 @@ import {
   Calendar,
   Zap,
   HelpCircle,
-  X
+  X,
+  Smartphone,
+  Shield
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { TRANSLATIONS } from '../data/mockData';
@@ -57,9 +59,9 @@ export default function BestFitOffersView({
   const offers = [
     {
       id: 'offer-1',
-      lenderName: 'Paytm Lending Partner (Hero Fincorp)',
-      lenderType: 'Pre-Approved NBFC Partner',
-      logoBadge: 'Hero',
+      lenderName: 'Hero FinCorp (Paytm Partner NBFC)',
+      lenderType: 'Pre-Approved Instant Disbursal',
+      logoBadge: 'HF',
       logoBg: 'bg-rose-50 text-rose-700 border-rose-200',
       eligibleAmount: offer1Amount,
       interestRate: offer1Rate,
@@ -67,23 +69,23 @@ export default function BestFitOffersView({
       monthlyEmi: offer1Emi,
       isBestMatch: true,
       approvalProbability: '96% Match Score',
-      approvalTag: lang === 'en' ? 'Likely to be Approved' : 'पक्की अप्रूवल संभावना',
+      approvalTag: lang === 'en' ? 'Instant Sanction Ready' : 'पक्की अप्रूवल संभावना',
       tagColor: 'bg-emerald-50 text-emerald-700 border-emerald-200',
       whyFits: lang === 'en'
-        ? `Based on your monthly income of ₹${monthlyIncome.toLocaleString('en-IN')}, this ₹${offer1Amount.toLocaleString('en-IN')} amount keeps your new EMI to ₹${offer1Emi.toLocaleString('en-IN')}/mo, keeping your overall EMI ratio under 36%.`
+        ? `Based on your monthly income of ₹${monthlyIncome.toLocaleString('en-IN')}, this ₹${offer1Amount.toLocaleString('en-IN')} amount keeps your new EMI to ₹${offer1Emi.toLocaleString('en-IN')}/mo, maintaining your overall DTI under a safe 36%.`
         : `आपकी ₹${monthlyIncome.toLocaleString('en-IN')} आमदनी के अनुसार, यह ₹${offer1Amount.toLocaleString('en-IN')} लोन आपकी ईएमआई को सुरक्षित 36% सीमा के अंदर रखता है।`,
       features: [
         'Instant Disbursal via Paytm UPI in 2 mins',
-        '0 Physical Documentation (e-KYC verified)',
+        '100% Paperless via DigiLocker KYC',
         'Zero prepayment penalty after 6 months'
       ]
     },
     {
       id: 'offer-2',
       lenderName: 'Tata Capital / Axis Co-Lend',
-      lenderType: 'Digital Bank Partner',
-      logoBadge: 'Tata',
-      logoBg: 'bg-blue-50 text-[#002970] border-blue-200',
+      lenderType: 'Paytm Cashflow-Backed Partner',
+      logoBadge: 'TC',
+      logoBg: 'bg-[#E8F7FD] text-[#002970] border-blue-200',
       eligibleAmount: offer2Amount,
       interestRate: offer2Rate,
       tenureMonths: offer2Tenure,
@@ -93,19 +95,19 @@ export default function BestFitOffersView({
       approvalTag: lang === 'en' ? 'High Cashflow Fit' : 'कैशफ्लो आधारित ऑफर',
       tagColor: 'bg-sky-50 text-[#0084B4] border-sky-200',
       whyFits: lang === 'en'
-        ? `Evaluates your daily Paytm QR & UPI transaction frequency as alternate income proof instead of salary slips.`
+        ? `Evaluates your daily Paytm QR & UPI transaction velocity as alternate proof of regular cashflow.`
         : `यह बैंक आपकी दैनिक UPI ट्रांजैक्शन की स्थिरता को देखकर बिना सैलरी स्लिप के लोन देता है।`,
       features: [
         'Flexible 12 to 24-month tenure',
-        'Account Aggregator soft pull verified',
-        'Direct credit to any bank account'
+        'Paytm Account Aggregator soft pull verified',
+        'Direct credit to Paytm Payments Bank'
       ]
     },
     {
       id: 'offer-3',
-      lenderName: 'Sahayak Smart Refinance (Piramal Finance)',
-      lenderType: 'Debt Consolidation Special',
-      logoBadge: 'Piramal',
+      lenderName: 'Piramal Finance (Refinance Smart Loan)',
+      lenderType: 'BNPL Debt Consolidation Special',
+      logoBadge: 'PF',
       logoBg: 'bg-indigo-50 text-indigo-700 border-indigo-200',
       eligibleAmount: offer3Amount,
       interestRate: offer3Rate,
@@ -113,15 +115,15 @@ export default function BestFitOffersView({
       monthlyEmi: offer3Emi,
       isBestMatch: false,
       approvalProbability: '91% Match Score',
-      approvalTag: lang === 'en' ? 'EMI Reducer Loan' : 'ईएमआई घटाने वाला ऑफर',
+      approvalTag: lang === 'en' ? 'EMI Reducer Special' : 'ईएमआई घटाने वाला ऑफर',
       tagColor: 'bg-purple-50 text-purple-700 border-purple-200',
       whyFits: lang === 'en'
-        ? `Consolidates your 2 scattered high-interest BNPLs into one structured loan, saving ₹2,400/month in total outflows.`
+        ? `Consolidates your 2 scattered high-interest BNPLs into one structured loan, saving ₹2,400/month in total monthly outflows.`
         : `यह आपके 2 महंगे BNPL लोन को एक में जोड़कर हर महीने ₹2,400 की बचत कराता है।`,
       features: [
-        'Directly pays off active BNPL accounts',
+        'Directly settles active BNPL accounts',
         'Lowers monthly debt commitments immediately',
-        'Provides bureau score boost in 30 days'
+        'Fast bureau update on next 15-day cycle'
       ]
     }
   ];
@@ -146,23 +148,23 @@ export default function BestFitOffersView({
 
   return (
     <div className="max-w-5xl mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-8 animate-in fade-in duration-300">
-      {/* Minimalist Header */}
+      {/* Header */}
       <div className="space-y-3 text-center sm:text-left">
         <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#00BAF2]/15 text-[#0084B4]">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#E8F7FD] text-[#002970] border border-[#00BAF2]/30">
             <Sparkles className="w-3.5 h-3.5 text-[#00BAF2]" />
-            AI Matched Alternatives
+            Paytm Lending Marketplace
           </span>
-          <span className="text-xs text-slate-400 font-semibold">• 3 Lender Offers Available</span>
+          <span className="text-xs text-slate-400 font-semibold">• 3 Verified Partner Offers</span>
         </div>
 
         <h1 className="text-2xl sm:text-3xl font-extrabold text-[#002970] tracking-tight">
-          {lang === 'en' ? 'Best-Fit Bank & Lender Offers' : 'आपके लिए सबसे उपयुक्त बैंक ऑफर्स'}
+          {lang === 'en' ? 'Best-Fit Pre-Approved Loan Offers' : 'आपके लिए सबसे उपयुक्त बैंक ऑफर्स'}
         </h1>
 
         <p className="text-xs sm:text-sm text-slate-600 max-w-2xl leading-relaxed">
           {lang === 'en'
-            ? `While your original ₹${originalRequest.toLocaleString('en-IN')} request exceeded the standard 40% EMI ratio today, our underwriting engine found 3 verified alternative offers tailored to your current cashflow with high approval rates.`
+            ? `While your original ₹${originalRequest.toLocaleString('en-IN')} request exceeded the standard 40% EMI ratio today, Paytm underwriting matched 3 verified alternative offers tailored to your current cashflow with high approval probability.`
             : `यद्यपि आपकी पूरी ₹${originalRequest.toLocaleString('en-IN')} की मांग अभी ईएमआई सीमा से अधिक थी, सहायक AI ने आपकी वर्तमान आमदनी के अनुसार 3 बेहतरीन विकल्प तैयार किए हैं।`}
         </p>
       </div>
@@ -170,15 +172,15 @@ export default function BestFitOffersView({
       {/* Comparison Overview Banner */}
       <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200/90 shadow-soft flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center text-[#00BAF2] shrink-0">
-            <Info className="w-5 h-5" />
+          <div className="w-9 h-9 rounded-xl bg-[#E8F7FD] flex items-center justify-center text-[#00BAF2] shrink-0 border border-[#00BAF2]/20">
+            <Info className="w-5 h-5 text-[#002970]" />
           </div>
           <div>
             <span className="font-bold text-[#002970] block">
-              Why are these amounts lower than your original ask?
+              Why are these amounts tailored specifically for you?
             </span>
             <span className="text-slate-500">
-              Lenders safely approve these smaller loan tickets without triggering debt-stress flags.
+              Paytm NBFC partners safely sanction these amounts instantly without triggering DTI stress flags.
             </span>
           </div>
         </div>
@@ -191,7 +193,7 @@ export default function BestFitOffersView({
           <ArrowRight className="w-4 h-4 text-slate-300" />
           <div className="text-left">
             <span className="text-[11px] text-[#0084B4] font-bold block">Best-Fit Range</span>
-            <span className="font-extrabold text-emerald-700">₹{offer1Amount.toLocaleString('en-IN')} – ₹{offer3Amount.toLocaleString('en-IN')}</span>
+            <span className="font-black text-emerald-700">₹{offer1Amount.toLocaleString('en-IN')} – ₹{offer3Amount.toLocaleString('en-IN')}</span>
           </div>
         </div>
       </div>
@@ -210,9 +212,9 @@ export default function BestFitOffersView({
             {/* Best Match Top Ribbon */}
             {offer.isBestMatch && (
               <div className="absolute -top-3 left-6 right-6 flex justify-center">
-                <span className="bg-[#002970] text-white text-[10px] font-extrabold px-3 py-0.5 rounded-full shadow-sm flex items-center gap-1 uppercase tracking-wider">
+                <span className="bg-[#002970] text-white text-[10px] font-black px-3 py-0.5 rounded-full shadow-sm flex items-center gap-1 uppercase tracking-wider border border-[#00BAF2]/40">
                   <Sparkles className="w-3 h-3 text-[#00BAF2]" />
-                  Recommended Match
+                  Paytm Top Pick
                 </span>
               </div>
             )}
@@ -222,8 +224,8 @@ export default function BestFitOffersView({
               <div className="flex items-start justify-between gap-2">
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className={`w-7 h-7 rounded-lg text-xs font-black flex items-center justify-center border ${offer.logoBg}`}>
-                      {offer.logoBadge[0]}
+                    <span className={`w-8 h-8 rounded-xl text-xs font-black flex items-center justify-center border ${offer.logoBg}`}>
+                      {offer.logoBadge}
                     </span>
                     <div>
                       <h3 className="font-bold text-sm text-[#002970] leading-snug">
@@ -259,10 +261,10 @@ export default function BestFitOffersView({
                 <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-200/60 text-xs">
                   <div>
                     <span className="text-[10px] text-slate-400 font-semibold block">Interest Rate</span>
-                    <span className="font-extrabold text-[#0084B4]">{offer.interestRate}</span>
+                    <span className="font-extrabold text-[#0084B4]">{offer.interestRate}% p.a.</span>
                   </div>
                   <div>
-                    <span className="text-[10px] text-slate-400 font-semibold block">Estimated EMI</span>
+                    <span className="text-[10px] text-slate-400 font-semibold block">Monthly EMI</span>
                     <span className="font-extrabold text-[#002970]">₹{offer.monthlyEmi.toLocaleString('en-IN')}/mo</span>
                   </div>
                 </div>
@@ -274,7 +276,7 @@ export default function BestFitOffersView({
               </div>
 
               {/* "Why this fits you" Explanation */}
-              <div className="p-3 rounded-xl bg-blue-50/40 border border-blue-100/60 text-xs text-slate-700 leading-relaxed">
+              <div className="p-3 rounded-xl bg-[#E8F7FD]/60 border border-[#00BAF2]/20 text-xs text-slate-700 leading-relaxed">
                 <span className="font-bold text-[#002970] block mb-0.5 flex items-center gap-1">
                   <Sparkles className="w-3 h-3 text-[#00BAF2]" />
                   Why this fits you:
@@ -299,9 +301,9 @@ export default function BestFitOffersView({
             <div className="pt-5">
               <button
                 onClick={() => handleApplyOffer(offer)}
-                className={`w-full py-3 px-4 rounded-xl text-xs font-extrabold flex items-center justify-center gap-1.5 transition-all ${
+                className={`w-full py-3 px-4 rounded-xl text-xs font-black flex items-center justify-center gap-1.5 transition-all ${
                   offer.isBestMatch
-                    ? 'bg-[#00BAF2] hover:bg-[#00a6d9] text-[#002970] shadow-md shadow-[#00BAF2]/20 hover:scale-[1.02] active:scale-[0.98]'
+                    ? 'bg-gradient-to-r from-[#00BAF2] to-[#0084B4] hover:opacity-95 text-[#002970] shadow-md shadow-[#00BAF2]/20 hover:scale-[1.02] active:scale-[0.98]'
                     : 'bg-[#002970] hover:bg-[#001944] text-white hover:scale-[1.01]'
                 }`}
               >
@@ -313,18 +315,18 @@ export default function BestFitOffersView({
         ))}
       </div>
 
-      {/* Dual Path Decision Section: Alternative Offer NOW vs 90-Day Roadmap for Full Goal */}
+      {/* Dual Path Decision Section */}
       <div className="bg-gradient-to-br from-white to-slate-50 rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-card flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="space-y-2 text-center md:text-left max-w-xl">
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[11px] font-extrabold bg-[#002970] text-white">
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[11px] font-black bg-[#002970] text-white">
             <Calendar className="w-3 h-3 text-[#00BAF2]" />
-            Your Dual-Pathway Choice
+            Paytm 90-Day Credit Builder
           </div>
           <h3 className="text-base sm:text-lg font-bold text-[#002970]">
             Still need your full ₹{originalRequest.toLocaleString('en-IN')} requested amount?
           </h3>
           <p className="text-xs text-slate-500 leading-relaxed">
-            If these lower amounts don't meet your current needs, follow our structured <strong>90-Day Sahayak Recovery Plan</strong> to eliminate high-cost debt and qualify for your full amount with 100% certainty.
+            If these lower amounts don't meet your current needs, follow our structured <strong>90-Day Sahayak Recovery Plan</strong> to eliminate high-cost debt and qualify for your full amount with maximum approval certainty.
           </p>
         </div>
 
@@ -333,7 +335,7 @@ export default function BestFitOffersView({
             onClick={onProceedToRoadmap}
             className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#002970] to-[#001944] hover:opacity-95 text-white font-extrabold text-xs sm:text-sm shadow-md flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98] transition-all whitespace-nowrap"
           >
-            <span>View My 90-Day Plan Instead</span>
+            <span>View 90-Day Roadmap Instead</span>
             <ArrowRight className="w-4 h-4 text-[#00BAF2]" />
           </button>
         </div>
@@ -345,9 +347,11 @@ export default function BestFitOffersView({
           <div className="bg-white rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl border border-slate-200 space-y-5 animate-in zoom-in-95">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <div className="flex items-center gap-2">
-                <span className="w-8 h-8 rounded-xl bg-blue-50 text-[#00BAF2] font-black flex items-center justify-center text-sm">
-                  ✓
-                </span>
+                <div className="flex items-center">
+                  <span className="font-black text-[#002970] text-base">Pay</span>
+                  <span className="font-black text-[#00BAF2] text-base">tm</span>
+                </div>
+                <span className="text-slate-300">|</span>
                 <div>
                   <h4 className="font-bold text-[#002970] text-sm sm:text-base">
                     {selectedOfferModal.lenderName}
@@ -367,7 +371,7 @@ export default function BestFitOffersView({
               <div className="py-8 text-center space-y-3">
                 <div className="w-10 h-10 border-3 border-[#00BAF2] border-t-transparent rounded-full animate-spin mx-auto" />
                 <h5 className="font-bold text-[#002970] text-sm">Transmitting Pre-Qualified Application...</h5>
-                <p className="text-xs text-slate-400">Locking in {selectedOfferModal.interestRate} rate via Paytm Account Aggregator rails</p>
+                <p className="text-xs text-slate-400">Locking in {selectedOfferModal.interestRate}% rate via Paytm Account Aggregator rails</p>
               </div>
             ) : appliedSuccess ? (
               <div className="py-4 text-center space-y-4">
@@ -375,14 +379,14 @@ export default function BestFitOffersView({
                   <CheckCircle2 className="w-8 h-8" />
                 </div>
                 <div className="space-y-1">
-                  <h5 className="font-extrabold text-emerald-900 text-lg">
+                  <h5 className="font-black text-emerald-900 text-lg">
                     Offer Sanctioned Successfully!
                   </h5>
                   <p className="text-xs text-slate-500 max-w-sm mx-auto">
                     Your <strong>₹{selectedOfferModal.eligibleAmount.toLocaleString('en-IN')}</strong> loan with {selectedOfferModal.lenderName} has been approved. EMI: <strong>₹{selectedOfferModal.monthlyEmi.toLocaleString('en-IN')}/mo</strong> for {selectedOfferModal.tenureMonths} months.
                   </p>
                 </div>
-                <div className="bg-slate-50 p-3 rounded-xl text-xs text-slate-600 font-mono">
+                <div className="bg-slate-50 p-3 rounded-xl text-xs text-[#002970] font-mono border border-slate-100">
                   Ref: PTM-MATCH-{Math.floor(100000 + Math.random() * 900000)}
                 </div>
                 <div className="pt-2 flex flex-col sm:flex-row gap-2">
@@ -390,14 +394,14 @@ export default function BestFitOffersView({
                     onClick={() => setSelectedOfferModal(null)}
                     className="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs"
                   >
-                    Done & Return to Dashboard
+                    Done & Return
                   </button>
                   <button
                     onClick={() => {
                       setSelectedOfferModal(null);
                       onProceedToRoadmap();
                     }}
-                    className="w-full py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-[#002970] font-bold text-xs"
+                    className="w-full py-2.5 rounded-xl bg-[#E8F7FD] hover:bg-[#d0f0fc] text-[#002970] font-bold text-xs border border-[#00BAF2]/30"
                   >
                     Explore 90-Day Plan Too
                   </button>
