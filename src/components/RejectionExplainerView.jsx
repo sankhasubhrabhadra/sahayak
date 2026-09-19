@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ArrowRight, Sliders, AlertCircle, Info } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ArrowRight, Sliders, CheckCircle2, Info } from 'lucide-react';
 import { TRANSLATIONS } from '../data/mockData';
 import { calculateDti, calculateMaxSafeEmi, calculateReliefNeeded, calculateNewDtiAfterRelief } from '../utils/financialEngine';
 import DemoBanner from './DemoBanner';
@@ -19,12 +19,17 @@ export default function RejectionExplainerView({
   const maxSafeEmi = calculateMaxSafeEmi(monthlyIncome, 40);
   const excessEmi = calculateReliefNeeded(existingEmis, monthlyIncome);
 
-  // Dynamic Debt Relief Simulator State initialized to applicant's excess EMI
-  const [simulatedReduction, setSimulatedReduction] = useState(excessEmi > 0 ? excessEmi : 5000);
+  // Dynamic Debt Relief Simulator State initialized to applicant's EXACT excess EMI
+  const [simulatedReduction, setSimulatedReduction] = useState(excessEmi);
+
+  // Sync state when applicant changes
+  useEffect(() => {
+    setSimulatedReduction(excessEmi);
+  }, [excessEmi]);
 
   const simulatedEmi = Math.max(0, existingEmis - simulatedReduction);
   const simulatedDti = calculateNewDtiAfterRelief(existingEmis, simulatedReduction, monthlyIncome);
-  const isSimulatedSafe = simulatedDti <= 40;
+  const isSimulatedSafe = simulatedDti <= 40.0;
 
   const isRahul = applicant.personaId === 'rahul' || applicant.fullName?.toLowerCase().includes('rahul');
 
@@ -39,29 +44,39 @@ export default function RejectionExplainerView({
           <span className="font-medium text-slate-500 bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200">
             Ref: PTM-DEMO-{Math.floor(100000 + Math.random() * 900000)}
           </span>
-          <span className="bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-md border border-emerald-200 font-medium">
-            Soft Bureau Inquiry (0 Score Impact)
+          <span className={`px-2.5 py-1 rounded-md font-medium border ${
+            isSafe ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-amber-50 text-amber-700 border-amber-200'
+          }`}>
+            {isSafe ? 'Soft Check: Eligible (DTI <=40%)' : 'Soft Check: Action Required (DTI >40%)'}
           </span>
         </div>
 
         <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
-          {applicant.fullName || 'Applicant'}, {lang === 'en' ? "here is your loan underwriting diagnosis." : 'यहाँ आपका लोन डायग्नोसिस है।'}
+          {isSafe
+            ? `${applicant.fullName || 'Applicant'}, ${lang === 'en' ? 'your financial profile is within safe borrowing limits.' : 'आपकी वित्तीय स्थिति सुरक्षित सीमा में है।'}`
+            : `${applicant.fullName || 'Applicant'}, ${lang === 'en' ? 'here is your loan underwriting diagnosis.' : 'यहाँ आपका लोन डायग्नोसिस है।'}`}
         </h1>
 
         <p className="text-xs sm:text-sm text-slate-600 font-normal leading-relaxed max-w-2xl">
-          {lang === 'en'
-            ? "Your application was paused today because automated banking algorithms found your active monthly EMI commitments higher than their standard 40% threshold. Sahayak has identified immediate alternative bank offers and structured a 90-day plan to achieve full approval."
-            : "आज आपका लोन होल्ड हुआ है क्योंकि आपकी मौजूदा ईएमआई आमदनी के 40% से अधिक है। सहायक AI ने आपके लिए उपयुक्त विकल्प और 90 दिनों का प्लान तैयार किया है।"}
+          {isSafe
+            ? (lang === 'en'
+                ? `Your Debt-to-Income (DTI) ratio is ${currentDti}%, which is at or below the recommended 40% benchmark. You have strong debt service capacity for your requested loan amount.`
+                : `आपका ईएमआई बनाम आमदनी (DTI) अनुपात ${currentDti}% है, जो 40% की सुरक्षित सीमा के अंदर है।`)
+            : (lang === 'en'
+                ? `Your application was paused today because automated banking algorithms found your active monthly EMI commitments (${currentDti}%) higher than their standard 40% threshold. Sahayak has structured immediate alternative offers and a 90-day recovery plan.`
+                : `आज आपका लोन होल्ड हुआ है क्योंकि आपकी मौजूदा ईएमआई आमदनी के 40% से अधिक है।`)}
         </p>
       </div>
 
       {/* 3 Core Metric Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
         <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs space-y-2">
-          <span className="text-xs font-semibold text-rose-600 bg-rose-50 px-2.5 py-0.5 rounded-md border border-rose-200 inline-block">
+          <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-md border inline-block ${
+            isSafe ? 'text-emerald-700 bg-emerald-50 border-emerald-200' : 'text-rose-600 bg-rose-50 border-rose-200'
+          }`}>
             Current DTI
           </span>
-          <div className="text-3xl font-bold text-rose-600">{currentDti}%</div>
+          <div className={`text-3xl font-bold ${isSafe ? 'text-emerald-600' : 'text-rose-600'}`}>{currentDti}%</div>
           <p className="text-slate-500 text-[11px]">
             ₹{existingEmis.toLocaleString('en-IN')} EMIs ÷ ₹{monthlyIncome.toLocaleString('en-IN')} income
           </p>
@@ -78,12 +93,14 @@ export default function RejectionExplainerView({
         </div>
 
         <div className="bg-white rounded-2xl p-5 border border-slate-200/80 shadow-xs space-y-2">
-          <span className="text-xs font-semibold text-slate-700 bg-slate-100 px-2.5 py-0.5 rounded-md border border-slate-200 inline-block">
+          <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-md border inline-block ${
+            isSafe ? 'text-emerald-700 bg-emerald-50 border-emerald-200' : 'text-slate-700 bg-slate-100 border-slate-200'
+          }`}>
             Relief Needed
           </span>
           <div className="text-3xl font-bold text-slate-900">₹{excessEmi.toLocaleString('en-IN')}/mo</div>
           <p className="text-slate-500 text-[11px]">
-            Trimming this excess unlocks full eligibility
+            {isSafe ? 'No reduction needed to meet 40% benchmark' : 'Trimming this excess unlocks full eligibility'}
           </p>
         </div>
       </div>
@@ -96,18 +113,26 @@ export default function RejectionExplainerView({
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
           <div className="bg-slate-50/70 p-4 rounded-xl border border-slate-200/80 space-y-2">
-            <span className="font-semibold text-rose-600 text-xs block">Standard Bank Filter Result</span>
+            <span className={`font-semibold text-xs block ${isSafe ? 'text-emerald-700' : 'text-rose-600'}`}>
+              Standard Bank Filter Result
+            </span>
             <ul className="text-slate-600 space-y-1.5 list-disc list-inside text-[11px] leading-relaxed">
               <li>Debt-to-Income ratio at <strong>{currentDti}%</strong>.</li>
               <li>Monthly obligations: ₹{existingEmis.toLocaleString('en-IN')}/mo against ₹{monthlyIncome.toLocaleString('en-IN')}/mo income.</li>
-              <li>Automated loan decision: Paused due to threshold breach.</li>
+              <li>Automated Status: <strong>{isSafe ? 'Passed (Healthy DTI)' : 'Paused (Exceeds 40% DTI)'}</strong>.</li>
             </ul>
           </div>
 
           <div className="bg-slate-50/70 p-4 rounded-xl border border-slate-200/80 space-y-2">
             <span className="font-semibold text-emerald-700 text-xs block">Sahayak Deep Forensic Discovery</span>
             <ul className="text-slate-600 space-y-1.5 list-disc list-inside text-[11px] leading-relaxed">
-              {isRahul ? (
+              {isSafe ? (
+                <>
+                  <li>Your monthly obligations leave sufficient take-home headroom for loan servicing.</li>
+                  <li>No short-term BNPL debt clearance is mandatory for basic DTI eligibility.</li>
+                  <li>You qualify for immediate pre-approved digital loan matches.</li>
+                </>
+              ) : isRahul ? (
                 <>
                   <li>2 small BNPL accounts (Simpl ₹2,500 + LazyPay ₹3,800 = ₹6,300/mo).</li>
                   <li>Primary two-wheeler loan is <strong>100% on-time (0 DPD)</strong>.</li>
@@ -175,7 +200,9 @@ export default function RejectionExplainerView({
             Choose Your Next Step
           </h4>
           <p className="text-xs text-slate-500 font-normal mt-0.5">
-            View alternative loan matches available today, or explore your structured 90-day recovery plan.
+            {isSafe
+              ? 'Explore pre-approved alternative bank offers tailored to your income profile.'
+              : 'View alternative loan matches available today, or explore your structured 90-day recovery plan.'}
           </p>
         </div>
 

@@ -4,10 +4,6 @@
 /**
  * Calculates standard reducing-balance monthly EMI
  * Formula: EMI = P * r * (1+r)^n / ((1+r)^n - 1)
- * @param {number} principal Principal amount (P)
- * @param {number} annualRatePct Annual interest rate percentage (e.g. 10.49)
- * @param {number} tenureMonths Total months (n)
- * @returns {number} Monthly EMI rounded to nearest rupee
  */
 export function calculateReducingEmi(principal, annualRatePct, tenureMonths) {
   const p = Number(principal) || 0;
@@ -25,10 +21,7 @@ export function calculateReducingEmi(principal, annualRatePct, tenureMonths) {
 
 /**
  * Calculates Debt-to-Income (DTI) / FOIR ratio
- * Formula: (Total Monthly Debt Obligations / Monthly Income) * 100
- * @param {number} monthlyObligations 
- * @param {number} monthlyIncome 
- * @returns {{ dti: number, isSafe: boolean, formulaStr: string }}
+ * Rule: Exactly 40.0% is AT the benchmark and is SAFE (isSafe = dti <= 40).
  */
 export function calculateDti(monthlyObligations, monthlyIncome) {
   const income = Math.max(0, Number(monthlyIncome) || 0);
@@ -39,7 +32,7 @@ export function calculateDti(monthlyObligations, monthlyIncome) {
   }
 
   const dti = Number(((obligations / income) * 100).toFixed(1));
-  const isSafe = dti <= 40;
+  const isSafe = dti <= 40.0;
   const formulaStr = `₹${obligations.toLocaleString('en-IN')} monthly obligations ÷ ₹${income.toLocaleString('en-IN')} monthly income × 100 = ${dti}%`;
 
   return { dti, isSafe, formulaStr };
@@ -47,9 +40,6 @@ export function calculateDti(monthlyObligations, monthlyIncome) {
 
 /**
  * Calculates maximum suggested safe EMI (40% benchmark)
- * @param {number} monthlyIncome 
- * @param {number} thresholdPct 
- * @returns {number}
  */
 export function calculateMaxSafeEmi(monthlyIncome, thresholdPct = 40) {
   const income = Math.max(0, Number(monthlyIncome) || 0);
@@ -58,9 +48,6 @@ export function calculateMaxSafeEmi(monthlyIncome, thresholdPct = 40) {
 
 /**
  * Calculates relief needed to bring existing EMIs down to 40% DTI
- * @param {number} existingEmis 
- * @param {number} monthlyIncome 
- * @returns {number}
  */
 export function calculateReliefNeeded(existingEmis, monthlyIncome) {
   const emis = Math.max(0, Number(existingEmis) || 0);
@@ -70,10 +57,6 @@ export function calculateReliefNeeded(existingEmis, monthlyIncome) {
 
 /**
  * Calculates new DTI after a specific EMI reduction
- * @param {number} existingEmis 
- * @param {number} reduction 
- * @param {number} monthlyIncome 
- * @returns {number}
  */
 export function calculateNewDtiAfterRelief(existingEmis, reduction, monthlyIncome) {
   const income = Math.max(0, Number(monthlyIncome) || 0);
@@ -83,9 +66,7 @@ export function calculateNewDtiAfterRelief(existingEmis, reduction, monthlyIncom
 }
 
 /**
- * Validates applicant profile input values
- * @param {object} profile 
- * @returns {{ isValid: boolean, errors: object }}
+ * Validates applicant profile input values strictly
  */
 export function validateProfileInputs(profile = {}) {
   const errors = {};
@@ -97,25 +78,40 @@ export function validateProfileInputs(profile = {}) {
     errors.fullName = 'Full name must be under 100 characters.';
   }
 
-  const income = Number(profile.monthlyIncome);
-  if (isNaN(income) || income <= 0) {
-    errors.monthlyIncome = 'Monthly income must be a positive number greater than ₹0.';
-  } else if (income > 10000000) {
-    errors.monthlyIncome = 'Income exceeds maximum limit.';
+  const rawIncome = profile.monthlyIncome;
+  if (rawIncome === undefined || rawIncome === null || rawIncome === '') {
+    errors.monthlyIncome = 'Monthly income is required.';
+  } else {
+    const income = Number(rawIncome);
+    if (isNaN(income) || income <= 0) {
+      errors.monthlyIncome = 'Monthly income must be a positive number greater than ₹0.';
+    } else if (income > 10000000) {
+      errors.monthlyIncome = 'Income exceeds maximum limit.';
+    }
   }
 
-  const emis = Number(profile.existingEmis);
-  if (isNaN(emis) || emis < 0) {
-    errors.existingEmis = 'Existing EMIs cannot be negative.';
-  } else if (income > 0 && emis > income * 2) {
-    errors.existingEmis = 'Existing EMIs exceed realistic bounds relative to income.';
+  const rawEmis = profile.existingEmis;
+  if (rawEmis === undefined || rawEmis === null || rawEmis === '') {
+    errors.existingEmis = 'Existing EMIs is required. Enter 0 if you have no active EMIs.';
+  } else {
+    const emis = Number(rawEmis);
+    if (isNaN(emis) || emis < 0) {
+      errors.existingEmis = 'Existing EMIs cannot be negative.';
+    } else if (Number(profile.monthlyIncome) > 0 && emis > Number(profile.monthlyIncome) * 2) {
+      errors.existingEmis = 'Existing EMIs exceed realistic bounds relative to income.';
+    }
   }
 
-  const loan = Number(profile.requestedLoanAmount);
-  if (isNaN(loan) || loan <= 0) {
-    errors.requestedLoanAmount = 'Loan amount must be greater than ₹0.';
-  } else if (loan > 10000000) {
-    errors.requestedLoanAmount = 'Requested loan amount exceeds maximum limit.';
+  const rawLoan = profile.requestedLoanAmount;
+  if (rawLoan === undefined || rawLoan === null || rawLoan === '') {
+    errors.requestedLoanAmount = 'Loan amount is required.';
+  } else {
+    const loan = Number(rawLoan);
+    if (isNaN(loan) || loan <= 0) {
+      errors.requestedLoanAmount = 'Loan amount must be greater than ₹0.';
+    } else if (loan > 10000000) {
+      errors.requestedLoanAmount = 'Requested loan amount exceeds maximum limit.';
+    }
   }
 
   const tenure = Number(profile.tenureMonths);
@@ -130,50 +126,69 @@ export function validateProfileInputs(profile = {}) {
 }
 
 /**
- * Detects contradictory claims in chatbot queries
- * @param {string} query 
- * @returns {boolean}
+ * Detects contradictory numbers/claims in query
  */
 export function detectContradiction(query = '') {
   const q = query.toLowerCase();
 
-  // Pattern 1: Conflicting income claims e.g. "income is 20000 and 80000" or "earn 20000 but earn 80000"
-  const incomeNumbers = q.match(/(?:income|salary|earn|earning|take-home|take home|earn)\s*(?:is|of|:|=)?\s*(?:₹|rs\.?|inr)?\s*(\d+[\d,]*)/g);
-  if (incomeNumbers && incomeNumbers.length >= 2) {
-    const vals = incomeNumbers.map((s) => Number(s.replace(/[^\d]/g, ''))).filter((v) => v > 0);
-    if (vals.length >= 2 && vals[0] !== vals[1]) {
-      return true;
+  // Pattern 1: Explicit "both X and Y" numbers
+  const bothMatch = q.match(/both\s*(?:₹|rs\.?|inr)?\s*(\d+[\d,]*)\s*and\s*(?:₹|rs\.?|inr)?\s*(\d+[\d,]*)/i);
+  if (bothMatch) {
+    const val1 = Number(bothMatch[1].replace(/,/g, ''));
+    const val2 = Number(bothMatch[2].replace(/,/g, ''));
+    if (val1 !== val2) {
+      return { isContradictory: true, type: 'income', val1, val2 };
     }
   }
 
-  // Pattern 2: Missed payment contradictions e.g. "never missed a payment" + "missed three payments"
+  // Pattern 2: Multiple conflicting income numbers (e.g. "income is 30,000 and 1,00,000" or "earn 30000 and 100000")
+  const incomeMatches = q.match(/(?:income|salary|earn|earning)\s*(?:is|of|:|=)?\s*(?:₹|rs\.?|inr)?\s*(\d+[\d,]*)/g);
+  if (incomeMatches && incomeMatches.length >= 2) {
+    const vals = incomeMatches.map((s) => Number(s.replace(/[^\d]/g, ''))).filter((v) => v > 0);
+    if (vals.length >= 2 && vals[0] !== vals[1]) {
+      return { isContradictory: true, type: 'income', val1: vals[0], val2: vals[1] };
+    }
+  }
+
+  // Pattern 3: Missed payment contradiction (e.g. "never missed a payment" + "missed 3 payments")
   if (
     (q.includes('never missed') || q.includes('no missed') || q.includes('always on time') || q.includes('zero dpd')) &&
-    (q.includes('missed') || q.includes('late payment') || q.includes('defaulted') || q.includes('dpd'))
+    (q.includes('missed') || q.includes('late payment') || q.includes('defaulted'))
   ) {
-    if (q.includes('missed 3') || q.includes('missed three') || q.includes('missed two') || q.includes('missed 2') || q.includes('missed last month')) {
-      return true;
-    }
+    return { isContradictory: true, type: 'payment_history' };
   }
 
-  // Pattern 3: Explicit wording "both 20,000 and 80,000" or "income is 20,000 and 80,000"
-  if (q.includes('both') && q.includes('and') && (q.includes('20') || q.includes('50')) && (q.includes('80') || q.includes('60'))) {
+  return { isContradictory: false };
+}
+
+/**
+ * Detects vague / incomplete loan queries where mandatory information is missing
+ */
+export function detectIncompleteQuery(query = '') {
+  const q = query.toLowerCase().trim();
+
+  const vagueTriggers = [
+    'my loan was rejected', 'why was my loan rejected', 'will i get a loan',
+    'can i get loan', 'loan rejected', 'got rejected'
+  ];
+
+  const isVagueTrigger = vagueTriggers.some((t) => q === t || q === `${t}?` || q === `${t}.`);
+  const hasNumbers = /\d+/.test(q);
+
+  if (isVagueTrigger && !hasNumbers) {
     return true;
   }
-
   return false;
 }
 
 /**
  * Detects sensitive financial distress or unsafe debt situations
- * @param {string} query 
- * @returns {boolean}
  */
 export function detectSensitiveDistress(query = '') {
   const q = query.toLowerCase();
   const distressKeywords = [
     'rent', 'eviction', 'evicted', 'loan shark', 'urgent cash', 'desperate',
-    'cannot pay rent', 'unaffordable', 'debt trap', 'suicide', 'hopeless',
+    'cannot pay rent', 'cant pay rent', 'unaffordable', 'debt trap', 'suicide', 'hopeless',
     'high interest', 'payday loan', 'money lender', 'bounced', 'starving'
   ];
   return distressKeywords.some((kw) => q.includes(kw));
@@ -181,8 +196,6 @@ export function detectSensitiveDistress(query = '') {
 
 /**
  * Detects whether query is completely out of scope of financial coaching
- * @param {string} query 
- * @returns {boolean}
  */
 export function detectOutOfScope(query = '') {
   const q = query.toLowerCase();
@@ -195,40 +208,85 @@ export function detectOutOfScope(query = '') {
 }
 
 /**
- * Core Financial Intelligence Assistant for Sahayak AI Coach
- * @param {string} userQuery 
- * @param {object} applicant Active profile model
- * @returns {{ answer: string, basis?: string }}
+ * Helper to parse numerical figures from user text prompt
  */
-export function generateFinancialAdvisorResponse(userQuery = '', applicant = {}) {
+function extractFactsFromQuery(query = '') {
+  const q = query.toLowerCase();
+
+  const parseNum = (str) => {
+    if (!str) return null;
+    const clean = str.replace(/,/g, '');
+    let num = Number(clean);
+    if (isNaN(num)) return null;
+    if (str.includes('k') || str.includes('thousand')) num *= 1000;
+    if (str.includes('lakh') || str.includes('lac')) num *= 100000;
+    return num;
+  };
+
+  const incomeMatch = q.match(/(?:earn|earning|income|salary|take-home|take home)\s*(?:is|of|:|=)?\s*(?:₹|rs\.?|inr)?\s*(\d+[\d,]*\s*(?:k|thousand|lakh|lakhs|lac)?)/i);
+  
+  // Pattern matching EMI / obligations or "have ₹20,000 EMIs"
+  const emiMatch = q.match(/(?:emi|emis|obligations|debt|current emi)\s*(?:is|of|:|=)?\s*(?:₹|rs\.?|inr)?\s*(\d+[\d,]*\s*(?:k|thousand|lakh|lakhs|lac)?)/i) ||
+                   q.match(/(?:have|pay|paying)\s*(?:₹|rs\.?|inr)?\s*(\d+[\d,]*\s*(?:k|thousand|lakh|lakhs|lac)?)\s*(?:emi|emis|obligations|debt)?/i);
+
+  const loanMatch = q.match(/(?:rejected for|loan of|loan amount|applying for|requesting|loan for)\s*(?:₹|rs\.?|inr)?\s*(\d+[\d,]*\s*(?:k|thousand|lakh|lakhs|lac)?)/i);
+  
+  // Match "score of 690" OR "690 score"
+  const scoreMatch = q.match(/(?:score|cibil)\s*(?:is|of|:|=)?\s*(\d{3})/i) ||
+                     q.match(/(\d{3})\s*(?:score|cibil)/i);
+
+  const lateMatch = q.includes('late payment') || q.includes('missed payment') || q.includes('dpd');
+
+  return {
+    income: incomeMatch ? parseNum(incomeMatch[1]) : null,
+    emi: emiMatch ? parseNum(emiMatch[1]) : null,
+    loan: loanMatch ? parseNum(loanMatch[1]) : null,
+    score: scoreMatch ? Number(scoreMatch[1]) : null,
+    hasLatePayment: lateMatch
+  };
+}
+
+/**
+ * Core Financial Intelligence Assistant for Sahayak AI Coach
+ */
+export function generateFinancialAdvisorResponse(userQuery = '', applicant = {}, lang = 'en') {
   const rawQuery = (userQuery || '').trim();
 
-  // Reject empty or whitespace-only inputs
+  // 1. Empty or Whitespace Check
   if (!rawQuery) {
     return {
-      answer: 'Please enter a question or prompt so I can assist you with your loan eligibility and credit roadmap.'
+      answer: lang === 'hi'
+        ? 'कृपया अपना प्रश्न दर्ज करें ताकि मैं आपकी लोन पात्रता और क्रेडिट रोडमैप में मदद कर सकूं।'
+        : 'Please enter a question or prompt so I can assist you with your loan eligibility and credit roadmap.'
     };
   }
 
   const query = rawQuery.toLowerCase();
 
-  // 1. Contradiction Check (CRITICAL FIX REQUIREMENT)
-  if (detectContradiction(rawQuery)) {
+  // 2. Contradiction Check (CRITICAL FIX REQUIREMENT)
+  const contradiction = detectContradiction(rawQuery);
+  if (contradiction.isContradictory) {
+    if (contradiction.type === 'income') {
+      return {
+        answer: `I see conflicting income values (₹${contradiction.val1.toLocaleString('en-IN')} vs ₹${contradiction.val2.toLocaleString('en-IN')}). Which value is correct, and is this your gross income or net monthly take-home pay? Please clarify so I can calculate your Debt-to-Income (DTI) ratio accurately.`,
+        basis: 'Contradiction detector flagged conflicting income amounts.'
+      };
+    }
     return {
-      answer: 'I see conflicting information. Which value should I use?',
+      answer: 'I see conflicting information in your prompt. Which value should I use, and what is your net monthly take-home pay?',
       basis: 'Contradiction detector flagged conflicting numbers or statements.'
     };
   }
 
-  // 2. Sensitive Financial Distress Check (CRITICAL FIX REQUIREMENT)
+  // 3. Sensitive Financial Distress Check (CRITICAL FIX REQUIREMENT)
   if (detectSensitiveDistress(rawQuery)) {
     return {
-      answer: `I understand that you may be facing an urgent or difficult financial situation, but I strongly advise against borrowing from unverified, high-interest, or predatory lenders.\n\n**Safer Immediate Options:**\n1. **Communicate directly with your landlord/creditor:** Explain your situation and request a temporary extension or structured split payment.\n2. **Reach out to family or trusted contacts:** Seek temporary support without incurring high-interest penalty rates.\n3. **Contact Regulated Financial Counseling Services:** You can consult licensed counselors or call the National Consumer Helpline (1915) for official advice.\n\n*Financial Safety Note: Sahayak does not recommend unregulated or high-interest lenders. Seek guidance from licensed financial advisory services for emergency debt distress.*`,
-      basis: 'Financial Safety Protocol for Urgent Debt Distress.'
+      answer: `I understand that you may be facing an urgent or difficult financial situation, but I strongly advise against borrowing from unverified or high-interest lenders, as taking on high-interest BNPL or predatory loans can lead to severe debt traps.\n\n**Safer Immediate Options:**\n1. **Communicate directly with your landlord or creditor:** Explain your temporary hardship and request a deferred payment schedule.\n2. **Reach out to family or trusted support:** Seek temporary emergency support without incurring high interest rates.\n3. **Contact Regulated Financial Counselors:** Consult licensed financial advice counselors or call the National Consumer Helpline (1915) for guidance.\n\n*Financial Safety Note: Sahayak does not recommend unregulated or high-interest lenders. Seek guidance from licensed financial advisory services for emergency debt distress.*`,
+      basis: 'Financial Safety Protocol for Emergency Debt Distress.'
     };
   }
 
-  // 3. Out-of-Scope Questions Boundary (CRITICAL FIX REQUIREMENT)
+  // 4. Out-of-Scope Boundary Check (CRITICAL FIX REQUIREMENT)
   if (detectOutOfScope(rawQuery)) {
     return {
       answer: 'I am Sahayak, your AI Financial Education Coach. I can only assist with personal loan eligibility, DTI calculations, debt recovery roadmaps, and credit reporting questions. How can I help with your financial journey today?',
@@ -236,95 +294,103 @@ export function generateFinancialAdvisorResponse(userQuery = '', applicant = {})
     };
   }
 
-  // Extract active profile figures safely (Source of Truth)
+  // 5. Incomplete Information Check (CRITICAL FIX REQUIREMENT)
+  if (detectIncompleteQuery(rawQuery)) {
+    return {
+      answer: `To provide an accurate underwriting analysis and diagnosis, I need a few key details about your profile. Could you please share:\n\n1. **Monthly take-home income** (e.g. ₹50,000)\n2. **Existing EMIs** / monthly debt obligations (e.g. ₹15,000)\n3. **Requested loan amount & preferred tenure** (e.g. ₹2,00,000 for 24 months)\n4. **Employment type** (Salaried, Self-Employed, or Gig Worker)\n5. **Credit score** (if known)\n6. **Lender's stated rejection reason** (if provided in your rejection notice)\n\nOnce you share these facts, I can calculate your Debt-to-Income (DTI) ratio and give you a customized recovery plan!`,
+      basis: 'Incomplete information clarification protocol.'
+    };
+  }
+
+  // 6. Detailed Scenario Extraction (CRITICAL FIX REQUIREMENT)
+  const extracted = extractFactsFromQuery(rawQuery);
+
+  if (extracted.income || extracted.emi || extracted.score || extracted.loan) {
+    const inc = extracted.income || Math.max(1, Number(applicant.monthlyIncome) || 38000);
+    const emi = extracted.emi !== null ? extracted.emi : Math.max(0, Number(applicant.existingEmis) || 0);
+    const loan = extracted.loan || Math.max(1000, Number(applicant.requestedLoanAmount) || 150000);
+    const scoreStr = extracted.score ? `${extracted.score}` : (applicant.cibilScore ? `${applicant.cibilScore}` : 'Not provided');
+
+    const { dti, isSafe, formulaStr } = calculateDti(emi, inc);
+    const maxSafe = calculateMaxSafeEmi(inc, 40);
+
+    let analysisNotes = [];
+    if (!isSafe) {
+      analysisNotes.push(`Your calculated DTI of **${dti}%** exceeds the standard 40% benchmark (max safe EMI for your income is ₹${maxSafe.toLocaleString('en-IN')}/mo).`);
+    } else {
+      analysisNotes.push(`Your calculated DTI of **${dti}%** is healthy (at or below 40%).`);
+    }
+
+    if (extracted.score && extracted.score < 720) {
+      analysisNotes.push(`A credit score of **${extracted.score}** is below many retail bank thresholds (typically 720–750+).`);
+    }
+
+    if (extracted.hasLatePayment) {
+      analysisNotes.push(`A **recent late payment record** introduces automated risk flags during credit scoring.`);
+    }
+
+    if (loan > inc * 5) {
+      analysisNotes.push(`Requested loan amount of ₹${loan.toLocaleString('en-IN')} is large relative to monthly income (₹${inc.toLocaleString('en-IN')}).`);
+    }
+
+    return {
+      answer: `Here is the analysis based strictly on the facts supplied in your message:\n\n**1. Extracted Facts & Financial Metrics:**\n• Monthly Take-Home Income: ₹${inc.toLocaleString('en-IN')}\n• Current Monthly EMIs: ₹${emi.toLocaleString('en-IN')}\n• Calculated Debt-to-Income (DTI): **${dti}%** (${formulaStr})\n• Credit Score: ${scoreStr}\n• Requested Loan Amount: ₹${loan.toLocaleString('en-IN')}\n\n**2. Analysis of Possible Rejection Reasons:**\n${analysisNotes.map((n) => `• ${n}`).join('\n')}\n• Note: Automated underwriting algorithms evaluate multiple criteria. Please verify the official rejection notice from your lender for their exact policy cutoff.\n\n**3. Recommended Next Steps:**\n${!isSafe ? `1. Reduce monthly EMI obligations by ₹${(emi - maxSafe).toLocaleString('en-IN')}/mo to reach safe DTI.\n` : ''}${extracted.hasLatePayment || (extracted.score && extracted.score < 720) ? `2. Maintain 100% on-time payments for 3 to 6 months to rebuild your score.\n` : ''}3. Consider applying for a lower loan amount or extending tenure to reduce monthly EMI burden.\n4. Allow fortnightly bureau reporting cycles (15th and month-end) to ingest updates before reapplying.\n\n*Educational estimate only. Actual sanction decisions are made solely by regulated lenders.*`,
+      basis: 'Detailed scenario extraction engine.'
+    };
+  }
+
+  // Source of truth figures for active profile
   const profileIncome = Math.max(1, Number(applicant.monthlyIncome) || 38000);
   const profileEmis = Math.max(0, Number(applicant.existingEmis) || 21500);
   const profileLoan = Math.max(1000, Number(applicant.requestedLoanAmount) || 150000);
   const profileTenure = Math.max(1, Number(applicant.tenureMonths) || 24);
   const profileName = (applicant.fullName || 'Applicant').trim();
+  const { dti: profileDti, isSafe: profileIsSafe } = calculateDti(profileEmis, profileIncome);
+  const profileMaxSafe = calculateMaxSafeEmi(profileIncome, 40);
 
-  const { dti: profileDti } = calculateDti(profileEmis, profileIncome);
-
-  // Helper to parse numerical strings like "50,000" or "80000"
-  const parseNum = (str) => {
-    if (!str) return null;
-    const clean = str.replace(/,/g, '');
-    const num = Number(clean);
-    return isNaN(num) ? null : num;
-  };
-
-  const incomeMatch = query.match(/(?:income|salary|earn|earning|take-home|take home)(?:\s*(?:is|of|:|=)?\s*(?:₹|rs\.?|inr)?\s*(\d+[\d,]*))/i);
-  const emiMatch = query.match(/(?:emi|obligation|obligations|debt|current emi)(?:\s*(?:is|of|:|=)?\s*(?:₹|rs\.?|inr)?\s*(\d+[\d,]*))/i);
-
-  const parsedExplicitIncome = incomeMatch ? parseNum(incomeMatch[1]) : null;
-  const parsedExplicitEmi = emiMatch ? parseNum(emiMatch[1]) : null;
-
-  // 4. Detailed Rejection Question (CRITICAL 5-STEP RESPONSE STRUCTURE)
-  if (query.includes('why was my loan rejected') || query.includes('why rejected') || query.includes('reason for rejection') || query.includes('why was i rejected') || query.includes('why did i get rejected')) {
-    const inc = parsedExplicitIncome || profileIncome;
-    const emi = parsedExplicitEmi || profileEmis;
-    const { dti, formulaStr } = calculateDti(emi, inc);
-    const maxSafe = calculateMaxSafeEmi(inc, 40);
-
+  // 7. General Rejection Reasons Query
+  if (query.includes('why was my loan rejected') || query.includes('why rejected') || query.includes('reason for rejection') || query.includes('why do banks reject')) {
     return {
-      answer: `Here is the structured breakdown of your application evaluation:\n\n**1. What is known:**\n• Monthly Take-Home Income: ₹${inc.toLocaleString('en-IN')}\n• Existing Monthly EMIs: ₹${emi.toLocaleString('en-IN')}\n• Calculated Debt-to-Income (DTI) Ratio: **${dti}%** (${formulaStr})\n\n**2. What is only a possible reason:**\n• A DTI ratio of ${dti}% ${dti > 40 ? 'exceeds common lender planning benchmarks (~40%)' : 'is within normal ranges, but secondary risk factors may apply'}.\n• Active short-term unsecured micro-lines or high credit card utilization can also trigger automated holds.\n\n**3. What cannot be determined without the lender’s rejection notice:**\n• Exact internal credit score cutoffs used by individual partner banks.\n• Specific employment employer categorization or policy-level risk lists.\n\n**4. What information is missing:**\n• Your complete multi-year repayment history across all bureaus.\n• Proof of 0 Days Past Due (0 DPD) history over the last 12 months.\n\n**5. Safe next actions:**\n• Reduce existing monthly EMI obligations to bring your DTI under 40% (max safe EMI for your income: ₹${maxSafe.toLocaleString('en-IN')}/mo).\n• Allow fortnightly credit reporting cycles (15th and month-end) for debt closures to ingest before re-applying.\n\n*Illustrative demo estimate. Approval is determined solely by the lender.*`,
+      answer: `Here is the structured breakdown of loan rejection factors for your active profile (${profileName}):\n\n**1. What is known:**\n• Take-Home Income: ₹${profileIncome.toLocaleString('en-IN')}/mo\n• Existing Monthly EMIs: ₹${profileEmis.toLocaleString('en-IN')}/mo\n• Debt-to-Income (DTI) Ratio: **${profileDti}%** (${profileIsSafe ? 'At or below 40% benchmark' : 'Exceeds 40% benchmark'})\n\n**2. What is only a possible reason:**\n• High DTI ratio (exceeding common 40% threshold).\n• Multiple active short-term BNPL accounts or high credit card utilization (>30%).\n• Bureau inquiry frequency or recent late payment history.\n\n**3. What cannot be determined without lender notice:**\n• Lender's proprietary internal credit scoring cutoffs.\n• Employer categorization or specific policy risk lists.\n\n**4. What information is missing:**\n• Complete 24-month repayment track record.\n• Proof of 0 Days Past Due (0 DPD) history.\n\n**5. Safe next actions:**\n• ${profileIsSafe ? 'Your DTI is already healthy. Check your credit report for score errors.' : `Reduce monthly EMI outflow to bring DTI under 40% (target EMI: ₹${profileMaxSafe.toLocaleString('en-IN')}/mo).`}\n• Allow fortnightly credit reporting cycles (15th and month-end) for updates to process.\n\n*Illustrative demo estimate. Approval is determined solely by the lender.*`,
       basis: '5-Step Structured Rejection Analysis Model.'
     };
   }
 
-  // 5. Query: Can I re-apply earlier than 90 days?
-  if (query.includes('earlier than 90 days') || query.includes('reapply earlier') || query.includes('re-apply earlier') || (query.includes('reapply') && query.includes('90'))) {
+  // 8. Eligibility Improvement Query
+  if (query.includes('how to improve') || query.includes('how to fix') || query.includes('what to do next') || query.includes('how to get approved') || query.includes('next steps')) {
+    const relief = calculateReliefNeeded(profileEmis, profileIncome);
     return {
-      answer: `Yes, you can re-apply whenever you wish, but doing so too quickly without addressing underlying debt capacity may result in repeated rejections and multiple hard credit inquiries.\n\n**Regulatory Fact:**\nUnder RBI's framework, credit institutions and Credit Information Companies (CICs) update credit data on a **fortnightly basis**—as of the 15th and last day of each month (effective January 1, 2025).\n\n**Why 90 days is used in Sahayak:**\n90 days is an illustrative planning horizon, not a universal rule or guarantee of approval. It provides sufficient time to demonstrate repayment consistency across multiple reporting cycles and allow debt closures to be ingested cleanly before seeking new credit.`,
-      basis: 'RBI Framework on Credit Information Reporting (Fortnightly frequency, effective Jan 1, 2025).'
+      answer: `Here are prioritized actionable steps to strengthen your eligibility profile:\n\n1. **Reduce Excess Monthly Debt:** ${profileIsSafe ? 'Keep existing EMIs under control.' : `Trim ~₹${relief.toLocaleString('en-IN')}/month of high-cost BNPL or debt dues to lower your DTI to 40%.`}\n2. **Maintain 100% On-Time Payments:** Configure auto-debit via Paytm UPI to ensure zero missed payments (0 DPD).\n3. **Keep Credit Card Utilization Under 30%:** Maintain low balances relative to your card limit.\n4. **Avoid Frequent Hard Inquiries:** Refrain from applying across multiple apps simultaneously.\n5. **Allow Bureau Ingestion:** Under RBI fortnightly reporting guidelines (15th and month-end), allow time for debt closures to reflect.\n\n*Educational guidance only.*`,
+      basis: 'Eligibility improvement protocol.'
     };
   }
 
-  // 6. Query: How often does CIBIL / credit bureau update?
-  if (query.includes('how often') && (query.includes('cibil') || query.includes('bureau') || query.includes('update') || query.includes('report'))) {
+  // 9. Re-application timing
+  if (query.includes('earlier than 90 days') || query.includes('reapply earlier') || (query.includes('reapply') && query.includes('90'))) {
     return {
-      answer: `Under RBI guidelines, credit institutions and Credit Information Companies (CIBIL, Experian, CRIF High Mark, Equifax) report credit data on a **fortnightly basis**—generally as of the 15th and last day of each month—effective January 1, 2025.\n\n**Processing Note:**\nThe exact appearance of a repayment or account closure depends on when your specific lender submits their batch file and the bureau's internal ingestion processing schedule.`,
-      basis: 'RBI Directive on Fortnightly Reporting of Credit Information to CICs (Effective Jan 1, 2025).'
+      answer: `Yes, you can re-apply whenever you wish, but re-applying too quickly without lowering your DTI or addressing score factors can lead to repeated rejections.\n\n**Regulatory Fact:**\nUnder RBI guidelines effective Jan 1, 2025, credit institutions report to bureaus on a **fortnightly basis** (15th and month-end).\n\n**Why 90 days is used in Sahayak:**\n90 days is an illustrative planning horizon to demonstrate consistent repayment discipline across multiple reporting cycles before seeking new credit.`,
+      basis: 'RBI Fortnightly Reporting Guidelines.'
     };
   }
 
-  // 7. Query: Is 40% DTI required by RBI?
-  if ((query.includes('rbi') || query.includes('law') || query.includes('mandate')) && (query.includes('40%') || query.includes('40 percent') || query.includes('dti') || query.includes('foir') || query.includes('rule') || query.includes('required'))) {
+  // 10. UPI and Credit Score
+  if (query.includes('upi') && (query.includes('cibil') || query.includes('score') || query.includes('increase'))) {
     return {
-      answer: `No, the Reserve Bank of India (RBI) does not mandate a universal 40% Debt-to-Income (DTI) or FOIR limit for all personal loans.\n\n**Regulatory Reality:**\n• The 40% threshold is an **industry planning benchmark** widely used by commercial banks and NBFCs for prudent credit risk management.\n• RBI guidelines mandate that lenders assess borrower repayment capacity, but exact DTI caps and risk appetites are set independently by each lender's board-approved credit policy.`,
-      basis: 'RBI Master Directions on Prudent Lending & Credit Risk Management.'
+      answer: `No, standard Paytm UPI transactions do not directly increase your CIBIL score.\n\n**Explanation:**\n• CIBIL scores evaluate formal credit facilities (loans, cards, BNPL lines) reported by financial institutions.\n• However, with your consent, participating digital lenders may review your UPI cashflow velocity via Account Aggregator as an alternate proof of income stability.\n\n*UPI velocity helps cashflow underwriting but does not directly alter bureau scores.*`,
+      basis: 'Bureau Reporting vs Account Aggregator Cashflow Rules.'
     };
   }
 
-  // 8. Query: Will score increase by specific points if I repay?
-  if (query.includes('50 points') || (query.includes('score') && (query.includes('increase by') || query.includes('points') || query.includes('guarantee')))) {
+  // 11. BNPL and Credit Score
+  if (query.includes('bnpl') || query.includes('lazypay') || query.includes('simpl') || query.includes('pay later')) {
     return {
-      answer: `No specific credit score increase (such as 50 points) can ever be guaranteed.\n\n**How Credit Scoring Works:**\nCredit scoring models evaluate multiple interconnected parameters simultaneously:\n• Payment history (35% weight)\n• Credit utilization ratio (30% weight)\n• Credit vintage/age (15% weight)\n• Credit mix (10% weight)\n• Recent hard inquiries (10% weight)\n\nRepaying debt strengthens your debt capacity over time, but exact score changes depend on your full credit profile across all reporting accounts.\n\n*Educational estimate only. Score movements are calculated solely by licensed Credit Information Companies.*`
+      answer: `Yes, Buy-Now-Pay-Later (BNPL) products are reported to credit bureaus if structured as regulated credit lines by partner NBFCs.\n\n**Impact:**\n• On-time payments build credit history.\n• Multiple active micro-lines running simultaneously can increase your perceived credit risk during automated underwriting.\n\n*Closing micro-BNPL lines directly reduces your active debt lines and lowers monthly EMI obligations.*`,
+      basis: 'BNPL Credit Reporting Guidelines.'
     };
   }
 
-  // 9. Query: DTI Calculation / What is my DTI?
-  if (query.includes('dti') || query.includes('debt to income') || (query.includes('calculate') && query.includes('ratio')) || (parsedExplicitIncome && parsedExplicitEmi)) {
-    const inc = parsedExplicitIncome || profileIncome;
-    const emi = parsedExplicitEmi || profileEmis;
-    const { dti, isSafe, formulaStr } = calculateDti(emi, inc);
-    const maxSafe = calculateMaxSafeEmi(inc, 40);
-
-    return {
-      answer: `**DTI Calculation Summary (Source of Truth):**\n\n• **Monthly Take-Home Income:** ₹${inc.toLocaleString('en-IN')}\n• **Monthly Debt Obligations:** ₹${emi.toLocaleString('en-IN')}\n• **Calculated DTI:** **${dti}%** (${formulaStr})\n• **Max Safe EMI (40% Benchmark):** ₹${maxSafe.toLocaleString('en-IN')}/mo\n\n**Status:**\n${isSafe ? `Your DTI of ${dti}% is comfortably within the 40% safe benchmark.` : `Your DTI of ${dti}% exceeds the 40% benchmark by ${(dti - 40).toFixed(1)} percentage points.`}\n\n*Assumptions: Illustrative calculation based on user-provided income and EMI figures.*`
-    };
-  }
-
-  // 10. Query: Next steps / How to improve eligibility
-  if (query.includes('what should i do next') || query.includes('next steps') || query.includes('how to improve') || query.includes('how to fix') || query.includes('tips')) {
-    const reliefNeeded = calculateReliefNeeded(profileEmis, profileIncome);
-    return {
-      answer: `Here are recommended safe next actions for ${profileName}:\n\n1. **Reduce Excess Monthly Debt:** Target trimming ~₹${reliefNeeded > 0 ? reliefNeeded.toLocaleString('en-IN') : '2,000'}/month of short-term BNPL or high-cost dues to bring your DTI under 40%.\n2. **Maintain 100% On-Time Payments:** Ensure zero missed payments (0 DPD) across all active accounts.\n3. **Keep Credit Card Utilization Under 30%:** Avoid maxing out revolving credit lines.\n4. **Avoid Frequent Hard Inquiries:** Refrain from applying on multiple loan apps simultaneously.\n5. **Allow Bureau Ingestion Window:** Give time for fortnightly reporting cycles (15th and month-end) to ingest your repayments.\n\n*Educational guidance only. Final loan approvals depend on individual lender criteria.*`
-    };
-  }
-
-  // Fallback response preserving active user profile values
+  // Fallback response using active profile name and figures
   return {
-    answer: `Hello ${profileName}! I am Sahayak, your AI Financial Education Coach.\n\n**Your Current Active Profile:**\n• Monthly Income: ₹${profileIncome.toLocaleString('en-IN')}\n• Existing EMIs: ₹${profileEmis.toLocaleString('en-IN')} (DTI: ${profileDti}%)\n• Requested Loan: ₹${profileLoan.toLocaleString('en-IN')} (${profileTenure} Months)\n\nHow can I help you analyze your DTI, explore repayment scenarios, or understand credit reporting guidelines today?\n\n*Illustrative educational estimate only.*`
+    answer: `Hello ${profileName}! I am Paytm Sahayak, your AI Financial Education Coach.\n\n**Active Profile Summary:**\n• Take-Home Income: ₹${profileIncome.toLocaleString('en-IN')}/mo\n• Existing EMIs: ₹${profileEmis.toLocaleString('en-IN')}/mo (DTI: ${profileDti}%)\n• Requested Loan: ₹${profileLoan.toLocaleString('en-IN')} (${profileTenure} Months)\n\nHow can I help you analyze your DTI, explore repayment scenarios, or clarify credit reporting guidelines today?\n\n*Illustrative educational estimate only.*`
   };
 }

@@ -120,7 +120,7 @@ export default function ApplicationFormView({
           {/* Full Name */}
           <div className="space-y-1.5">
             <label htmlFor="fullName" className="text-xs font-semibold text-slate-700">
-              Full Name *
+              {lang === 'en' ? 'Full Name *' : 'पूरा नाम *'}
             </label>
             <input
               id="fullName"
@@ -145,7 +145,7 @@ export default function ApplicationFormView({
           {/* Employment Type */}
           <div className="space-y-1.5">
             <label htmlFor="employmentType" className="text-xs font-semibold text-slate-700">
-              Employment Type
+              {lang === 'en' ? 'Employment Type *' : 'रोजगार का प्रकार *'}
             </label>
             <select
               id="employmentType"
@@ -163,7 +163,7 @@ export default function ApplicationFormView({
           {/* Monthly Income */}
           <div className="space-y-1.5">
             <div className="flex justify-between text-xs font-medium text-slate-700">
-              <label htmlFor="monthlyIncome">Monthly Income *</label>
+              <label htmlFor="monthlyIncome">{lang === 'en' ? 'Monthly Income *' : 'मासिक आय *'}</label>
               <span className="font-semibold text-slate-900">
                 ₹{monthlyIncome > 0 ? monthlyIncome.toLocaleString('en-IN') : '0'}
               </span>
@@ -195,7 +195,7 @@ export default function ApplicationFormView({
           {/* Existing EMIs */}
           <div className="space-y-1.5">
             <div className="flex justify-between text-xs font-medium text-slate-700">
-              <label htmlFor="existingEmis">Existing EMIs *</label>
+              <label htmlFor="existingEmis">{lang === 'en' ? 'Existing EMIs *' : 'मौजूदा ईएमआई *'}</label>
               <span className={`font-semibold ${!isSafe && isValid ? 'text-rose-600' : 'text-emerald-600'}`}>
                 ₹{existingEmis.toLocaleString('en-IN')}
               </span>
@@ -227,7 +227,7 @@ export default function ApplicationFormView({
           {/* Requested Loan */}
           <div className="space-y-1.5">
             <div className="flex justify-between text-xs font-medium text-slate-700">
-              <label htmlFor="requestedLoanAmount">Loan Amount *</label>
+              <label htmlFor="requestedLoanAmount">{lang === 'en' ? 'Loan Amount *' : 'लोन राशि *'}</label>
               <span className="font-semibold text-slate-900">
                 ₹{Number(applicant.requestedLoanAmount || 0).toLocaleString('en-IN')}
               </span>
@@ -258,7 +258,7 @@ export default function ApplicationFormView({
 
           {/* Preferred Tenure */}
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-slate-700">Tenure</label>
+            <label className="text-xs font-semibold text-slate-700">{lang === 'en' ? 'Tenure *' : 'समय सीमा (अवधि) *'}</label>
             <div className="grid grid-cols-4 gap-2">
               {[12, 24, 36, 48].map((months) => (
                 <button
@@ -272,7 +272,7 @@ export default function ApplicationFormView({
                       : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200'
                   }`}
                 >
-                  {months} Mo
+                  {months} {lang === 'hi' ? 'महीने' : 'Mo'}
                 </button>
               ))}
             </div>
@@ -287,7 +287,7 @@ export default function ApplicationFormView({
               <span className={`font-semibold px-2.5 py-0.5 rounded-md text-xs ${
                 !isSafe ? 'bg-rose-50 text-rose-700 border border-rose-200' : 'bg-emerald-50 text-emerald-700 border border-emerald-200'
               }`}>
-                {currentDti}% {!isSafe ? '⚠️ Exceeds 40%' : '✅ Safe <40%'}
+                {currentDti}% {!isSafe ? '⚠️ Exceeds 40%' : '✅ Safe (<=40%)'}
               </span>
             </div>
 
@@ -303,7 +303,7 @@ export default function ApplicationFormView({
             <p className="text-[11px] text-slate-500 font-normal leading-relaxed">
               {!isSafe
                 ? `Your EMIs (₹${existingEmis.toLocaleString('en-IN')}) exceed the recommended ₹${maxSafeEmi.toLocaleString('en-IN')} limit. Sahayak will structure a 90-day recovery plan.`
-                : `Your monthly EMIs are comfortably within the safe 40% benchmark. Illustrative eligibility confirmed.`}
+                : `Your monthly EMIs are at or below the recommended 40% benchmark. Illustrative eligibility confirmed.`}
             </p>
           </div>
         ) : (

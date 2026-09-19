@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import LandingView from './components/LandingView';
 import ApplicationFormView from './components/ApplicationFormView';
@@ -19,21 +19,66 @@ import {
 import { calculateDti } from './utils/financialEngine';
 import { ShieldCheck, Home, FileText, Bot, BarChart3, HelpCircle } from 'lucide-react';
 
+// Storage keys
+const STORAGE_KEY_STATE = 'sahayak_demo_session_v2';
+
 export default function App() {
+  // Load initial state from sessionStorage if available
+  const [sessionLoaded, setSessionLoaded] = useState(false);
   const [currentView, setCurrentView] = useState('landing');
   const [activePersonaId, setActivePersonaId] = useState('rahul');
   const [applicant, setApplicant] = useState(INITIAL_APPLICATION_STATE);
   const [habitPhases, setHabitPhases] = useState(INITIAL_HABIT_TASKS);
   const [lang, setLang] = useState('en');
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [chatMessages, setChatMessages] = useState([]);
   const [activeFooterModal, setActiveFooterModal] = useState(null);
 
-  // Load a preset demo persona cleanly
+  // Restore session from sessionStorage on initial mount
+  useEffect(() => {
+    try {
+      const saved = sessionStorage.getItem(STORAGE_KEY_STATE);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed.currentView) setCurrentView(parsed.currentView);
+        if (parsed.activePersonaId) setActivePersonaId(parsed.activePersonaId);
+        if (parsed.applicant) setApplicant(parsed.applicant);
+        if (parsed.habitPhases) setHabitPhases(parsed.habitPhases);
+        if (parsed.lang) setLang(parsed.lang);
+        if (parsed.chatMessages) setChatMessages(parsed.chatMessages);
+      }
+    } catch (e) {
+      console.warn('Could not restore session from storage', e);
+    }
+    setSessionLoaded(true);
+  }, []);
+
+  // Save session to sessionStorage whenever state changes
+  useEffect(() => {
+    if (!sessionLoaded) return;
+    try {
+      sessionStorage.setItem(
+        STORAGE_KEY_STATE,
+        JSON.stringify({
+          currentView,
+          activePersonaId,
+          applicant,
+          habitPhases,
+          lang,
+          chatMessages
+        })
+      );
+    } catch (e) {
+      console.warn('Could not save session to storage', e);
+    }
+  }, [currentView, activePersonaId, applicant, habitPhases, lang, chatMessages, sessionLoaded]);
+
+  // Load a preset demo persona cleanly & scope chat history
   const handleSelectPersona = (personaId) => {
     setActivePersonaId(personaId);
     const persona = DEMO_PERSONAS.find((p) => p.id === personaId);
     if (persona) {
-      setApplicant({
+      const newApplicant = {
         fullName: persona.name,
         monthlyIncome: persona.monthlyIncome,
         existingEmis: persona.existingEmis,
@@ -41,9 +86,19 @@ export default function App() {
         tenureMonths: persona.tenureMonths,
         employmentType: persona.employmentType,
         creditTier: persona.creditTier,
+        cibilScore: persona.cibilScore,
         personaId: persona.id,
         isCustom: false
-      });
+      };
+      setApplicant(newApplicant);
+
+      // Clear chat messages to avoid cross-persona context leaks
+      setChatMessages([
+        {
+          sender: 'ai',
+          text: `Hello ${persona.name}! I am Paytm Sahayak, your AI Financial Education Coach.\n\nI can help you analyze your Debt-to-Income (DTI) ratio (${((persona.existingEmis / persona.monthlyIncome) * 100).toFixed(1)}%), explore what-if repayment scenarios, or clarify credit reporting guidelines. How can I assist you today?`
+        }
+      ]);
 
       if (persona.id === 'amit') {
         setCurrentView('instant-approval');
@@ -55,7 +110,7 @@ export default function App() {
 
   // Evaluation trigger from Application Form using single source of truth
   const handleSubmitEvaluation = () => {
-    const { dti, isSafe } = calculateDti(applicant.existingEmis, applicant.monthlyIncome);
+    const { isSafe } = calculateDti(applicant.existingEmis, applicant.monthlyIncome);
     if (isSafe) {
       setCurrentView('instant-approval');
     } else {
@@ -105,11 +160,18 @@ export default function App() {
     );
   };
 
-  // Reset demo
+  // Reset demo completely
   const handleReset = () => {
+    try {
+      sessionStorage.removeItem(STORAGE_KEY_STATE);
+    } catch (e) {}
+
     setApplicant(INITIAL_APPLICATION_STATE);
     setHabitPhases(INITIAL_HABIT_TASKS);
     setActivePersonaId('rahul');
+    setChatMessages([]);
+    setIsChatOpen(false);
+    setActiveFooterModal(null);
     setCurrentView('landing');
   };
 
@@ -221,6 +283,9 @@ export default function App() {
           isOpen={isChatOpen}
           onClose={() => setIsChatOpen(false)}
           applicant={applicant}
+          chatMessages={chatMessages}
+          setChatMessages={setChatMessages}
+          lang={lang}
         />
 
         {/* Footer Interactive Modals */}

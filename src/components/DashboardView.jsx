@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Flame, CheckCircle, Circle, Trophy, ArrowRight, Zap, RefreshCw, Award, Sliders, ShieldCheck, Coins } from 'lucide-react';
+import { Flame, CheckCircle, Circle, Trophy, ArrowRight, Zap, RefreshCw, Award, Sliders, ShieldCheck, Coins, Check } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { TRANSLATIONS } from '../data/mockData';
 import DemoBanner from './DemoBanner';
@@ -174,7 +174,7 @@ export default function DashboardView({
         </div>
       </div>
 
-      {/* Presenter & Hackathon Demo Superpower: Fast-Forward Slider Bar */}
+      {/* Demo Pitch Superpower: Fast-Forward Controls */}
       <div className="bg-slate-900 text-white rounded-2xl p-6 shadow-xs space-y-4">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
           <div className="flex items-center gap-2">
@@ -231,15 +231,15 @@ export default function DashboardView({
         </div>
       </div>
 
-      {/* Habit Checklist Section with Month Tabs */}
+      {/* Habit Checklist Section with Month Tabs & Interactive Checkboxes */}
       <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/80 shadow-xs space-y-6">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
           <div>
             <h2 className="text-base sm:text-xl font-bold text-slate-900">
-              Paytm Verified Milestone Habits Checklist
+              Interactive Milestone Habits Checklist
             </h2>
             <p className="text-xs text-slate-500 font-normal">
-              Check off tasks as you complete them to reduce DTI and increase loan readiness.
+              Click the checkbox on any task to complete it and increase your readiness score.
             </p>
           </div>
 
@@ -298,22 +298,28 @@ export default function DashboardView({
                   {phase.tasks.map((task) => (
                     <div
                       key={task.id}
-                      onClick={() => onToggleTask(phase.phaseId, task.id)}
-                      className={`p-4 rounded-xl border transition-all cursor-pointer flex items-start justify-between gap-4 ${
+                      className={`p-4 rounded-xl border transition-all flex items-start justify-between gap-4 ${
                         task.completed
-                          ? 'bg-slate-50/70 border-slate-200/60 opacity-80'
+                          ? 'bg-slate-50/70 border-slate-200/60 opacity-85'
                           : 'bg-white border-slate-200/80 shadow-xs hover:border-slate-300'
                       }`}
                     >
                       <div className="flex items-start gap-3">
-                        <div className="mt-0.5 shrink-0">
-                          {task.completed ? (
-                            <CheckCircle className="w-5 h-5 text-emerald-600" />
-                          ) : (
-                            <Circle className="w-5 h-5 text-slate-300" />
-                          )}
-                        </div>
-                        <div className="space-y-0.5">
+                        {/* Interactive Task Checkbox Button */}
+                        <button
+                          type="button"
+                          onClick={() => onToggleTask(phase.phaseId, task.id)}
+                          aria-label={`Mark task ${task.title} as ${task.completed ? 'incomplete' : 'completed'}`}
+                          className={`mt-0.5 p-1 rounded-md transition-colors cursor-pointer border ${
+                            task.completed
+                              ? 'bg-emerald-600 text-white border-emerald-600'
+                              : 'bg-white text-slate-300 border-slate-300 hover:border-slate-400'
+                          }`}
+                        >
+                          <Check className="w-4 h-4 stroke-[3]" />
+                        </button>
+
+                        <div className="space-y-0.5 cursor-pointer" onClick={() => onToggleTask(phase.phaseId, task.id)}>
                           <h4 className={`text-xs sm:text-sm font-semibold ${
                             task.completed ? 'text-slate-400 line-through' : 'text-slate-900'
                           }`}>
@@ -326,9 +332,17 @@ export default function DashboardView({
                       </div>
 
                       <div className="flex flex-col items-end gap-1 shrink-0">
-                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-slate-100 text-slate-700">
-                          +{task.xp} pts
-                        </span>
+                        <button
+                          type="button"
+                          onClick={() => onToggleTask(phase.phaseId, task.id)}
+                          className={`text-[10px] font-semibold px-2.5 py-1 rounded-md transition-colors cursor-pointer ${
+                            task.completed
+                              ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                              : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
+                          }`}
+                        >
+                          {task.completed ? '✓ Completed' : `+${task.xp} pts`}
+                        </button>
                         <span className="text-[10px] text-slate-400 font-medium">
                           {task.dueDate}
                         </span>

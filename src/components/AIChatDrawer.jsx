@@ -1,21 +1,68 @@
-import React, { useState } from 'react';
-import { X, Send, Headphones, ShieldCheck, Lock, ChevronRight, HelpCircle } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { X, Send, Headphones, ShieldCheck, Lock, ChevronRight, HelpCircle, AlertCircle } from 'lucide-react';
 import { AI_FAQ_KNOWLEDGE } from '../data/mockData';
 import { generateFinancialAdvisorResponse } from '../utils/financialEngine';
+
+// Markdown renderer helper for clean rich text without raw markdown symbols
+function FormattedMessage({ text }) {
+  if (!text) return null;
+
+  // Split text into paragraphs
+  const paragraphs = text.split('\n\n');
+
+  return (
+    <div className="space-y-2 text-xs leading-relaxed">
+      {paragraphs.map((para, pIdx) => {
+        // Process bold syntax **text**
+        const parts = para.split(/(\*\*.*?\*\*)/g);
+
+        // Check if paragraph is a bullet list or single block
+        const isBullet = para.trim().startsWith('•') || para.trim().startsWith('*') || para.trim().startsWith('-');
+
+        return (
+          <p key={pIdx} className={isBullet ? 'pl-2 border-l-2 border-[#00BAF2]/40 my-1' : ''}>
+            {parts.map((part, partIdx) => {
+              if (part.startsWith('**') && part.endsWith('**')) {
+                return (
+                  <strong key={partIdx} className="font-bold text-slate-900">
+                    {part.slice(2, -2)}
+                  </strong>
+                );
+              }
+              return part;
+            })}
+          </p>
+        );
+      })}
+    </div>
+  );
+}
 
 export default function AIChatDrawer({
   isOpen,
   onClose,
-  applicant = {}
+  applicant = {},
+  chatMessages = [],
+  setChatMessages,
+  lang = 'en'
 }) {
-  const [messages, setMessages] = useState([
-    {
-      sender: 'ai',
-      text: `Hello ${applicant?.fullName || 'Applicant'}! I am Paytm Sahayak, your AI Financial Education Coach.\n\nI can help you analyze your Debt-to-Income (DTI) calculations, explore what-if repayment scenarios, or explain RBI fortnightly credit reporting guidelines. How can I assist you today?`
-    }
-  ]);
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [inputError, setInputError] = useState('');
+
+  const activeName = (applicant?.fullName || 'Applicant').trim();
+
+  // Initialize greeting if chat is empty
+  useEffect(() => {
+    if (chatMessages.length === 0) {
+      setChatMessages([
+        {
+          sender: 'ai',
+          text: `Hello ${activeName}! I am Paytm Sahayak, your AI Financial Education Coach.\n\nI can help you analyze your Debt-to-Income (DTI) ratio, explore what-if repayment scenarios, or clarify credit reporting guidelines. How can I assist you today?`
+        }
+      ]);
+    }
+  }, [chatMessages, activeName, setChatMessages]);
 
   if (!isOpen) return null;
 
@@ -23,28 +70,34 @@ export default function AIChatDrawer({
     const q = (question || '').trim();
     if (!q) return;
 
+    setInputError('');
     const userMsg = { sender: 'user', text: q };
-    setMessages((prev) => [...prev, userMsg]);
+    setChatMessages((prev) => [...prev, userMsg]);
     setIsTyping(true);
 
     setTimeout(() => {
       setIsTyping(false);
       let aiReply = explicitAnswer;
       if (!aiReply) {
-        const generated = generateFinancialAdvisorResponse(q, applicant);
+        const generated = generateFinancialAdvisorResponse(q, applicant, lang);
         aiReply = generated.answer;
       }
-      setMessages((prev) => [...prev, { sender: 'ai', text: aiReply }]);
+      setChatMessages((prev) => [...prev, { sender: 'ai', text: aiReply }]);
     }, 350);
   };
 
   const handleCustomSend = (e) => {
     e.preventDefault();
     const query = inputText.trim();
-    if (!query) return;
 
+    if (!query) {
+      setInputError(lang === 'hi' ? 'कृपया संदेश भेजने से पहले अपना प्रश्न टाइप करें।' : 'Please type a question before sending.');
+      return;
+    }
+
+    setInputError('');
     setInputText('');
-    const generated = generateFinancialAdvisorResponse(query, applicant);
+    const generated = generateFinancialAdvisorResponse(query, applicant, lang);
     handleSendPrompt(query, generated.answer);
   };
 
@@ -64,7 +117,7 @@ export default function AIChatDrawer({
               </div>
               <div className="flex items-center gap-1 text-[11px] text-slate-400 font-medium">
                 <Lock className="w-2.5 h-2.5" />
-                <span>Financial Guidance Engine</span>
+                <span>Active Profile: {activeName}</span>
               </div>
             </div>
           </div>
@@ -84,9 +137,9 @@ export default function AIChatDrawer({
           <span>Educational estimation engine. Sanction decisions remain subject to partner bank credit policies.</span>
         </div>
 
-        {/* Chat Messages */}
+        {/* Chat Messages Container */}
         <div className="flex-1 overflow-y-auto p-4 space-y-3.5">
-          {messages.map((m, idx) => (
+          {chatMessages.map((m, idx) => (
             <div
               key={idx}
               className={`flex gap-2.5 ${m.sender === 'user' ? 'justify-end' : 'justify-start'}`}
@@ -97,13 +150,17 @@ export default function AIChatDrawer({
                 </div>
               )}
               <div
-                className={`max-w-[85%] p-3.5 rounded-2xl text-xs leading-relaxed whitespace-pre-line ${
+                className={`max-w-[85%] p-3.5 rounded-2xl ${
                   m.sender === 'user'
-                    ? 'bg-[#002970] text-white rounded-tr-xs shadow-xs'
+                    ? 'bg-[#002970] text-white rounded-tr-xs shadow-xs text-xs'
                     : 'bg-slate-50 text-slate-800 rounded-tl-xs border border-slate-200/80 font-medium'
                 }`}
               >
-                {m.text}
+                {m.sender === 'user' ? (
+                  <div className="whitespace-pre-line text-xs">{m.text}</div>
+                ) : (
+                  <FormattedMessage text={m.text} />
+                )}
               </div>
             </div>
           ))}
@@ -117,6 +174,14 @@ export default function AIChatDrawer({
             </div>
           )}
         </div>
+
+        {/* Input Error Message if submit empty */}
+        {inputError && (
+          <div className="px-4 py-1.5 bg-rose-50 border-t border-rose-200 text-rose-700 text-[11px] font-medium flex items-center gap-1.5">
+            <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+            <span>{inputError}</span>
+          </div>
+        )}
 
         {/* Suggested Quick Prompt Chips */}
         <div className="p-3 bg-slate-50 border-t border-slate-200 space-y-1.5">
@@ -142,18 +207,27 @@ export default function AIChatDrawer({
         <form onSubmit={handleCustomSend} className="p-3 bg-white border-t border-slate-200 flex items-center gap-2">
           <input
             type="text"
+            maxLength={500}
             value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
+            onChange={(e) => {
+              setInputText(e.target.value);
+              if (inputError) setInputError('');
+            }}
             placeholder="Ask Sahayak (e.g. 'How do I cut my DTI to 40%?')..."
             aria-label="Ask Sahayak AI Coach"
             className="flex-1 px-3 py-2 rounded-lg border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-slate-400 focus:ring-1 focus:ring-slate-400 outline-none text-xs text-slate-900"
           />
           <button
             type="submit"
+            disabled={!inputText.trim()}
             aria-label="Send Message"
-            className="p-2.5 rounded-lg bg-[#002970] hover:bg-[#001f5c] text-white transition-colors shadow-xs cursor-pointer active:scale-95"
+            className={`p-2.5 rounded-lg transition-colors shadow-xs cursor-pointer active:scale-95 ${
+              inputText.trim()
+                ? 'bg-[#002970] hover:bg-[#001f5c] text-white'
+                : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+            }`}
           >
-            <Send className="w-4 h-4 text-white" />
+            <Send className="w-4 h-4" />
           </button>
         </form>
       </div>
