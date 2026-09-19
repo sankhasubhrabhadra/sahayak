@@ -86,7 +86,9 @@ export const INITIAL_APPLICATION_STATE = {
   requestedLoanAmount: 150000,
   tenureMonths: 24,
   employmentType: 'Gig Worker',
-  creditTier: 'Fair (670)'
+  creditTier: 'Fair (670)',
+  personaId: 'rahul',
+  isCustom: false
 };
 
 export const INITIAL_HABIT_TASKS = [
@@ -94,7 +96,7 @@ export const INITIAL_HABIT_TASKS = [
     phaseId: 1,
     phaseTitle: 'Month 1: EMI Optimization & BNPL Pruning',
     phaseBadge: 'Days 1–30',
-    phaseGoal: 'Target: Reduce monthly EMI outflow by ₹6,300 to reach ~40% DTI benchmark',
+    phaseGoal: 'Target: Reduce monthly EMI outflow by excess amount to reach ~40% DTI benchmark',
     tasks: [
       {
         id: 't1',
@@ -242,9 +244,19 @@ export const TRANSLATIONS = {
     streak: 'Days Active Streak',
     fastForwardTitle: 'Demo Fast-Forward Slider (Judges & Pitch Demo)',
     congratsTitle: "You're 100% Loan Ready!",
-    claimLoanBtn: 'Claim Pre-Approved Loan',
-    disburseNow: 'Disburse to Paytm Payments Bank',
-    reset: 'Reset Demo'
+    claimLoanBtn: 'View Simulated Loan Milestone',
+    disburseNow: 'Simulated Disbursement Request',
+    reset: 'Reset Demo',
+    tabHome: '1. Home',
+    tabEligibility: '2. Eligibility',
+    tabDiagnosis: '3. Diagnosis',
+    tabOffers: '4. Offers',
+    tabRoadmap: '5. 90-Day Plan',
+    tabTracker: '6. Tracker',
+    tabSanction: '7. Sanction',
+    askAiBtn: 'Ask AI',
+    selectPersonaTitle: 'Select Persona',
+    demoProfilesSubtitle: 'Demo Profiles'
   },
   hi: {
     brandName: 'सहायक',
@@ -268,8 +280,18 @@ export const TRANSLATIONS = {
     streak: 'लगातार एक्टिव दिन',
     fastForwardTitle: 'डेमो फास्ट-फॉरवर्ड स्लाइडर (जज और पिच के लिए)',
     congratsTitle: 'बधाई हो! आप 100% लोन पात्रता पर पहुंच गए हैं!',
-    claimLoanBtn: 'प्री-अप्रूव्ड लोन देखें',
-    disburseNow: 'Paytm पेमेंट्स बैंक में तुरंत ट्रांसफर करें',
-    reset: 'रीसेट करें'
+    claimLoanBtn: 'सिम्युलेटेड लोन माइलस्टोन देखें',
+    disburseNow: 'सिम्युलेटेड ट्रांसफर अनुरोध',
+    reset: 'रीसेट करें',
+    tabHome: '1. मुख्य पृष्ठ',
+    tabEligibility: '2. लोन पात्रता',
+    tabDiagnosis: '3. डायग्नोसिस',
+    tabOffers: '4. बैंक ऑफर',
+    tabRoadmap: '5. 90-दिन का प्लान',
+    tabTracker: '6. ट्रैकर',
+    tabSanction: '7. सैंक्शन',
+    askAiBtn: 'AI से पूछें',
+    selectPersonaTitle: 'प्रोफाइल चुनें',
+    demoProfilesSubtitle: 'डेमो प्रोफाइल'
   }
 };

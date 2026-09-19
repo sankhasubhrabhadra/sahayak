@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { ArrowRight, Sliders, CheckCircle2, AlertCircle } from 'lucide-react';
+import { ArrowRight, Sliders, AlertCircle, Info } from 'lucide-react';
 import { TRANSLATIONS } from '../data/mockData';
+import { calculateDti, calculateMaxSafeEmi, calculateReliefNeeded, calculateNewDtiAfterRelief } from '../utils/financialEngine';
+import DemoBanner from './DemoBanner';
 
 export default function RejectionExplainerView({
   applicant,
@@ -10,34 +12,40 @@ export default function RejectionExplainerView({
 }) {
   const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
 
-  const monthlyIncome = Number(applicant.monthlyIncome) || 38000;
-  const existingEmis = Number(applicant.existingEmis) || 21500;
-  const currentDti = ((existingEmis / monthlyIncome) * 100).toFixed(1);
-  const maxSafeEmi = Math.round(monthlyIncome * 0.40);
-  const excessEmi = Math.max(0, existingEmis - maxSafeEmi);
+  const monthlyIncome = Math.max(1, Number(applicant.monthlyIncome) || 38000);
+  const existingEmis = Math.max(0, Number(applicant.existingEmis) || 21500);
 
-  // Interactive What-If Simulator Slider state
-  const [simulatedReduction, setSimulatedReduction] = useState(6300);
+  const { dti: currentDti, isSafe } = calculateDti(existingEmis, monthlyIncome);
+  const maxSafeEmi = calculateMaxSafeEmi(monthlyIncome, 40);
+  const excessEmi = calculateReliefNeeded(existingEmis, monthlyIncome);
+
+  // Dynamic Debt Relief Simulator State initialized to applicant's excess EMI
+  const [simulatedReduction, setSimulatedReduction] = useState(excessEmi > 0 ? excessEmi : 5000);
 
   const simulatedEmi = Math.max(0, existingEmis - simulatedReduction);
-  const simulatedDti = ((simulatedEmi / monthlyIncome) * 100).toFixed(1);
+  const simulatedDti = calculateNewDtiAfterRelief(existingEmis, simulatedReduction, monthlyIncome);
   const isSimulatedSafe = simulatedDti <= 40;
+
+  const isRahul = applicant.personaId === 'rahul' || applicant.fullName?.toLowerCase().includes('rahul');
 
   return (
     <div className="max-w-4xl mx-auto py-6 px-4 sm:px-6 space-y-6 animate-in fade-in duration-200">
+      {/* Persistent Demo Simulation Banner */}
+      <DemoBanner lang={lang} />
+
       {/* Minimalist Diagnosis Header */}
       <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xs space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
           <span className="font-medium text-slate-500 bg-slate-100 px-2.5 py-1 rounded-md border border-slate-200">
-            Ref: PTM-LON-884920
+            Ref: PTM-DEMO-{Math.floor(100000 + Math.random() * 900000)}
           </span>
           <span className="bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-md border border-emerald-200 font-medium">
-            Soft Bureau Pull (0 Score Impact)
+            Soft Bureau Inquiry (0 Score Impact)
           </span>
         </div>
 
         <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
-          {applicant.fullName || 'Rahul'}, {lang === 'en' ? "here is your loan underwriting diagnosis." : 'यहाँ आपका लोन डायग्नोसिस है।'}
+          {applicant.fullName || 'Applicant'}, {lang === 'en' ? "here is your loan underwriting diagnosis." : 'यहाँ आपका लोन डायग्नोसिस है।'}
         </h1>
 
         <p className="text-xs sm:text-sm text-slate-600 font-normal leading-relaxed max-w-2xl">
@@ -80,7 +88,7 @@ export default function RejectionExplainerView({
         </div>
       </div>
 
-      {/* Side-by-Side: Automated Filter vs Deep Discovery */}
+      {/* Side-by-Side: Automated Filter vs Forensic Discovery */}
       <div className="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs space-y-4">
         <div className="inline-block px-2.5 py-1 bg-slate-100 rounded-md font-semibold text-xs text-slate-700 border border-slate-200">
           Forensic Comparison
@@ -88,20 +96,30 @@ export default function RejectionExplainerView({
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
           <div className="bg-slate-50/70 p-4 rounded-xl border border-slate-200/80 space-y-2">
-            <span className="font-semibold text-rose-600 text-xs block">Bank Automated Filter Result</span>
+            <span className="font-semibold text-rose-600 text-xs block">Standard Bank Filter Result</span>
             <ul className="text-slate-600 space-y-1.5 list-disc list-inside text-[11px] leading-relaxed">
-              <li>High Debt-to-Income obligation at <strong>{currentDti}%</strong>.</li>
-              <li>Multiple micro-BNPL credit lines active.</li>
-              <li>Application paused automatically.</li>
+              <li>Debt-to-Income ratio at <strong>{currentDti}%</strong>.</li>
+              <li>Monthly obligations: ₹{existingEmis.toLocaleString('en-IN')}/mo against ₹{monthlyIncome.toLocaleString('en-IN')}/mo income.</li>
+              <li>Automated loan decision: Paused due to threshold breach.</li>
             </ul>
           </div>
 
           <div className="bg-slate-50/70 p-4 rounded-xl border border-slate-200/80 space-y-2">
             <span className="font-semibold text-emerald-700 text-xs block">Sahayak Deep Forensic Discovery</span>
             <ul className="text-slate-600 space-y-1.5 list-disc list-inside text-[11px] leading-relaxed">
-              <li>2 small BNPL accounts (Simpl ₹2,500 + LazyPay ₹3,800 = ₹6,300).</li>
-              <li>Primary two-wheeler loan is <strong>100% on-time (0 DPD)</strong>.</li>
-              <li>Settling the 2 micro-BNPLs drops DTI to <strong>40.0%</strong>.</li>
+              {isRahul ? (
+                <>
+                  <li>2 small BNPL accounts (Simpl ₹2,500 + LazyPay ₹3,800 = ₹6,300/mo).</li>
+                  <li>Primary two-wheeler loan is <strong>100% on-time (0 DPD)</strong>.</li>
+                  <li>Closing BNPL micro-lines drops DTI to <strong>40.0%</strong>.</li>
+                </>
+              ) : (
+                <>
+                  <li>Relief target of <strong>₹{excessEmi.toLocaleString('en-IN')}/mo</strong> needed to achieve safe DTI.</li>
+                  <li>Prioritize settling high-interest short-term credit lines or credit card revolving dues.</li>
+                  <li>Reducing EMI outflow brings your DTI to <strong>40.0% or lower</strong>.</li>
+                </>
+              )}
             </ul>
           </div>
         </div>
@@ -124,10 +142,11 @@ export default function RejectionExplainerView({
         <input
           type="range"
           min="0"
-          max="12000"
+          max={Math.max(15000, existingEmis)}
           step="500"
           value={simulatedReduction}
           onChange={(e) => setSimulatedReduction(Number(e.target.value))}
+          aria-label="Simulate Debt Reduction Amount"
           className="w-full accent-[#002970] h-2 bg-slate-100 rounded-lg cursor-pointer"
         />
 
@@ -173,4 +192,3 @@ export default function RejectionExplainerView({
     </div>
   );
 }
-

@@ -1,6 +1,8 @@
 import React from 'react';
 import { ArrowRight, Clock, ShieldCheck, Zap, TrendingUp, IndianRupee, Smartphone, Award, Activity } from 'lucide-react';
 import { TRANSLATIONS } from '../data/mockData';
+import { calculateDti, calculateMaxSafeEmi, calculateReliefNeeded } from '../utils/financialEngine';
+import DemoBanner from './DemoBanner';
 
 export default function RoadmapView({
   applicant,
@@ -9,28 +11,32 @@ export default function RoadmapView({
 }) {
   const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
 
-  const monthlyIncome = Number(applicant.monthlyIncome) || 38000;
-  const existingEmis = Number(applicant.existingEmis) || 21500;
-  const maxSafeEmi = Math.round(monthlyIncome * 0.40);
-  const excessEmi = Math.max(0, existingEmis - maxSafeEmi);
+  const monthlyIncome = Math.max(1, Number(applicant.monthlyIncome) || 38000);
+  const existingEmis = Math.max(0, Number(applicant.existingEmis) || 21500);
+  const maxSafeEmi = calculateMaxSafeEmi(monthlyIncome, 40);
+  const excessEmi = calculateReliefNeeded(existingEmis, monthlyIncome);
 
   const phases = [
     {
       phaseNumber: 1,
       badge: 'Days 1–30',
-      title: 'Phase 1: EMI Optimization & BNPL Pruning',
+      title: 'Phase 1: EMI Optimization & DTI Reduction',
       color: 'bg-amber-50 text-amber-700 border-amber-200',
-      target: `Cut monthly EMI by ₹${excessEmi.toLocaleString('en-IN')} (Target: 40% DTI)`,
+      target: excessEmi > 0
+        ? `Target: Cut monthly EMI by ₹${excessEmi.toLocaleString('en-IN')}/mo to reach ~40% DTI benchmark`
+        : `Target: Maintain existing EMI commitments under ₹${maxSafeEmi.toLocaleString('en-IN')}/mo`,
       impactBadge: 'Immediate DTI Drop',
       actions: [
         {
-          title: 'Close 2 Smallest BNPL Micro-Credit Lines (Simpl & LazyPay)',
-          desc: `Eliminates recurring monthly payments of ₹6,300/mo, immediately reducing your debt obligations before next fortnightly bureau refresh.`,
+          title: 'Pay off High-Interest Short-Term Dues or BNPL Lines',
+          desc: excessEmi > 0
+            ? `Eliminates recurring monthly debt outflow of ₹${excessEmi.toLocaleString('en-IN')}/mo before next fortnightly bureau refresh.`
+            : `Lowers active unsecured credit lines and keeps monthly debt obligations under control.`,
           icon: <IndianRupee className="w-4 h-4 text-amber-600" />
         },
         {
-          title: 'Enable Paytm UPI Auto-Debit for Essential Two-Wheeler Loan',
-          desc: 'Ensures 100% timely payment record (0 DPD) without manual memory slip-ups.',
+          title: 'Enable Paytm UPI Auto-Debit for Essential Dues',
+          desc: 'Ensures a 100% timely payment record (0 DPD) without manual memory slip-ups.',
           icon: <Smartphone className="w-4 h-4 text-blue-600" />
         }
       ]
@@ -44,12 +50,12 @@ export default function RoadmapView({
       impactBadge: 'Account Aggregator Boost',
       actions: [
         {
-          title: 'Route Gig / Business Inflows via Paytm QR & Payments Bank',
+          title: 'Route Primary Inflows via Paytm Payments Bank / Account Aggregator',
           desc: 'Creates a verifiable, continuous daily inflow record for alternate cashflow underwriting.',
           icon: <Zap className="w-4 h-4 text-indigo-600" />
         },
         {
-          title: 'Build ₹3,000 Liquid Buffer in Paytm Vault / Gold',
+          title: 'Build Emergency Liquidity Buffer in Paytm Vault / Gold',
           desc: 'Shields you from needing emergency short-term high-interest apps during monthly crunches.',
           icon: <ShieldCheck className="w-4 h-4 text-emerald-600" />
         }
@@ -61,7 +67,7 @@ export default function RoadmapView({
       title: 'Phase 3: Bureau Ingestion & Pre-Approved Sanction',
       color: 'bg-emerald-50 text-emerald-700 border-emerald-200',
       target: 'Maintain <30% card utilization & trigger 0-inquiry soft check',
-      impactBadge: 'Instant Sanction',
+      impactBadge: 'Simulated Sanction Milestone',
       actions: [
         {
           title: 'Keep Revolving Credit Card Utilization strictly below 30%',
@@ -70,7 +76,7 @@ export default function RoadmapView({
         },
         {
           title: 'Trigger Sahayak Zero-Inquiry Soft Bureau Refresh',
-          desc: 'Confirms your DTI is now <40% and unlocks pre-approved loan sanctions across partner banks.',
+          desc: 'Confirms your DTI is now <40% and unlocks illustrative pre-approved loan terms (Demo).',
           icon: <Award className="w-4 h-4 text-amber-600" />
         }
       ]
@@ -79,6 +85,8 @@ export default function RoadmapView({
 
   return (
     <div className="max-w-5xl mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-6 animate-in fade-in duration-200">
+      <DemoBanner lang={lang} />
+
       {/* Header */}
       <div className="text-center space-y-2">
         <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-slate-100 text-slate-800 border border-slate-200">
@@ -90,8 +98,8 @@ export default function RoadmapView({
         </h1>
         <p className="text-xs sm:text-sm text-slate-500 font-normal max-w-xl mx-auto">
           {lang === 'en'
-            ? 'A structured 3-phase planning roadmap aligned with RBI fortnightly credit reporting cycles to systematically rebuild your borrowing profile.'
-            : 'क्रेडिट ब्यूरो नियमों के अनुसार तैयार किया गया 3-चरणों का आसान प्लान जो आपकी लोन पात्रता को मजबूत बनाता है।'}
+            ? `Structured 3-phase pathway for ${applicant.fullName || 'Applicant'} (Requested Loan: ₹${Number(applicant.requestedLoanAmount || 150000).toLocaleString('en-IN')}).`
+            : 'क्रेडिट ब्यूरो नियमों के अनुसार तैयार किया गया 3-चरणों का आसान प्लान।'}
         </p>
       </div>
 
@@ -169,7 +177,7 @@ export default function RoadmapView({
             <span>RBI Fortnightly Reporting Synchronization</span>
           </div>
           <p className="text-xs text-slate-500 font-normal leading-relaxed">
-            Credit bureaus (CIBIL, Experian, CRIF) ingest bank repayments every 15 days (by the 15th and month-end). By Day 90, all closed BNPLs and disciplined UPI inflows are permanently updated, qualifying you for lowest interest rates.
+            Credit bureaus (CIBIL, Experian, CRIF) ingest bank repayments every 15 days (by the 15th and month-end). By Day 90, all closed accounts and disciplined UPI inflows are reflected in your credit footprint.
           </p>
         </div>
 
@@ -184,4 +192,3 @@ export default function RoadmapView({
     </div>
   );
 }
-

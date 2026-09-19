@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Globe, RefreshCw, Headphones, ChevronDown } from 'lucide-react';
-import { DEMO_PERSONAS } from '../data/mockData';
+import { DEMO_PERSONAS, TRANSLATIONS } from '../data/mockData';
 
 export default function Navbar({
   currentView,
@@ -14,17 +14,18 @@ export default function Navbar({
   setIsChatOpen
 }) {
   const [showPersonaMenu, setShowPersonaMenu] = useState(false);
+  const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
 
   const activePersona = DEMO_PERSONAS.find((p) => p.id === activePersonaId) || DEMO_PERSONAS[0];
 
   const paytmTabs = [
-    { id: 'landing', label: '1. Home' },
-    { id: 'application', label: '2. Eligibility' },
-    { id: 'explainer', label: '3. Diagnosis' },
-    { id: 'offers', label: '4. Offers' },
-    { id: 'roadmap', label: '5. 90-Day Plan' },
-    { id: 'dashboard', label: '6. Tracker' },
-    { id: 'success', label: '7. Sanction' },
+    { id: 'landing', label: t.tabHome },
+    { id: 'application', label: t.tabEligibility },
+    { id: 'explainer', label: t.tabDiagnosis },
+    { id: 'offers', label: t.tabOffers },
+    { id: 'roadmap', label: t.tabRoadmap },
+    { id: 'dashboard', label: t.tabTracker },
+    { id: 'success', label: t.tabSanction },
   ];
 
   return (
@@ -35,7 +36,8 @@ export default function Navbar({
           <div className="flex items-center gap-6">
             <button
               onClick={() => setCurrentView('landing')}
-              className="flex items-center gap-2 text-left group transition-transform active:scale-95"
+              aria-label="Paytm Sahayak Home"
+              className="flex items-center gap-2 text-left group transition-transform active:scale-95 cursor-pointer"
             >
               <div className="flex items-baseline">
                 <span className="font-bold text-xl tracking-tight text-[#002970]">Pay</span>
@@ -72,6 +74,7 @@ export default function Navbar({
             {/* Language Switcher */}
             <button
               onClick={() => setLang(lang === 'en' ? 'hi' : 'en')}
+              aria-label="Toggle Language Hindi or English"
               className="flex items-center gap-1.5 bg-white text-slate-700 font-medium px-3 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors shadow-xs cursor-pointer"
             >
               <Globe className="w-3.5 h-3.5 text-slate-500" />
@@ -81,16 +84,18 @@ export default function Navbar({
             {/* 24x7 Help Trigger */}
             <button
               onClick={() => setIsChatOpen(!isChatOpen)}
+              aria-label="Open AI Assistant Chat"
               className="flex items-center gap-1.5 bg-[#002970] text-white font-medium px-3.5 py-1.5 rounded-lg hover:bg-[#001f5c] transition-colors shadow-xs cursor-pointer"
             >
               <Headphones className="w-3.5 h-3.5 text-slate-200" />
-              <span className="hidden sm:inline">Ask AI</span>
+              <span className="hidden sm:inline">{t.askAiBtn}</span>
             </button>
 
             {/* Persona Switcher Dropdown */}
             <div className="relative">
               <button
                 onClick={() => setShowPersonaMenu(!showPersonaMenu)}
+                aria-label="Select Demo Persona"
                 className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-50 transition-colors shadow-xs cursor-pointer"
               >
                 <div className="w-5 h-5 bg-slate-900 text-white font-semibold text-[10px] rounded-md flex items-center justify-center">
@@ -105,8 +110,8 @@ export default function Navbar({
               {showPersonaMenu && (
                 <div className="absolute right-0 mt-2 w-72 bg-white rounded-xl border border-slate-200 shadow-xl p-2 z-50 animate-in fade-in zoom-in-95">
                   <div className="px-2.5 py-1.5 text-[11px] font-semibold text-slate-400 uppercase tracking-wider flex items-center justify-between border-b border-slate-100 mb-1.5">
-                    <span>Select Persona</span>
-                    <span className="font-normal text-[10px]">Demo Profiles</span>
+                    <span>{t.selectPersonaTitle}</span>
+                    <span className="font-normal text-[10px]">{t.demoProfilesSubtitle}</span>
                   </div>
                   {DEMO_PERSONAS.map((p) => (
                     <button
@@ -143,6 +148,7 @@ export default function Navbar({
             <button
               onClick={onReset}
               title="Reset Demo"
+              aria-label="Reset Demo"
               className="p-2 bg-white text-slate-500 rounded-lg border border-slate-200 hover:text-slate-900 hover:bg-slate-50 transition-colors shadow-xs cursor-pointer"
             >
               <RefreshCw className="w-3.5 h-3.5" />
@@ -153,4 +159,3 @@ export default function Navbar({
     </header>
   );
 }
-

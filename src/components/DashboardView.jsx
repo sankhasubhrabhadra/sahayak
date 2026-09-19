@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Flame, CheckCircle, Circle, Trophy, ArrowRight, Zap, RefreshCw, Award, Sliders, ShieldCheck, Coins } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { TRANSLATIONS } from '../data/mockData';
+import DemoBanner from './DemoBanner';
 
 export default function DashboardView({
   applicant,
@@ -13,6 +14,8 @@ export default function DashboardView({
 }) {
   const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
   const [activeTab, setActiveTab] = useState('all');
+
+  const requestedLoan = Math.max(10000, Number(applicant.requestedLoanAmount) || 150000);
 
   // Calculate overall completion percentage from habit tasks
   let totalWeight = 0;
@@ -57,6 +60,8 @@ export default function DashboardView({
 
   return (
     <div className="max-w-6xl mx-auto py-8 px-4 sm:px-6 lg:px-8 space-y-6 animate-in fade-in duration-200">
+      <DemoBanner lang={lang} />
+
       {/* Top Banner: Paytm Financial Fitness Dashboard */}
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 pb-3 border-b border-slate-200">
         <div>
@@ -65,10 +70,10 @@ export default function DashboardView({
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               Paytm Credit Builder Engine
             </span>
-            <span className="text-xs text-slate-500 font-medium">• Real-Time Bureau Sync</span>
+            <span className="text-xs text-slate-500 font-medium">• Fortnightly Bureau Sync</span>
           </div>
           <h1 className="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mt-2">
-            {applicant.fullName || 'Rahul'}'s {t.trackerTitle}
+            {applicant.fullName || 'Applicant'}'s {t.trackerTitle}
           </h1>
         </div>
 
@@ -79,7 +84,7 @@ export default function DashboardView({
             className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-5 py-2.5 rounded-lg shadow-xs transition-all flex items-center gap-2 text-xs sm:text-sm cursor-pointer active:scale-[0.99]"
           >
             <Trophy className="w-5 h-5 text-white" />
-            <span>100% Ready — Claim ₹1,50,000 Loan!</span>
+            <span>100% Ready — View Sanction Preview for ₹{requestedLoan.toLocaleString('en-IN')}</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         )}
@@ -97,7 +102,7 @@ export default function DashboardView({
               {progressPercent}%
             </div>
             <p className="text-xs text-slate-500">
-              {is100Percent ? 'Fully Sanction Ready' : 'In Progress (On Track)'}
+              {is100Percent ? '100% Readiness Target Reached' : 'In Progress (On Track)'}
             </p>
           </div>
 
@@ -145,7 +150,7 @@ export default function DashboardView({
               <span className="text-[10px] bg-emerald-50 text-emerald-700 font-semibold px-2 py-0.5 rounded-md border border-emerald-200">Active</span>
             </div>
             <p className="text-xs text-slate-500 mt-0.5">
-              100% timely auto-debit payments recorded.
+              On-time payments & auto-debits recorded.
             </p>
           </div>
         </div>
@@ -157,7 +162,7 @@ export default function DashboardView({
           </div>
           <div>
             <span className="text-xs font-medium text-slate-500 uppercase tracking-wider">
-              Paytm Cashback Points
+              Sahayak Credit XP
             </span>
             <div className="text-2xl font-bold text-slate-900 mt-0.5">
               Level {progressPercent > 60 ? '3' : progressPercent > 30 ? '2' : '1'}
@@ -179,7 +184,7 @@ export default function DashboardView({
             </span>
           </div>
           <span className="text-xs text-slate-400">
-            Simulate 90-day progress timeline for demo:
+            Simulate 90-day progress timeline for pitch demo:
           </span>
         </div>
 
@@ -220,6 +225,7 @@ export default function DashboardView({
             step="5"
             value={progressPercent}
             onChange={(e) => onFastForward(Number(e.target.value))}
+            aria-label="Fast forward progress percentage"
             className="w-full accent-emerald-400 h-2 bg-slate-800 rounded-lg cursor-pointer"
           />
         </div>
@@ -343,7 +349,7 @@ export default function DashboardView({
               All 90-Day Milestones Successfully Achieved!
             </h3>
             <p className="text-xs text-emerald-100 font-normal">
-              Your revised DTI is verified at 34.2% and pre-approved loan sanctions are unlocked.
+              Your revised Debt-to-Income capacity qualifies you for simulated pre-approval terms for ₹{requestedLoan.toLocaleString('en-IN')}.
             </p>
           </div>
 
@@ -351,11 +357,10 @@ export default function DashboardView({
             onClick={onProceedToSuccess}
             className="w-full sm:w-auto px-6 py-3 rounded-lg bg-white text-emerald-800 hover:bg-emerald-50 font-semibold text-xs sm:text-sm shadow-xs transition-all whitespace-nowrap cursor-pointer active:scale-[0.99]"
           >
-            Claim Pre-Approved Loan Offer ➔
+            View Sanction Preview for ₹{requestedLoan.toLocaleString('en-IN')} ➔
           </button>
         </div>
       )}
     </div>
   );
 }
-

@@ -6,12 +6,12 @@ import { generateFinancialAdvisorResponse } from '../utils/financialEngine';
 export default function AIChatDrawer({
   isOpen,
   onClose,
-  applicant
+  applicant = {}
 }) {
   const [messages, setMessages] = useState([
     {
       sender: 'ai',
-      text: `Hello ${applicant?.fullName || 'Rahul'}! I am Paytm Sahayak, your AI Financial Education Coach. I can help you understand your Debt-to-Income (DTI) calculations, explore what-if scenarios, or clarify RBI fortnightly reporting rules. How can I help you today?`
+      text: `Hello ${applicant?.fullName || 'Applicant'}! I am Paytm Sahayak, your AI Financial Education Coach.\n\nI can help you analyze your Debt-to-Income (DTI) calculations, explore what-if repayment scenarios, or explain RBI fortnightly credit reporting guidelines. How can I assist you today?`
     }
   ]);
   const [inputText, setInputText] = useState('');
@@ -20,8 +20,10 @@ export default function AIChatDrawer({
   if (!isOpen) return null;
 
   const handleSendPrompt = (question, explicitAnswer) => {
-    // Add user question
-    const userMsg = { sender: 'user', text: question };
+    const q = (question || '').trim();
+    if (!q) return;
+
+    const userMsg = { sender: 'user', text: q };
     setMessages((prev) => [...prev, userMsg]);
     setIsTyping(true);
 
@@ -29,20 +31,19 @@ export default function AIChatDrawer({
       setIsTyping(false);
       let aiReply = explicitAnswer;
       if (!aiReply) {
-        const generated = generateFinancialAdvisorResponse(question, applicant);
+        const generated = generateFinancialAdvisorResponse(q, applicant);
         aiReply = generated.answer;
       }
       setMessages((prev) => [...prev, { sender: 'ai', text: aiReply }]);
-    }, 400);
+    }, 350);
   };
 
   const handleCustomSend = (e) => {
     e.preventDefault();
-    if (!inputText.trim()) return;
-
     const query = inputText.trim();
-    setInputText('');
+    if (!query) return;
 
+    setInputText('');
     const generated = generateFinancialAdvisorResponse(query, applicant);
     handleSendPrompt(query, generated.answer);
   };
@@ -58,7 +59,7 @@ export default function AIChatDrawer({
             </div>
             <div>
               <div className="flex items-center gap-2 font-bold text-sm">
-                <span>Paytm Sahayak 24x7</span>
+                <span>Paytm Sahayak AI Coach</span>
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
               </div>
               <div className="flex items-center gap-1 text-[11px] text-slate-400 font-medium">
@@ -70,6 +71,7 @@ export default function AIChatDrawer({
 
           <button
             onClick={onClose}
+            aria-label="Close Chat Drawer"
             className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
@@ -143,10 +145,12 @@ export default function AIChatDrawer({
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
             placeholder="Ask Sahayak (e.g. 'How do I cut my DTI to 40%?')..."
+            aria-label="Ask Sahayak AI Coach"
             className="flex-1 px-3 py-2 rounded-lg border border-slate-200 bg-slate-50/50 focus:bg-white focus:border-slate-400 focus:ring-1 focus:ring-slate-400 outline-none text-xs text-slate-900"
           />
           <button
             type="submit"
+            aria-label="Send Message"
             className="p-2.5 rounded-lg bg-[#002970] hover:bg-[#001f5c] text-white transition-colors shadow-xs cursor-pointer active:scale-95"
           >
             <Send className="w-4 h-4 text-white" />

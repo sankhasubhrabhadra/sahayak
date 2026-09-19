@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { CheckCircle2, ArrowRight, Check, X } from 'lucide-react';
+import { ArrowRight, Check, X, Info } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { TRANSLATIONS } from '../data/mockData';
-import { calculateReducingEmi } from '../utils/financialEngine';
+import { calculateReducingEmi, calculateDti } from '../utils/financialEngine';
+import DemoBanner from './DemoBanner';
 
 export default function BestFitOffersView({
   applicant,
   onProceedToRoadmap,
-  onSelectOffer,
   lang = 'en'
 }) {
   const t = TRANSLATIONS[lang] || TRANSLATIONS.en;
@@ -15,22 +15,23 @@ export default function BestFitOffersView({
   const [isApplying, setIsApplying] = useState(false);
   const [appliedSuccess, setAppliedSuccess] = useState(false);
 
-  const monthlyIncome = Number(applicant.monthlyIncome) || 38000;
-  const existingEmis = Number(applicant.existingEmis) || 21500;
-  const originalRequest = Number(applicant.requestedLoanAmount) || 150000;
+  const monthlyIncome = Math.max(1, Number(applicant.monthlyIncome) || 38000);
+  const existingEmis = Math.max(0, Number(applicant.existingEmis) || 21500);
+  const originalRequest = Math.max(10000, Number(applicant.requestedLoanAmount) || 150000);
 
-  // Realistic eligible amounts calculated with reducing-balance EMI formula:
-  const offer1Amount = Math.max(30000, Math.min(originalRequest - 30000, Math.round((monthlyIncome * 1.8) / 5000) * 5000));
+  // Dynamic offers tailored to requested loan amount
+  const offer1Amount = Math.max(20000, Math.min(originalRequest, Math.round((originalRequest * 0.6) / 5000) * 5000));
   const offer1Tenure = 18;
   const offer1Rate = 11.49;
   const offer1Emi = calculateReducingEmi(offer1Amount, offer1Rate, offer1Tenure);
+  const offer1Dti = calculateDti(existingEmis + offer1Emi, monthlyIncome).dti;
 
-  const offer2Amount = Math.max(45000, Math.min(originalRequest - 15000, Math.round((monthlyIncome * 2.4) / 5000) * 5000));
+  const offer2Amount = Math.max(30000, Math.min(originalRequest, Math.round((originalRequest * 0.8) / 5000) * 5000));
   const offer2Tenure = 24;
   const offer2Rate = 12.25;
   const offer2Emi = calculateReducingEmi(offer2Amount, offer2Rate, offer2Tenure);
 
-  const offer3Amount = Math.max(50000, Math.min(originalRequest, Math.round((monthlyIncome * 2.8) / 5000) * 5000));
+  const offer3Amount = originalRequest;
   const offer3Tenure = 36;
   const offer3Rate = 10.99;
   const offer3Emi = calculateReducingEmi(offer3Amount, offer3Rate, offer3Tenure);
@@ -39,18 +40,18 @@ export default function BestFitOffersView({
     {
       id: 'offer-1',
       lenderName: 'Hero FinCorp',
-      lenderType: 'Pre-Approved Micro Ticket',
+      lenderType: 'Pre-Qualified Micro Ticket',
       eligibleAmount: offer1Amount,
       interestRate: offer1Rate,
       tenureMonths: offer1Tenure,
       monthlyEmi: offer1Emi,
       isBestMatch: true,
-      approvalTag: 'High Approval Probability',
-      whyFits: `Keeps new EMI to ₹${offer1Emi.toLocaleString('en-IN')}/mo, holding your total DTI safely under 36%.`,
+      approvalTag: 'High Approval Fit',
+      whyFits: `New EMI of ₹${offer1Emi.toLocaleString('en-IN')}/mo keeps your projected total DTI at ~${offer1Dti}%.`,
       features: [
-        'Instant disbursal in 2 mins',
+        'Instant digital eligibility check',
         'DigiLocker paperless KYC',
-        '0 prepayment fee after 6 mo'
+        '0 prepayment fee after 6 months'
       ]
     },
     {
@@ -63,7 +64,7 @@ export default function BestFitOffersView({
       monthlyEmi: offer2Emi,
       isBestMatch: false,
       approvalTag: 'Cashflow Fit',
-      whyFits: `Evaluates steady daily UPI transaction velocity instead of mandatory salary slips.`,
+      whyFits: `Evaluates steady UPI transaction velocity instead of mandatory salary slips.`,
       features: [
         'Flexible 12 to 24-month tenure',
         'Account Aggregator soft pull',
@@ -80,11 +81,11 @@ export default function BestFitOffersView({
       monthlyEmi: offer3Emi,
       isBestMatch: false,
       approvalTag: 'EMI Reducer Special',
-      whyFits: `Directly settles 2 scattered high-interest BNPLs, saving ₹2,400/month in total outflows.`,
+      whyFits: `Consolidates scattered short-term dues into a single structured monthly EMI.`,
       features: [
-        'Directly pays off active BNPLs',
-        'Lowers monthly debt commitments',
-        'Clean credit bureau update'
+        'Directly pays off active micro-lines',
+        'Lowers total monthly debt commitments',
+        'Clean credit bureau reporting'
       ]
     }
   ];
@@ -99,28 +100,30 @@ export default function BestFitOffersView({
       setAppliedSuccess(true);
       try {
         confetti({
-          particleCount: 80,
-          spread: 70,
+          particleCount: 70,
+          spread: 60,
           origin: { y: 0.6 }
         });
       } catch (e) {}
-    }, 900);
+    }, 800);
   };
 
   return (
     <div className="max-w-5xl mx-auto py-6 px-4 sm:px-6 space-y-6 animate-in fade-in duration-200">
+      <DemoBanner lang={lang} />
+
       {/* Header */}
       <div className="space-y-1">
         <div className="inline-block px-2.5 py-1 bg-slate-100 rounded-md font-semibold text-xs text-slate-700 border border-slate-200">
           Paytm Marketplace Matches
         </div>
         <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
-          {lang === 'en' ? 'Matched Alternative Bank Offers' : 'आपके लिए उपयुक्त बैंक ऑफर्स'}
+          {t.tabOffers}
         </h1>
         <p className="text-xs sm:text-sm text-slate-500 font-normal max-w-2xl">
           {lang === 'en'
-            ? `These calibrated loan sizes fit within your safe 40% EMI threshold with immediate pre-qualification.`
-            : `यह बैंक विकल्प आपकी वर्तमान आमदनी के अनुसार सुरक्षित ईएमआई सीमा में आते हैं।`}
+            ? `Matched offers for ${applicant.fullName || 'Applicant'} seeking ₹${originalRequest.toLocaleString('en-IN')} (Income: ₹${monthlyIncome.toLocaleString('en-IN')}).`
+            : `यह बैंक विकल्प आपकी वर्तमान आमदनी के अनुसार तैयार किए गए हैं।`}
         </p>
       </div>
 
@@ -155,7 +158,7 @@ export default function BestFitOffersView({
 
               {/* Amount Box */}
               <div className="bg-slate-50 rounded-2xl p-4 space-y-2 border border-slate-100">
-                <div className="text-[11px] font-medium text-slate-500 uppercase">Approved Loan Amount</div>
+                <div className="text-[11px] font-medium text-slate-500 uppercase">Illustrative Offer Size</div>
                 <div className="text-2xl font-bold text-slate-900">
                   ₹{offer.eligibleAmount.toLocaleString('en-IN')}
                 </div>
@@ -166,7 +169,7 @@ export default function BestFitOffersView({
                     <span className="font-semibold text-slate-900">{offer.interestRate}% p.a.</span>
                   </div>
                   <div>
-                    <span className="text-slate-500 text-[10px] block">Monthly EMI</span>
+                    <span className="text-slate-500 text-[10px] block">Estimated EMI</span>
                     <span className="font-semibold text-slate-900">₹{offer.monthlyEmi.toLocaleString('en-IN')}/mo</span>
                   </div>
                 </div>
@@ -197,7 +200,7 @@ export default function BestFitOffersView({
                   : 'bg-slate-100 hover:bg-slate-200 text-slate-800'
               }`}
             >
-              <span>Apply for ₹{offer.eligibleAmount.toLocaleString('en-IN')}</span>
+              <span>Simulate Application (₹{offer.eligibleAmount.toLocaleString('en-IN')})</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
@@ -208,7 +211,7 @@ export default function BestFitOffersView({
       <div className="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
         <div>
           <h4 className="text-base font-semibold text-slate-900">
-            Still need your full ₹{originalRequest.toLocaleString('en-IN')} loan amount?
+            Need your full requested loan amount of ₹{originalRequest.toLocaleString('en-IN')}?
           </h4>
           <p className="text-xs text-slate-500 font-normal mt-0.5">
             Follow the structured 90-day recovery plan to systematically reduce your DTI below 40%.
@@ -224,17 +227,18 @@ export default function BestFitOffersView({
         </button>
       </div>
 
-      {/* Modal */}
+      {/* Illustrative Mock Application Modal */}
       {selectedOfferModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-xs animate-in fade-in">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs animate-in fade-in">
           <div className="bg-white rounded-2xl p-6 max-w-md w-full border border-slate-200 shadow-xl space-y-4">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <div>
                 <h4 className="font-semibold text-base text-slate-900">{selectedOfferModal.lenderName}</h4>
-                <span className="text-[11px] text-slate-500">Pre-Qualified Loan Sanction</span>
+                <span className="text-[11px] text-slate-500">Illustrative Partner Redirect Simulation</span>
               </div>
               <button
                 onClick={() => setSelectedOfferModal(null)}
+                aria-label="Close Modal"
                 className="p-1.5 rounded-md text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors cursor-pointer"
               >
                 <X className="w-4 h-4" />
@@ -244,24 +248,27 @@ export default function BestFitOffersView({
             {isApplying ? (
               <div className="py-6 text-center space-y-2">
                 <div className="w-8 h-8 border-2 border-slate-200 border-t-[#002970] rounded-full animate-spin mx-auto" />
-                <p className="text-xs text-slate-600 font-medium">Processing pre-approval sanction...</p>
+                <p className="text-xs text-slate-600 font-medium">Connecting to simulated lender portal...</p>
               </div>
             ) : appliedSuccess ? (
               <div className="py-2 text-center space-y-3">
-                <div className="w-12 h-12 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto">
-                  <CheckCircle2 className="w-7 h-7" />
+                <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl text-amber-900 text-xs text-left leading-relaxed">
+                  <div className="font-bold flex items-center gap-1.5 mb-1 text-amber-800">
+                    <Info className="w-4 h-4" />
+                    Demo Simulation Notice
+                  </div>
+                  In a live production application, you would now complete KYC verification on {selectedOfferModal.lenderName}'s secure portal. No real application or credit bureau inquiry has occurred.
                 </div>
-                <div>
-                  <h5 className="font-bold text-lg text-slate-900">Offer Sanctioned!</h5>
-                  <p className="text-xs text-slate-500 font-normal mt-1">
-                    Your ₹{selectedOfferModal.eligibleAmount.toLocaleString('en-IN')} loan has been approved. Monthly EMI: ₹{selectedOfferModal.monthlyEmi.toLocaleString('en-IN')}.
-                  </p>
+                <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 text-left text-xs space-y-1">
+                  <div className="font-bold text-slate-900">Simulated Offer Details:</div>
+                  <div>• Loan Amount: ₹{selectedOfferModal.eligibleAmount.toLocaleString('en-IN')}</div>
+                  <div>• Estimated EMI: ₹{selectedOfferModal.monthlyEmi.toLocaleString('en-IN')}/mo ({selectedOfferModal.tenureMonths} Months @ {selectedOfferModal.interestRate}% p.a.)</div>
                 </div>
                 <button
                   onClick={() => setSelectedOfferModal(null)}
                   className="w-full py-2.5 rounded-lg bg-[#002970] hover:bg-[#001f5c] text-white font-semibold text-xs transition-colors cursor-pointer"
                 >
-                  Done
+                  Return to Sahayak
                 </button>
               </div>
             ) : null}
@@ -271,4 +278,3 @@ export default function BestFitOffersView({
     </div>
   );
 }
-
