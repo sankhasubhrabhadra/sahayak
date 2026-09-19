@@ -110,7 +110,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F8FAFC] text-slate-900">
+    <div className="min-h-screen flex flex-col bg-[#FFFDF5] text-black">
       {/* Top Navbar */}
       <Navbar
         currentView={currentView}
@@ -205,87 +205,84 @@ export default function App() {
         applicant={applicant}
       />
 
-      {/* Official Paytm Minimalist Sticky Bottom Action Bar (Mobile only) */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 py-2 px-4 shadow-xs sm:hidden flex items-center justify-around">
+      {/* Official Paytm Neo-Brutalist Sticky Bottom Action Bar (Mobile only) */}
+      <div className="fixed bottom-0 left-0 right-0 z-40 bg-white border-t-[3px] border-black py-2.5 px-3 sm:hidden flex items-center justify-around shadow-brutal">
         <button
           onClick={() => setCurrentView('landing')}
-          className={`flex flex-col items-center gap-1 text-[10px] font-medium transition-colors ${
-            currentView === 'landing' ? 'text-[#002970] font-semibold' : 'text-slate-500 hover:text-slate-900'
+          className={`flex flex-col items-center gap-1 text-[10px] font-black uppercase tracking-wider py-1 px-2 rounded border-2 transition-all ${
+            currentView === 'landing' ? 'bg-[#FFD200] border-black shadow-brutal-sm text-black' : 'border-transparent text-slate-700'
           }`}
         >
-          <Home className="w-4 h-4" />
+          <Home className="w-4 h-4 stroke-[2.5]" />
           <span>Loans</span>
         </button>
         <button
           onClick={() => setCurrentView('application')}
-          className={`flex flex-col items-center gap-1 text-[10px] font-medium transition-colors ${
-            currentView === 'application' ? 'text-[#002970] font-semibold' : 'text-slate-500 hover:text-slate-900'
+          className={`flex flex-col items-center gap-1 text-[10px] font-black uppercase tracking-wider py-1 px-2 rounded border-2 transition-all ${
+            currentView === 'application' ? 'bg-[#FFD200] border-black shadow-brutal-sm text-black' : 'border-transparent text-slate-700'
           }`}
         >
-          <FileText className="w-4 h-4" />
+          <FileText className="w-4 h-4 stroke-[2.5]" />
           <span>Apply</span>
         </button>
         <button
           onClick={() => setCurrentView('explainer')}
-          className={`flex flex-col items-center gap-1 text-[10px] font-medium transition-colors ${
-            currentView === 'explainer' || currentView === 'offers' ? 'text-[#002970] font-semibold' : 'text-slate-500 hover:text-slate-900'
+          className={`flex flex-col items-center gap-1 text-[10px] font-black uppercase tracking-wider py-1 px-2 rounded border-2 transition-all ${
+            currentView === 'explainer' || currentView === 'offers' ? 'bg-[#FFD200] border-black shadow-brutal-sm text-black' : 'border-transparent text-slate-700'
           }`}
         >
-          <Bot className="w-4 h-4" />
+          <Bot className="w-4 h-4 stroke-[2.5]" />
           <span>Sahayak</span>
         </button>
         <button
           onClick={() => setCurrentView('dashboard')}
-          className={`flex flex-col items-center gap-1 text-[10px] font-medium transition-colors ${
-            currentView === 'dashboard' ? 'text-[#002970] font-semibold' : 'text-slate-500 hover:text-slate-900'
+          className={`flex flex-col items-center gap-1 text-[10px] font-black uppercase tracking-wider py-1 px-2 rounded border-2 transition-all ${
+            currentView === 'dashboard' ? 'bg-[#FFD200] border-black shadow-brutal-sm text-black' : 'border-transparent text-slate-700'
           }`}
         >
-          <BarChart3 className="w-4 h-4" />
+          <BarChart3 className="w-4 h-4 stroke-[2.5]" />
           <span>Tracker</span>
         </button>
         <button
           onClick={() => setIsChatOpen(true)}
-          className="flex flex-col items-center gap-1 text-[10px] font-medium text-slate-500 hover:text-slate-900"
+          className="flex flex-col items-center gap-1 text-[10px] font-black uppercase tracking-wider py-1 px-2 rounded border-2 border-black bg-[#00BAF2] text-black shadow-brutal-sm"
         >
-          <HelpCircle className="w-4 h-4" />
-          <span>24x7 Help</span>
+          <HelpCircle className="w-4 h-4 stroke-[2.5]" />
+          <span>24x7</span>
         </button>
       </div>
 
-      {/* Official Paytm Super App Footer */}
-      <footer className="bg-white border-t border-slate-200 py-6 px-4 sm:px-6 lg:px-8 space-y-3 mb-14 sm:mb-0">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-          <div className="flex items-center gap-2">
-            <div className="flex items-center">
-              <span className="font-bold text-[#002970] text-sm tracking-tight">Pay</span>
-              <span className="font-bold text-[#00BAF2] text-sm tracking-tight">tm</span>
+      {/* Official Paytm Neo-Brutalist Super App Footer */}
+      <footer className="bg-white border-t-[3px] border-black py-8 px-4 sm:px-6 lg:px-8 space-y-4 mb-14 sm:mb-0">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-bold text-black">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center px-3 py-1 bg-[#FFFDF5] border-2 border-black shadow-brutal-sm rounded-md">
+              <span className="font-black text-[#002970] text-sm tracking-tight">Pay</span>
+              <span className="font-black text-[#00BAF2] text-sm tracking-tight">tm</span>
             </div>
-            <span className="text-slate-300">|</span>
-            <span className="font-medium text-slate-700">Sahayak AI Financial Coaching System</span>
+            <span className="font-black text-black">Sahayak AI Financial Coaching System</span>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3 text-[11px] font-medium text-slate-600">
-            <span>Build for India AI Hackathon</span>
-            <span>•</span>
-            <span className="flex items-center gap-1 text-emerald-700">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-              RBI Fortnightly Synchronized
+          <div className="flex flex-wrap items-center justify-center gap-2 text-[11px] font-black text-black">
+            <span className="bg-[#FFD200] px-2.5 py-1 rounded border-2 border-black shadow-brutal-sm uppercase">Build for India AI Hackathon</span>
+            <span className="flex items-center gap-1.5 bg-[#00B37E] text-white px-2.5 py-1 rounded border-2 border-black shadow-brutal-sm uppercase">
+              <ShieldCheck className="w-3.5 h-3.5 stroke-[3]" />
+              RBI Fortnightly Sync
             </span>
-            <span>•</span>
-            <span className="text-slate-400">256-Bit SSL Encrypted</span>
+            <span className="bg-zinc-100 px-2.5 py-1 rounded border-2 border-black shadow-brutal-sm uppercase text-slate-800">256-Bit SSL Encrypted</span>
           </div>
         </div>
 
-        <div className="max-w-6xl mx-auto border-t border-slate-100 pt-3 text-center md:text-left text-[11px] text-slate-400 flex flex-col md:flex-row items-center justify-between gap-2">
+        <div className="max-w-6xl mx-auto border-t-2 border-black pt-4 text-center md:text-left text-[11px] font-bold text-slate-700 flex flex-col md:flex-row items-center justify-between gap-3">
           <p>
             © 2026 One97 Communications Limited. Paytm Sahayak is an educational & credit transformation coach built on RBI Digital Lending Guidelines.
           </p>
-          <div className="flex items-center gap-3 text-[11px] text-slate-500">
-            <span>Security & Privacy</span>
+          <div className="flex items-center gap-3 text-[11px] font-black text-black uppercase">
+            <span className="hover:underline cursor-pointer">Security & Privacy</span>
             <span>•</span>
-            <span>Grievance Officer</span>
+            <span className="hover:underline cursor-pointer">Grievance Officer</span>
             <span>•</span>
-            <span>NBFC Partner Disclosures</span>
+            <span className="hover:underline cursor-pointer">NBFC Disclosures</span>
           </div>
         </div>
       </footer>

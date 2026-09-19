@@ -14,19 +14,26 @@ export default {
           light: '#E6F8FE',
           accent: '#00A3D8',
           success: '#00B37E',
-          warning: '#F59E0B',
-          danger: '#EF4444'
+          warning: '#FFD200',
+          danger: '#FF4D4D',
+          cream: '#FFFDF0',
         }
       },
       fontFamily: {
         sans: ['Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
-        'soft': '0 4px 20px -2px rgba(0, 41, 112, 0.08)',
-        'card': '0 10px 30px -4px rgba(0, 41, 112, 0.1)',
-        'glow': '0 0 25px rgba(0, 186, 242, 0.35)',
+        'brutal-sm': '2px 2px 0px #000000',
+        'brutal': '4px 4px 0px #000000',
+        'brutal-lg': '6px 6px 0px #000000',
+        'brutal-xl': '8px 8px 0px #000000',
+        'brutal-navy': '4px 4px 0px #002970',
+        'brutal-cyan': '4px 4px 0px #00BAF2',
+        'brutal-yellow': '4px 4px 0px #FFD200',
+        'brutal-green': '4px 4px 0px #10B981',
       }
     },
   },
   plugins: [],
 }
+
