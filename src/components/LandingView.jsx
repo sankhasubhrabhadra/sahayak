@@ -35,8 +35,8 @@ export default function LandingView({
       icon: <CheckCircle2 className="w-6 h-6 text-[#00BAF2]" />,
       title: lang === 'en' ? 'Pre-Approved Re-Application' : 'प्री-अप्रूव्ड री-एप्लीकेशन',
       desc: lang === 'en'
-        ? 'Hit 100% readiness and unlock guaranteed instant loan sanction with 0 hard inquiries.'
-        : '100% स्कोर होते ही बिना किसी अतिरिक्त कागजात के तुरंत प्री-अप्रूव्ड लोन प्राप्त करें।'
+        ? 'Hit 100% readiness and unlock simulated pre-approved loan terms with 0 hard inquiries.'
+        : '100% स्कोर होते ही बिना किसी अतिरिक्त कागजात के तुरंत प्री-अप्रूव्ड लोन शर्तें देखें।'
     }
   ];
 
@@ -102,7 +102,7 @@ export default function LandingView({
             </div>
             <div className="flex items-center gap-2 text-xs font-semibold text-blue-200 col-span-2 sm:col-span-1">
               <TrendingUp className="w-4 h-4 text-[#F59E0B]" />
-              <span>90-Day Guaranteed Path</span>
+              <span>Structured 90-Day Pathway</span>
             </div>
           </div>
         </div>

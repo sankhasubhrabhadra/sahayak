@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { TRANSLATIONS } from '../data/mockData';
+import { calculateReducingEmi } from '../utils/financialEngine';
 
 export default function BestFitOffersView({
   applicant,
@@ -34,24 +35,24 @@ export default function BestFitOffersView({
   const existingEmis = Number(applicant.existingEmis) || 21500;
   const originalRequest = Number(applicant.requestedLoanAmount) || 150000;
 
-  // Realistic eligible amounts calculated based on user's income and headroom:
+  // Realistic eligible amounts calculated with standard reducing-balance EMI formula:
   // Offer 1: Safe micro-ticket (keeps total DTI <= 36%)
   const offer1Amount = Math.max(30000, Math.min(originalRequest - 30000, Math.round((monthlyIncome * 1.8) / 5000) * 5000));
   const offer1Tenure = 18;
-  const offer1Rate = '11.49%';
-  const offer1Emi = Math.round((offer1Amount * 1.11) / offer1Tenure);
+  const offer1Rate = 11.49;
+  const offer1Emi = calculateReducingEmi(offer1Amount, offer1Rate, offer1Tenure);
 
   // Offer 2: Extended Tenure Medium-Ticket (Account Aggregator backed)
   const offer2Amount = Math.max(45000, Math.min(originalRequest - 15000, Math.round((monthlyIncome * 2.4) / 5000) * 5000));
   const offer2Tenure = 24;
-  const offer2Rate = '12.25%';
-  const offer2Emi = Math.round((offer2Amount * 1.15) / offer2Tenure);
+  const offer2Rate = 12.25;
+  const offer2Emi = calculateReducingEmi(offer2Amount, offer2Rate, offer2Tenure);
 
   // Offer 3: BNPL Debt Consolidation / Refinance Loan
   const offer3Amount = Math.max(50000, Math.min(originalRequest, Math.round((monthlyIncome * 2.8) / 5000) * 5000));
   const offer3Tenure = 36;
-  const offer3Rate = '10.99%';
-  const offer3Emi = Math.round((offer3Amount * 1.18) / offer3Tenure);
+  const offer3Rate = 10.99;
+  const offer3Emi = calculateReducingEmi(offer3Amount, offer3Rate, offer3Tenure);
 
   const offers = [
     {

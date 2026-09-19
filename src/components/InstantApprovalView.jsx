@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { CheckCircle, Trophy, Sparkles, ArrowRight, Smartphone, RefreshCw, ShieldCheck } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import { calculateReducingEmi } from '../utils/financialEngine';
 
 export default function InstantApprovalView({
   applicant,
@@ -12,7 +13,8 @@ export default function InstantApprovalView({
 
   const loanAmount = Number(applicant.requestedLoanAmount) || 200000;
   const tenure = Number(applicant.tenureMonths) || 24;
-  const monthlyEmi = Math.round((loanAmount * 1.095) / tenure);
+  const interestRate = 9.99;
+  const monthlyEmi = calculateReducingEmi(loanAmount, interestRate, tenure);
 
   const handleDisburse = () => {
     setIsDisbursing(true);
@@ -38,22 +40,22 @@ export default function InstantApprovalView({
 
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-400 text-emerald-950">
           <Sparkles className="w-3.5 h-3.5" />
-          Direct Pre-Approved Eligibility
+          Direct Pre-Approved Eligibility (Demo)
         </div>
 
         <h1 className="text-3xl sm:text-4xl font-black tracking-tight">
-          Congratulations {applicant.fullName || 'Amit'}! Your Loan is Approved!
+          Congratulations {applicant.fullName || 'Amit'}! Pre-Approval Verified!
         </h1>
 
         <p className="text-sm sm:text-base text-blue-100 max-w-lg mx-auto">
-          Your EMI-to-income ratio is in the top tier (20.0%), safely below the 40% threshold. You qualify for instant direct disbursement.
+          Your EMI-to-income ratio is in the top tier (20.0%), comfortably below the 40% benchmark. You qualify for simulated instant disbursement.
         </p>
       </div>
 
       {/* Loan Details */}
       <div className="bg-white rounded-3xl p-6 sm:p-10 border border-slate-200 shadow-card space-y-6">
         <h3 className="text-lg font-bold text-[#002970] border-b border-slate-100 pb-3">
-          Sanction Terms Summary
+          Demo Pre-Approval Terms Summary
         </h3>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">

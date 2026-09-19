@@ -63,42 +63,42 @@ export default function RejectionExplainerView({
         {/* Metric 1: Current DTI */}
         <div className="bg-white rounded-2xl p-6 border border-rose-200 shadow-soft space-y-2">
           <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-            Current EMI Ratio (DTI)
+            Current Debt-to-Income (DTI)
           </span>
           <div className="flex items-baseline gap-2">
             <span className="text-3xl font-extrabold text-rose-600">{currentDti}%</span>
-            <span className="text-xs text-rose-700 bg-rose-50 font-bold px-2 py-0.5 rounded">High Risk</span>
+            <span className="text-xs text-rose-700 bg-rose-50 font-bold px-2 py-0.5 rounded">High Risk Zone</span>
           </div>
-          <p className="text-xs text-slate-500">
-            ₹{existingEmis.toLocaleString('en-IN')} committed out of ₹{monthlyIncome.toLocaleString('en-IN')} monthly income.
+          <p className="text-xs font-mono text-slate-600 bg-slate-50 p-2 rounded-lg border border-slate-100">
+            ₹{existingEmis.toLocaleString('en-IN')} obligations ÷ ₹{monthlyIncome.toLocaleString('en-IN')} income × 100 = <strong>{currentDti}%</strong>
           </p>
         </div>
 
         {/* Metric 2: Lender Benchmark */}
         <div className="bg-white rounded-2xl p-6 border border-emerald-200 shadow-soft space-y-2">
           <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-            Lender Safe Threshold
+            Lender Planning Benchmark
           </span>
           <div className="flex items-baseline gap-2">
             <span className="text-3xl font-extrabold text-emerald-600">40.0%</span>
-            <span className="text-xs text-emerald-700 bg-emerald-50 font-bold px-2 py-0.5 rounded">Target Cap</span>
+            <span className="text-xs text-emerald-700 bg-emerald-50 font-bold px-2 py-0.5 rounded">Planning Cap</span>
           </div>
           <p className="text-xs text-slate-500">
-            Maximum allowable monthly EMI for your income is ₹{maxSafeEmi.toLocaleString('en-IN')}.
+            Common retail bank guideline: Max recommended monthly EMI for your income is ₹{maxSafeEmi.toLocaleString('en-IN')} (40% of income).
           </p>
         </div>
 
         {/* Metric 3: The Gap to Close */}
         <div className="bg-white rounded-2xl p-6 border border-blue-200 shadow-soft space-y-2">
           <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-            Monthly Recovery Target
+            Monthly Relief Target
           </span>
           <div className="flex items-baseline gap-2">
             <span className="text-3xl font-extrabold text-[#00BAF2]">₹{excessEmi.toLocaleString('en-IN')}</span>
             <span className="text-xs text-blue-700 bg-blue-50 font-bold px-2 py-0.5 rounded">Target Relief</span>
           </div>
           <p className="text-xs text-slate-500">
-            Trimming ₹{excessEmi.toLocaleString('en-IN')}/mo in EMI drops your ratio below 40% and secures approval.
+            Trimming ₹{excessEmi.toLocaleString('en-IN')}/mo in EMI drops your ratio below 40%, significantly expanding borrowing headroom.
           </p>
         </div>
       </div>
@@ -118,9 +118,9 @@ export default function RejectionExplainerView({
               <span>Lender Automated System Screen</span>
             </div>
             <ul className="text-xs text-slate-700 space-y-2.5 list-disc list-inside">
-              <li>High Debt-to-Income obligation at <strong>{currentDti}%</strong> (exceeds 40% standard rule).</li>
-              <li>Multiple active short-term unsecured accounts open on bureau.</li>
-              <li>Automated system flagged high credit hunger and issued instant cold rejection.</li>
+              <li>High Debt-to-Income obligation at <strong>{currentDti}%</strong> (exceeds 40% benchmark guideline).</li>
+              <li>Multiple active short-term unsecured BNPL accounts open on bureau.</li>
+              <li>Automated screening flagged high debt obligations and paused application.</li>
             </ul>
           </div>
 
@@ -132,8 +132,8 @@ export default function RejectionExplainerView({
             </div>
             <ul className="text-xs text-slate-700 space-y-2.5 list-disc list-inside">
               <li>You have <strong>2 micro-BNPL accounts</strong> (Simpl ₹2,500/mo + LazyPay ₹3,800/mo = ₹6,300).</li>
-              <li>Your underlying repayment discipline on your two-wheeler loan is <strong>100% on time (0 DPD)</strong>.</li>
-              <li>Closing just the 2 small BNPL balances brings your DTI to <strong>39.8%</strong> without needing any salary hike!</li>
+              <li>Your underlying repayment discipline on your primary loan is <strong>100% on time (0 DPD)</strong>.</li>
+              <li>Closing the 2 small BNPL balances drops your DTI to <strong>40.0%</strong> (₹15,200 ÷ ₹38,000) without needing any salary hike!</li>
             </ul>
           </div>
         </div>

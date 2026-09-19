@@ -122,6 +122,75 @@ const AI_FAQ_KNOWLEDGE = [
   }
 ];
 
+// Reducing-balance EMI calculation
+function calculateReducingEmi(principal, annualRatePct, tenureMonths) {
+  if (!principal || !tenureMonths || tenureMonths <= 0) return 0;
+  if (!annualRatePct || annualRatePct <= 0) return Math.round(principal / tenureMonths);
+
+  const monthlyRate = annualRatePct / (12 * 100);
+  const factor = Math.pow(1 + monthlyRate, tenureMonths);
+  const emi = (principal * monthlyRate * factor) / (factor - 1);
+  return Math.round(emi);
+}
+
+function calculateDti(obligations, income) {
+  const inc = Number(income) || 1;
+  const obs = Number(obligations) || 0;
+  const dti = Number(((obs / inc) * 100).toFixed(1));
+  const formulaStr = `₹${obs.toLocaleString('en-IN')} obligations ÷ ₹${inc.toLocaleString('en-IN')} income × 100 = ${dti}%`;
+  return { dti, formulaStr };
+}
+
+// Comprehensive Financial AI response generator
+function generateAdvisorReply(message = '', applicant = {}) {
+  const query = (message || '').toLowerCase().trim();
+  const profileIncome = Number(applicant.monthlyIncome) || 38000;
+  const profileEmis = Number(applicant.existingEmis) || 21500;
+  const profileName = applicant.fullName || applicant.applicantName || 'Borrower';
+
+  if (query.includes('earlier than 90 days') || query.includes('reapply earlier') || (query.includes('reapply') && query.includes('90'))) {
+    return `Yes, you can re-apply earlier. Under RBI's regulatory framework (effective Jan 1, 2025), lenders report credit data fortnightly (15th and month-end). However, 90 days is recommended in Sahayak as an illustrative planning horizon to build a consistent 3-month repayment track record and allow closed micro-lines to be fully ingested across bureau cycles.`;
+  }
+
+  if (query.includes('how often') && (query.includes('cibil') || query.includes('bureau') || query.includes('update') || query.includes('report'))) {
+    return `Under RBI's regulatory framework effective January 1, 2025, credit institutions and Credit Information Companies (CICs) must report credit data on a fortnightly basis (as of the 15th and last day of each month). The actual appearance on your report depends on when your specific lender submits the reporting file and bureau processing schedules.`;
+  }
+
+  if (query.includes('80000') || query.includes('80,000') || (query.includes('what if') && query.includes('80'))) {
+    const P = 80000;
+    const rate = 10.49;
+    const n = 24;
+    const emi = calculateReducingEmi(P, rate, n);
+    const newTotalObligations = profileEmis + emi;
+    const newDti = ((newTotalObligations / profileIncome) * 100).toFixed(1);
+
+    return `I can't guarantee that ₹80,000 will be approved. Illustrative demo calculation:\n• Loan Amount: ₹80,000 at ${rate}% p.a. for ${n} months\n• Estimated Monthly EMI: ₹${emi.toLocaleString('en-IN')}/mo (reducing balance)\n• Current DTI: ${((profileEmis / profileIncome) * 100).toFixed(1)}% (₹${profileEmis.toLocaleString('en-IN')} ÷ ₹${profileIncome.toLocaleString('en-IN')})\n• New Estimated DTI: ${newDti}% without debt reduction.\n• If you first close ₹6,300/mo micro-BNPLs, new DTI becomes ~${(((newTotalObligations - 6300) / profileIncome) * 100).toFixed(1)}%.\n*Educational estimate only. Approval is subject to individual lender underwriting.*`;
+  }
+
+  if (query.includes('50 points') || (query.includes('score') && (query.includes('increase by') || query.includes('guarantee')))) {
+    return `No specific credit score increase (such as 50 points) can be guaranteed. Credit scoring algorithms evaluate overall payment history (35%), credit utilization (30%), vintage (15%), credit mix (10%), and inquiries (10%). Repaying debt supports credit health, but exact movements depend on your entire bureau history.`;
+  }
+
+  if (query.includes('upi') && (query.includes('cibil') || query.includes('score') || query.includes('increase'))) {
+    return `No, using Paytm UPI does not directly increase your CIBIL score. Bureau scores are built only from formal credit facilities reported by regulated institutions. However, consenting lenders may evaluate UPI transaction velocity via Account Aggregator as an alternate indicator of steady cashflow.`;
+  }
+
+  if (query.includes('bnpl') || query.includes('lazypay') || query.includes('simpl')) {
+    return `Many Buy-Now-Pay-Later (BNPL) facilities are structured as regulated credit lines and reported to credit bureaus. Timely payments support repayment history, while having multiple active micro-lines simultaneously can signal credit hunger during automated screening.`;
+  }
+
+  if (query.includes('40%') && (query.includes('rbi') || query.includes('rule') || query.includes('law') || query.includes('mandate'))) {
+    return `No, RBI does not mandate a universal 40% DTI cap for personal loans. The 40% threshold is an industry planning benchmark and internal risk guideline adopted by retail lenders. Each regulated lender sets its own board-approved underwriting criteria.`;
+  }
+
+  if (query.includes('dti') || query.includes('debt to income') || (query.includes('income') && query.includes('emi'))) {
+    const { dti, formulaStr } = calculateDti(profileEmis, profileIncome);
+    return `Your Debt-to-Income (DTI) calculation:\n${formulaStr}\nLenders commonly use ~40% as an affordability planning benchmark. Trimming ₹6,300/mo in micro-obligations drops your DTI to ${(((profileEmis - 6300) / profileIncome) * 100).toFixed(1)}%, expanding your borrowing headroom.`;
+  }
+
+  return `Hello ${profileName}! Underwriting models evaluate Debt-to-Income (DTI) capacity and payment discipline. In your profile, closing ₹6,300/mo of micro-BNPLs drops your DTI from ${((profileEmis/profileIncome)*100).toFixed(1)}% to ~40.0% within standard bureau reporting cycles. Educational estimate only.`;
+}
+
 // --- ROUTES ---
 
 // Health check (for Render monitoring)
@@ -185,15 +254,16 @@ app.post('/api/underwrite', (req, res) => {
       tenureMonths: tenure,
       employmentType,
       dtiPercent: dti,
+      dtiFormula: `₹${emis.toLocaleString('en-IN')} ÷ ₹${income.toLocaleString('en-IN')} × 100 = ${dti}%`,
       maxSafeEmi,
       excessEmi,
       status: isApproved ? 'APPROVED' : 'REJECTED_RECOVERY_REQUIRED',
       verdictMessage: isApproved
-        ? 'Congratulations! Your Debt-to-Income ratio is well within the safe 40% threshold.'
-        : `Your monthly EMI commitments take up ${dti}% of your income. Lenders require under 40%.`,
+        ? 'Congratulations! Your Debt-to-Income ratio is well within the 40% benchmark.'
+        : `Your monthly debt obligations take up ${dti}% of your income. Standard retail lender benchmarks recommend under 40%.`,
       quickWin: isApproved
-        ? 'Pre-approved for instant loan disbursement.'
-        : `Paying down ₹${excessEmi.toLocaleString('en-IN')}/mo in high-cost micro-BNPLs drops your DTI below 40% in 30-90 days!`
+        ? 'Demo Pre-Approved for instant simulated disbursement.'
+        : `Paying down ₹${excessEmi.toLocaleString('en-IN')}/mo in high-cost micro-BNPLs drops your DTI to 40.0% within standard bureau reporting cycles.`
     }
   });
 });
@@ -211,18 +281,18 @@ app.post('/api/offers', (req, res) => {
 
   const offer1Amount = Math.max(30000, Math.min(originalRequest - 30000, Math.round((income * 1.8) / 5000) * 5000));
   const offer1Tenure = 18;
-  const offer1Rate = '11.49%';
-  const offer1Emi = Math.round((offer1Amount * 1.11) / offer1Tenure);
+  const offer1Rate = 11.49;
+  const offer1Emi = calculateReducingEmi(offer1Amount, offer1Rate, offer1Tenure);
 
   const offer2Amount = Math.max(45000, Math.min(originalRequest - 15000, Math.round((income * 2.4) / 5000) * 5000));
   const offer2Tenure = 24;
-  const offer2Rate = '12.25%';
-  const offer2Emi = Math.round((offer2Amount * 1.15) / offer2Tenure);
+  const offer2Rate = 12.25;
+  const offer2Emi = calculateReducingEmi(offer2Amount, offer2Rate, offer2Tenure);
 
   const offer3Amount = Math.max(50000, Math.min(originalRequest, Math.round((income * 2.8) / 5000) * 5000));
   const offer3Tenure = 36;
-  const offer3Rate = '10.99%';
-  const offer3Emi = Math.round((offer3Amount * 1.18) / offer3Tenure);
+  const offer3Rate = 10.99;
+  const offer3Emi = calculateReducingEmi(offer3Amount, offer3Rate, offer3Tenure);
 
   const offers = [
     {
@@ -230,19 +300,19 @@ app.post('/api/offers', (req, res) => {
       lenderName: 'Paytm Lending Partner (Hero Fincorp)',
       lenderType: 'Pre-Approved NBFC Partner',
       eligibleAmount: offer1Amount,
-      interestRate: offer1Rate,
+      interestRate: `${offer1Rate}%`,
       tenureMonths: offer1Tenure,
       monthlyEmi: offer1Emi,
       isBestMatch: true,
-      approvalTag: 'Likely to be Approved',
-      whyFits: `Based on your monthly income of ₹${income.toLocaleString('en-IN')}, this ₹${offer1Amount.toLocaleString('en-IN')} amount keeps your new EMI to ₹${offer1Emi.toLocaleString('en-IN')}/mo, keeping your overall EMI ratio safely under 36%.`
+      approvalTag: 'Likely to be Approved (Demo Fit)',
+      whyFits: `Based on your monthly income of ₹${income.toLocaleString('en-IN')}, this ₹${offer1Amount.toLocaleString('en-IN')} amount keeps your new reducing-balance EMI to ₹${offer1Emi.toLocaleString('en-IN')}/mo, keeping your overall EMI ratio safely under 36%.`
     },
     {
       id: 'offer-2',
       lenderName: 'Tata Capital / Axis Co-Lend',
       lenderType: 'Digital Bank Partner',
       eligibleAmount: offer2Amount,
-      interestRate: offer2Rate,
+      interestRate: `${offer2Rate}%`,
       tenureMonths: offer2Tenure,
       monthlyEmi: offer2Emi,
       isBestMatch: false,
@@ -254,12 +324,12 @@ app.post('/api/offers', (req, res) => {
       lenderName: 'Sahayak Smart Refinance (Piramal Finance)',
       lenderType: 'Debt Consolidation Special',
       eligibleAmount: offer3Amount,
-      interestRate: offer3Rate,
+      interestRate: `${offer3Rate}%`,
       tenureMonths: offer3Tenure,
       monthlyEmi: offer3Emi,
       isBestMatch: false,
       approvalTag: 'EMI Reducer Loan',
-      whyFits: 'Consolidates your scattered high-interest BNPLs into one structured loan, saving ₹2,400/month in total outflows.'
+      whyFits: 'Consolidates scattered high-interest BNPLs into one structured loan, saving ₹2,400/month in total outflows.'
     }
   ];
 
@@ -268,19 +338,8 @@ app.post('/api/offers', (req, res) => {
 
 // 4. AI Coach Chat Endpoint
 app.post('/api/chat', (req, res) => {
-  const { message = '', applicantName = 'Borrower' } = req.body;
-  const query = message.toLowerCase();
-
-  const matchedFaq = AI_FAQ_KNOWLEDGE.find(
-    (f) => f.keywords.some((kw) => query.includes(kw)) || query.includes(f.id)
-  );
-
-  let responseText = '';
-  if (matchedFaq) {
-    responseText = matchedFaq.answer;
-  } else {
-    responseText = `Hello ${applicantName}! Underwriting models look at cashflow velocity and Debt-to-Income (DTI). Focusing on closing active micro-loans (e.g. BNPL apps) and routing daily earnings through Paytm UPI will optimize your credit eligibility within 30 to 90 days!`;
-  }
+  const { message = '', applicantName = 'Borrower', applicant = {} } = req.body;
+  const responseText = generateAdvisorReply(message, { applicantName, ...applicant });
 
   res.json({
     success: true,

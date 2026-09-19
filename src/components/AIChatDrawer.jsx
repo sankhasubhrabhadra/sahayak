@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { X, Sparkles, Send, Bot, User, HelpCircle, ChevronRight } from 'lucide-react';
+import { X, Sparkles, Send, Bot, User, HelpCircle, ChevronRight, ShieldAlert } from 'lucide-react';
 import { AI_FAQ_KNOWLEDGE } from '../data/mockData';
+import { generateFinancialAdvisorResponse } from '../utils/financialEngine';
 
 export default function AIChatDrawer({
   isOpen,
@@ -10,7 +11,7 @@ export default function AIChatDrawer({
   const [messages, setMessages] = useState([
     {
       sender: 'ai',
-      text: `Hello ${applicant?.fullName || 'Rahul'}! I am Sahayak, your AI Financial Rejection Coach. I analyzed your application and know the exact underwriting algorithms used by Paytm and partner lenders. Ask me anything about your DTI, BNPLs, or 90-day plan!`
+      text: `Hello ${applicant?.fullName || 'Rahul'}! I am Sahayak, your AI Financial Education Coach. I can help you understand your Debt-to-Income (DTI) calculations, explore what-if scenarios, or clarify credit reporting timelines. How can I help you today?`
     }
   ]);
   const [inputText, setInputText] = useState('');
@@ -18,7 +19,7 @@ export default function AIChatDrawer({
 
   if (!isOpen) return null;
 
-  const handleSendPrompt = (question, answer) => {
+  const handleSendPrompt = (question, explicitAnswer) => {
     // Add user question
     const userMsg = { sender: 'user', text: question };
     setMessages((prev) => [...prev, userMsg]);
@@ -26,9 +27,13 @@ export default function AIChatDrawer({
 
     setTimeout(() => {
       setIsTyping(false);
-      const aiReply = answer || `Underwriting models assess stability and debt capacity. In your case, closing small micro-lines (₹6,300/mo total) is the highest-leverage move to drop your DTI ratio from 56.6% to under 40% in under 30 days!`;
+      let aiReply = explicitAnswer;
+      if (!aiReply) {
+        const generated = generateFinancialAdvisorResponse(question, applicant);
+        aiReply = generated.answer;
+      }
       setMessages((prev) => [...prev, { sender: 'ai', text: aiReply }]);
-    }, 600);
+    }, 450);
   };
 
   const handleCustomSend = (e) => {
@@ -38,12 +43,8 @@ export default function AIChatDrawer({
     const query = inputText.trim();
     setInputText('');
 
-    // Check if matching any FAQ
-    const matchedFaq = AI_FAQ_KNOWLEDGE.find(
-      (f) => f.question.toLowerCase().includes(query.toLowerCase()) || query.toLowerCase().includes(f.id)
-    );
-
-    handleSendPrompt(query, matchedFaq ? matchedFaq.answer : null);
+    const generated = generateFinancialAdvisorResponse(query, applicant);
+    handleSendPrompt(query, generated.answer);
   };
 
   return (
@@ -72,6 +73,12 @@ export default function AIChatDrawer({
           </button>
         </div>
 
+        {/* Safety & Educational Disclaimer Bar */}
+        <div className="px-3.5 py-1.5 bg-amber-50/80 border-b border-amber-200/60 flex items-center gap-2 text-[10px] text-amber-900 leading-tight">
+          <ShieldAlert className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+          <span>Educational estimate only. Final eligibility & terms are set by individual lenders.</span>
+        </div>
+
         {/* Chat Messages */}
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
           {messages.map((m, idx) => (
@@ -85,7 +92,7 @@ export default function AIChatDrawer({
                 </div>
               )}
               <div
-                className={`max-w-[82%] p-3.5 rounded-2xl text-xs leading-relaxed ${
+                className={`max-w-[85%] p-3.5 rounded-2xl text-xs leading-relaxed whitespace-pre-line ${
                   m.sender === 'user'
                     ? 'bg-[#002970] text-white rounded-tr-none'
                     : 'bg-slate-100 text-[#002970] rounded-tl-none border border-slate-200/60 font-medium'
@@ -101,7 +108,7 @@ export default function AIChatDrawer({
               <div className="w-6 h-6 rounded-lg bg-blue-50 flex items-center justify-center">
                 <Sparkles className="w-3.5 h-3.5 text-[#00BAF2] animate-spin" />
               </div>
-              <span>Sahayak AI is calculating response...</span>
+              <span>Sahayak AI is calculating financial response...</span>
             </div>
           )}
         </div>
@@ -132,7 +139,7 @@ export default function AIChatDrawer({
             type="text"
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
-            placeholder="Ask Sahayak about your credit journey..."
+            placeholder="Ask Sahayak (e.g. 'What if I apply for ₹80,000?')..."
             className="flex-1 px-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-[#00BAF2] focus:ring-1 focus:ring-[#00BAF2] outline-none text-xs text-[#002970]"
           />
           <button

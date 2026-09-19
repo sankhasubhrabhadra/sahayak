@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Sparkles, Trophy, CheckCircle, ArrowRight, ShieldCheck, Download, Share2, IndianRupee, Smartphone, RefreshCw, Award } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { TRANSLATIONS } from '../data/mockData';
+import { calculateReducingEmi } from '../utils/financialEngine';
 
 export default function SuccessView({
   applicant,
@@ -25,7 +26,8 @@ export default function SuccessView({
 
   const loanAmount = Number(applicant.requestedLoanAmount) || 150000;
   const tenure = Number(applicant.tenureMonths) || 24;
-  const monthlyEmi = Math.round((loanAmount * 1.105) / tenure);
+  const interestRate = 10.49;
+  const monthlyEmi = calculateReducingEmi(loanAmount, interestRate, tenure);
 
   const handleDisburse = () => {
     setIsDisbursing(true);
@@ -52,7 +54,7 @@ export default function SuccessView({
 
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-[#00BAF2] text-[#002970]">
           <Sparkles className="w-3.5 h-3.5" />
-          90-Day Journey Completed
+          90-Day Pathway Completed
         </div>
 
         <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white">
@@ -61,8 +63,8 @@ export default function SuccessView({
 
         <p className="text-base sm:text-lg text-blue-100 max-w-xl mx-auto leading-relaxed">
           {lang === 'en'
-            ? "You transformed a loan rejection into a 100% verified loan approval in 90 days. Your financial discipline unlocked top-tier rates."
-            : "आपने 90 दिनों की मेहनत से रिजेक्शन को पक्के अप्रूवल में बदल दिया। आपका प्री-अप्रूव्ड लोन तैयार है!"}
+            ? "You transformed a loan rejection into verified loan readiness through consistent 90-day financial discipline."
+            : "आपने 90 दिनों की अनुशासनबद्ध योजना से अपनी लोन पात्रता हासिल कर ली है!"}
         </p>
       </div>
 
@@ -71,15 +73,15 @@ export default function SuccessView({
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 border-b border-slate-100 pb-4">
           <div>
             <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-              Paytm AI Underwriting Sanction Letter
+              Paytm AI Underwriting Simulation
             </span>
             <h2 className="text-xl font-bold text-[#002970]">
-              Pre-Approved Instant Personal Loan
+              Demo Pre-Approval Certificate (Simulated Offer)
             </h2>
           </div>
           <span className="bg-emerald-50 text-emerald-700 font-extrabold text-xs px-3 py-1.5 rounded-full border border-emerald-200 flex items-center gap-1.5">
             <CheckCircle className="w-4 h-4 text-emerald-600" />
-            100% Pre-Approved Guaranteed
+            100% Readiness Milestone (Demo)
           </span>
         </div>
 
@@ -97,11 +99,11 @@ export default function SuccessView({
             <div className="text-xl font-black text-[#0084B4] mt-1">
               10.49% p.a.
             </div>
-            <span className="text-[10px] text-emerald-600 font-bold">14.5% standard waived</span>
+            <span className="text-[10px] text-emerald-600 font-bold">Standard rate waived</span>
           </div>
 
           <div className="bg-slate-50 p-4 rounded-2xl">
-            <span className="text-[11px] text-slate-500 font-semibold">Tenure & EMI</span>
+            <span className="text-[11px] text-slate-500 font-semibold">Tenure & Reducing EMI</span>
             <div className="text-xl font-black text-[#002970] mt-1">
               ₹{monthlyEmi.toLocaleString('en-IN')}/mo
             </div>

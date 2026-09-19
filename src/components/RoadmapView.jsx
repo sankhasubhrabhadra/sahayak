@@ -58,19 +58,19 @@ export default function RoadmapView({
     {
       phaseNumber: 3,
       badge: 'Days 61–90',
-      title: 'Phase 3: Bureau Refresh & Pre-Approved Sanction',
+      title: 'Phase 3: Bureau Ingestion & Pre-Approved Sanction',
       color: 'from-emerald-600 to-teal-600',
       target: 'Maintain <30% card utilization & trigger 0-inquiry soft check',
-      impactBadge: '100% Pre-Approved Offer',
+      impactBadge: 'Simulated Pre-Approval',
       actions: [
         {
           title: 'Keep Revolving Credit Card Utilization strictly below 30%',
-          desc: 'Provides a fast 25 to 40 point boost to CIBIL & Experian bureau risk scores.',
+          desc: 'Demonstrates low revolving debt usage across RBI fortnightly reporting cycles.',
           icon: <TrendingUp className="w-4 h-4 text-teal-500" />
         },
         {
           title: 'Trigger Sahayak Zero-Inquiry Soft Bureau Refresh',
-          desc: 'Confirms your DTI is now <38% and generates a pre-approved, guaranteed loan offer.',
+          desc: 'Confirms your DTI is now <40% and generates an illustrative pre-approved loan offer.',
           icon: <Award className="w-4 h-4 text-amber-500" />
         }
       ]
@@ -83,15 +83,15 @@ export default function RoadmapView({
       <div className="text-center space-y-2">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-[#00BAF2]/15 text-[#0084B4]">
           <Sparkles className="w-3.5 h-3.5 text-[#00BAF2]" />
-          Custom Engineered Recovery Plan
+          Structured Planning Horizon
         </div>
         <h1 className="text-2xl sm:text-4xl font-extrabold text-[#002970]">
           {t.roadmapTitle}
         </h1>
         <p className="text-xs sm:text-sm text-slate-500 max-w-xl mx-auto">
           {lang === 'en'
-            ? 'A 3-phase, milestone-driven journey designed for Indian credit bureau refresh cycles. Follow these steps to hit 100% loan eligibility.'
-            : 'भारतीय क्रेडिट ब्यूरो के नियमों के अनुसार तैयार किया गया 3-चरणों का आसान प्लान। इसे पूरा करते ही लोन अप्रूवल पक्का है।'}
+            ? 'An illustrative 3-phase planning roadmap designed to build consistent repayment history and allow RBI fortnightly bureau updates to cleanly reflect.'
+            : 'क्रेडिट ब्यूरो नियमों के अनुसार तैयार किया गया 3-चरणों का आसान प्लान जो आपकी लोन पात्रता को मजबूत बनाता है।'}
         </p>
       </div>
 
