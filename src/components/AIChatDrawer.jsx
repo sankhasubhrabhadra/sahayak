@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Sparkles, Send, Headphones, ShieldCheck, Lock, ChevronRight, HelpCircle } from 'lucide-react';
+import { X, Send, Headphones, ShieldCheck, Lock, ChevronRight, HelpCircle } from 'lucide-react';
 import { AI_FAQ_KNOWLEDGE } from '../data/mockData';
 import { generateFinancialAdvisorResponse } from '../utils/financialEngine';
 

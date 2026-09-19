@@ -1,139 +1,253 @@
-# 🚀 Sahayak (सहायक) — AI Loan Rejection Coach
-> **Paytm Build for India AI Hackathon (Track: AI-Powered Financial Journeys)**  
-> *Transforming cold loan rejections into transparent, actionable, and financially responsible pathways to loan readiness.*
+# Sahayak (सहायक) — AI Loan Rejection Coach
+> **Paytm Build for India Hackathon — Track: AI-Powered Financial Journeys**  
+> *Transforming automated loan rejections into transparent, actionable, and financially responsible pathways to loan readiness.*
 
-[![Live Demo on Vercel](https://img.shields.io/badge/Live%20Demo-Vercel-00BAF2?style=for-the-badge&logo=vercel&logoColor=white)](https://sahayak-sigma-lyart.vercel.app/)
-[![GitHub Repository](https://img.shields.io/badge/GitHub-Repository-002970?style=for-the-badge&logo=github&logoColor=white)](https://github.com/sankhasubhrabhadra/sahayak)
-[![License: MIT](https://img.shields.io/badge/License-MIT-00B37E?style=for-the-badge)](LICENSE)
-
----
-
-## 🌐 Live Application & Repositories
-
-- **Live Frontend (Vercel):** [https://sahayak-sigma-lyart.vercel.app/](https://sahayak-sigma-lyart.vercel.app/)
-- **Source Code (GitHub):** [https://github.com/sankhasubhrabhadra/sahayak](https://github.com/sankhasubhrabhadra/sahayak)
-- **Backend API (Express / Node.js):** Compatible with local runtime and free-tier cloud hosts like Render.
+[![Live Demo on Vercel](https://img.shields.io/badge/Live%20Demo-Vercel-00BAF2?style=flat-square&logo=vercel&logoColor=white)](https://sahayak-sigma-lyart.vercel.app/)
+[![GitHub Repository](https://img.shields.io/badge/GitHub-Repository-002970?style=flat-square&logo=github&logoColor=white)](https://github.com/sankhasubhrabhadra/sahayak)
+[![License: MIT](https://img.shields.io/badge/License-MIT-00B37E?style=flat-square)](LICENSE)
 
 ---
 
-## 💡 Problem Statement
+## 1. Executive Summary
 
-In India, traditional banking algorithms reject up to **70% of retail and MSME credit applicants** with cold, uninformative rejection notices. This leads to:
-- **Severe Applicant Anxiety:** Borrowers are left in the dark about why their application failed despite earning a steady income.
-- **Hidden Debt-to-Income Traps:** Multiple small Buy-Now-Pay-Later (BNPL) micro-loans push Debt-to-Income (DTI) above lender risk thresholds.
-- **Predatory Loan Migration:** Desperate rejected borrowers frequently turn to high-interest, unregulated lending apps.
+In India's retail and MSME lending landscape, automated underwriting algorithms reject up to **70% of credit applicants** with vague, uninformative rejection notices. Borrowers are rarely told why their application failed, what specific financial parameters caused the failure, or what concrete steps are required to achieve approval.
 
----
+**Sahayak** is an empathetic, mathematically rigorous AI financial coaching engine integrated within the Paytm Financial Services ecosystem. Rather than delivering a dead-end rejection notice, Sahayak:
 
-## 🌟 The Sahayak Solution
-
-**Sahayak** acts as an empathetic, financially accurate AI coach. Rather than a dead-end rejection letter, Sahayak provides:
-
-1. **Jargon-Free AI Diagnostics:** Isolates the exact Debt-to-Income (DTI) ratio and pinpoints high-cost micro-obligations (e.g., 2 active BNPL accounts totaling ₹6,300/mo causing an automated threshold breach).
-2. **Interactive "What-If" Debt Relief Simulator:** Allows applicants to drag an interactive slider to see how paying off small obligations immediately strengthens borrowing capacity.
-3. **Best-Fit Alternative Bank Offers:** Computes 3 right-sized alternative loan offers (micro-ticket, cashflow-backed, and debt-consolidation) with standard reducing-balance monthly EMIs.
-4. **Structured 90-Day Planning Horizon:** A 3-phase milestone plan that allows sufficient time for debt reductions to be reported under the **RBI Fortnightly Reporting Framework** and ingested across bureau cycles.
-5. **Gamified Fitness-Style Progress Tracker:** Complete with circular readiness rings, streak tracking, XP points, and actionable micro-habits.
-6. **Pre-Approved Demo Sanction & Disbursal:** Simulated 1-click disbursement to Paytm Payments Bank with an authentic Paytm Soundbox audio-visual chime.
-7. **Interactive AI Education Coach (Chat Drawer):** Rigorous, regulatory-aligned AI financial advisor with built-in safety guardrails and disclaimer banners.
-8. **Bilingual Experience:** Seamless instant toggle between English and Hindi (हिन्दी).
+1. **Conducts Forensic Debt Diagnostics:** Isolates the exact Debt-to-Income (DTI / FOIR) ratio and pinpoints high-cost micro-obligations (such as multiple BNPL micro-lines) causing algorithm rejection.
+2. **Offers an Interactive What-If Debt Relief Simulator:** Demonstrates in real time how trimming small monthly commitments restores debt capacity.
+3. **Presents Best-Fit Alternative Bank Offers:** Generates three right-sized alternative loan options (micro-ticket, cashflow-backed, and debt consolidation) calculated using reducing-balance amortization.
+4. **Builds a Structured 90-Day Transformation Roadmap:** Aligns milestone tasks with the **RBI Fortnightly Credit Reporting Framework** (effective January 1, 2025).
+5. **Provides a Gamified Milestone Tracker:** Features readiness scoring, discipline streak counters, reward points, and an interactive presenter fast-forward mode.
+6. **Delivers Simulated Instant Disbursal:** Includes authentic Paytm Soundbox 4G audio-visual notifications and Paytm Payments Bank account routing.
+7. **Embeds a 24x7 AI Financial Coach:** Built with regulatory guardrails, safety disclaimers, and bilingual support (English and Hindi).
 
 ---
 
-## 📐 Core Financial Intelligence & Regulatory Principles
+## 2. Live Application Links
 
-### 1. Standard Reducing-Balance Monthly EMI Formula
+- **Production URL:** [https://sahayak-sigma-lyart.vercel.app/](https://sahayak-sigma-lyart.vercel.app/)
+- **GitHub Repository:** [https://github.com/sankhasubhrabhadra/sahayak](https://github.com/sankhasubhrabhadra/sahayak)
+- **Branch:** `main`
+
+---
+
+## 3. Mathematical Foundations & Financial Engine
+
+### 3.1 Reducing-Balance Monthly EMI Formula
+
+All loan payments and offer estimates in Sahayak are computed using the industry-standard reducing-balance Equated Monthly Installment (EMI) formula:
+
 $$\text{EMI} = \frac{P \cdot r \cdot (1+r)^n}{(1+r)^n - 1}$$
-- $P$ = Principal loan amount
-- $r$ = Monthly interest rate ($\text{Annual Rate} \div 12 \div 100$)
+
+Where:
+- $P$ = Principal loan amount in INR
+- $r$ = Periodic monthly interest rate ($\text{Annual Interest Rate} \div 12 \div 100$)
 - $n$ = Loan tenure in months
-*Example:* ₹80,000 at 10.49% p.a. over 24 months = **₹3,710/month** (Total: ₹89,040 | Interest: ₹9,040).
 
-### 2. Debt-to-Income (DTI / FOIR) Transparency
-$$\text{DTI} = \left(\frac{\text{Total Monthly Debt Commitments}}{\text{Monthly Take-Home Income}}\right) \times 100$$
-- Every ratio in Sahayak displays the underlying arithmetic (e.g., $₹21,500 \div ₹38,000 \times 100 = 56.6\%$).
-- The 40% threshold is accurately contextualized as a common **industry planning benchmark**, not an RBI legal mandate.
+**Example Calculation:**
+- Principal ($P$): INR 80,000
+- Annual Rate: 10.49% ($r = 0.00874167$)
+- Tenure ($n$): 24 months
+- Calculated EMI: **INR 3,710 / month**
+- Total Repayment: INR 89,040 (Principal: INR 80,000 | Total Interest: INR 9,040)
 
-### 3. RBI Credit Reporting Framework (Effective Jan 1, 2025)
-- Under the Reserve Bank of India’s updated regulatory framework for Credit Information Companies (CICs), credit institutions report borrower data on a **fortnightly frequency** (as of the 15th and last day of each calendar month).
-- Sahayak accurately explains that individual report updates depend on lender submission schedules and bureau ingestion processing.
-
-### 4. Safety & Non-Guarantee Guardrails
-- Sahayak never guarantees loan approvals or promises specific credit score point increases (e.g., "50 points").
-- Clearly separates **Facts** (regulations, mathematical calculations) from **Estimates** and **Underwriting Predictions**.
-- Standard educational disclaimer displayed on all advisory screens.
+```javascript
+export function calculateReducingEmi(principal, annualRatePercent, tenureMonths) {
+  const p = Number(principal);
+  const n = Number(tenureMonths);
+  const r = Number(annualRatePercent) / 12 / 100;
+  if (r === 0) return Math.round(p / n);
+  const factor = Math.pow(1 + r, n);
+  return Math.round((p * r * factor) / (factor - 1));
+}
+```
 
 ---
 
-## 🛠️ Architecture & Tech Stack
+### 3.2 Debt-to-Income (DTI / FOIR) Formula
+
+$$\text{DTI} = \left(\frac{\sum \text{Existing Monthly Debt EMIs}}{\text{Monthly Net Take-Home Income}}\right) \times 100$$
+
+- **Safe Benchmark:** $\text{DTI} \le 40\%$ (Standard retail banking comfort threshold).
+- **Elevated Risk:** $\text{DTI} > 40\%$ (Triggers automated underwriting hold and routes to Sahayak Recovery Roadmap).
+- **Excess EMI Calculation:** $\text{Excess} = \max(0, \text{Existing EMIs} - (\text{Monthly Income} \times 0.40))$.
+
+---
+
+### 3.3 RBI Fortnightly Credit Reporting Synchronization
+
+Under the Reserve Bank of India’s updated regulatory guidelines for Credit Information Companies (CICs) and credit institutions:
+
+- Credit institutions report borrower repayment status and loan closures on a **fortnightly frequency** (as of the 15th and the final day of each calendar month).
+- Sahayak's 90-day roadmap maps directly to 6 distinct fortnightly bureau ingestion cycles.
+- When an applicant closes micro-BNPL credit lines in Month 1, the reduction is reflected on bureau records (CIBIL, Experian, CRIF High Mark) by the subsequent reporting cycle, restoring underwriting eligibility by Day 90.
+
+---
+
+### 3.4 Regulatory Safety & Guardrail Principles
+
+Sahayak adheres strictly to digital lending ethics and Indian financial regulations:
+
+1. **Non-Guarantee Clause:** Sahayak explicitly states that all credit scores, readiness percentages, and loan offers are simulations and estimates. Final approval remains at the sole discretion of partner banks and NBFCs.
+2. **Fact vs. Estimate Separation:** Mathematical equations and regulatory facts are clearly labeled and separated from predictive guidance.
+3. **No Bureau Hard Inquiry During Coaching:** All diagnostic evaluations use Account Aggregator soft pull simulations with zero negative impact on the applicant's credit score.
+
+---
+
+## 4. End-to-End User Journey
+
+```
+[1. Landing & Persona Selector]
+       |
+       v
+[2. Loan Application & Soft Eligibility Check]
+       |
+       +---> DTI <= 40% ---> [Instant Approval & Disbursal + Soundbox 4G]
+       |
+       +---> DTI > 40%
+               |
+               v
+       [3. Forensic Rejection Explainer & What-If Simulator]
+               |
+               +---> [4. Matched Alternative Bank Offers (Hero FinCorp, Tata Capital, Piramal)]
+               |
+               v
+       [5. 90-Day Credit Transformation Roadmap (RBI Fortnightly Aligned)]
+               |
+               v
+       [6. Interactive Habit Tracker & Presenter Fast-Forward Mode]
+               |
+               v
+       [7. Pre-Approved Sanction Certificate & Simulated Disbursal]
+```
+
+---
+
+## 5. Preset Demo Personas
+
+| Persona | Profile & Occupation | Monthly Income | Existing EMIs | DTI | Diagnosis & Outcome |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Rahul Sharma** | Gig Worker / Delivery Partner | INR 38,000 | INR 21,500 | **56.6%** | Paused due to 2 micro-BNPLs (INR 6,300/mo). Routes to 90-Day Recovery Plan. |
+| **Priya Patel** | MSME Kirana Store Owner | INR 62,000 | INR 33,000 | **53.2%** | Paused due to inventory credit overlap. Qualifies for Piramal Debt Consolidation. |
+| **Amit Verma** | Salaried Software Engineer | INR 85,000 | INR 17,000 | **20.0%** | Pre-approved. Routes directly to Instant Approval and Soundbox Disbursal. |
+
+---
+
+## 6. System Architecture & Tech Stack
 
 ```
 sahayak/
+├── index.html                      # Entry HTML with Plus Jakarta Sans & Inter typography
 ├── src/
 │   ├── components/
-│   │   ├── Header.jsx                # Paytm visual identity & language toggle
-│   │   ├── LandingView.jsx           # Hero & 1-click persona quick starters
-│   │   ├── ApplicationFormView.jsx   # Loan application & underwriting inputs
-│   │   ├── RejectionExplainerView.jsx# Diagnostic breakdown & What-If slider
-│   │   ├── BestFitOffersView.jsx     # 3 alternative right-sized lender offers
-│   │   ├── RoadmapView.jsx           # 3-phase structured planning timeline
-│   │   ├── DashboardView.jsx         # Gamified habit tracker & Fast-Forward slider
-│   │   ├── SuccessView.jsx           # Pre-approval certificate & simulated IMPS
-│   │   ├── InstantApprovalView.jsx   # Direct approval path for low-DTI applicants
-│   │   └── AIChatDrawer.jsx          # AI Financial Coach slide-over drawer
+│   │   ├── Navbar.jsx              # Paytm brand header, language toggle, and persona selector
+│   │   ├── LandingView.jsx         # Hero section, quick services grid, and demo personas
+│   │   ├── ApplicationFormView.jsx # Paperless application form with real-time DTI gauge
+│   │   ├── RejectionExplainerView.jsx # Forensic comparison and What-If simulator slider
+│   │   ├── BestFitOffersView.jsx   # 3 calibrated alternative bank offers with reducing EMI
+│   │   ├── RoadmapView.jsx         # 3-phase roadmap aligned with RBI fortnightly reporting
+│   │   ├── DashboardView.jsx       # Circular readiness score ring, streak counter, and habit list
+│   │   ├── SuccessView.jsx         # Sanction certificate, transformation comparison, and disbursal
+│   │   ├── InstantApprovalView.jsx # Instant sanction with Paytm Soundbox 4G voice alert
+│   │   └── AIChatDrawer.jsx        # Slide-over AI financial coaching drawer
 │   ├── utils/
-│   │   └── financialEngine.js        # Pure financial calculations & NLP response logic
+│   │   └── financialEngine.js      # Reducing-balance EMI math, DTI formulas, and NLP advisor
 │   ├── services/
-│   │   └── api.js                    # API service layer with graceful offline fallback
+│   │   └── api.js                  # Frontend API integration with offline fallback
 │   ├── data/
-│   │   └── mockData.js               # Personas, translations, habit phases, and FAQs
-│   └── App.jsx                       # Master state management & view router
+│   │   └── mockData.js             # Personas, translations (EN/HI), habit tasks, and knowledge base
+│   ├── App.jsx                     # Master state controller, navigation routing, and mobile bar
+│   ├── index.css                   # Tailwind directives and custom fintech utility classes
+│   └── main.jsx                    # React 19 application entry point
 ├── server/
-│   └── server.js                     # Express API backend for cloud hosting
-├── vercel.json                       # Vercel SPA deployment configuration
-└── package.json
+│   └── server.js                   # Express.js REST API backend
+├── tailwind.config.js              # Custom color tokens (Paytm Navy #002970, Cyan #00BAF2)
+├── vite.config.js                  # Vite bundler configuration
+├── vercel.json                     # Vercel SPA routing and header configuration
+└── package.json                    # Project dependencies and build scripts
 ```
 
-- **Frontend:** React 19, Vite, Tailwind CSS, Lucide Icons, Canvas Confetti
-- **Backend API:** Node.js, Express, CORS, Dotenv
-- **Deployment:** Vercel (Frontend SPA) + Render (Backend REST API)
+### Technology Matrix
+
+- **Frontend Framework:** React 19, Vite
+- **Styling & Design System:** Tailwind CSS, Plus Jakarta Sans, Inter
+- **Icons & Animation:** Lucide React, Canvas Confetti
+- **Backend API:** Node.js, Express, CORS
+- **Deployment & Hosting:** Vercel (Frontend SPA) + GitHub CI/CD
 
 ---
 
-## 🏃 Local Setup & Development
+## 7. Local Installation & Development Guide
 
+### Prerequisites
+- Node.js 18.x or higher
+- npm 9.x or higher
+
+### Step 1: Clone Repository
 ```bash
-# 1. Clone the repository
 git clone https://github.com/sankhasubhrabhadra/sahayak.git
-
-# 2. Navigate to project directory
 cd sahayak
-
-# 3. Install dependencies
-npm install
-
-# 4. Start the frontend development server
-npm run dev
-
-# 5. (Optional) Start the Express backend server
-node server/server.js
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+### Step 2: Install Dependencies
+```bash
+npm install
+```
+
+### Step 3: Run Development Server
+```bash
+npm run dev
+```
+The application will start at `http://localhost:5173`.
+
+### Step 4: Run Production Build
+```bash
+npm run build
+```
 
 ---
 
-## 🏆 Hackathon Demo Personas
+## 8. API Specifications
 
-| Persona | Role | Monthly Income | Existing EMIs | Baseline DTI | Sahayak Discovery & Outcome |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **Rahul Sharma** | Gig Delivery Partner | ₹38,000 | ₹21,500 | **56.6%** (High Risk) | Identifies ₹6,300/mo in 2 BNPL micro-loans. Pruning them lowers DTI to 40.0% and unlocks simulated pre-approval. |
-| **Priya Verma** | Boutique Owner | ₹65,000 | ₹34,500 | **53.1%** (High Risk) | High revolving credit card balances. Consolidation offer lowers DTI to 33.8%. |
-| **Amit Patel** | Salaried Software Associate | ₹55,000 | ₹11,000 | **20.0%** (Prime) | Affordability ratio well within threshold; qualifies for instant direct sanction. |
+### `POST /api/evaluate`
+Evaluates applicant financial data and returns underwriting decision, DTI metrics, and matched offers.
+
+**Request Payload:**
+```json
+{
+  "monthlyIncome": 38000,
+  "existingEmis": 21500,
+  "requestedLoanAmount": 150000,
+  "tenureMonths": 24,
+  "employmentType": "Gig Worker"
+}
+```
+
+**Response Payload:**
+```json
+{
+  "status": "PAUSED_RECOVERY_OFFERED",
+  "dti": 56.6,
+  "isSafe": false,
+  "maxSafeEmi": 15200,
+  "excessEmi": 6300,
+  "matchedOffers": [
+    {
+      "lenderName": "Hero FinCorp",
+      "eligibleAmount": 70000,
+      "interestRate": 11.49,
+      "tenureMonths": 18,
+      "monthlyEmi": 4252
+    }
+  ]
+}
+```
 
 ---
 
-## 📄 License
+## 9. License
 
-MIT License — Built for the **Paytm Build for India AI Hackathon (2026)**.  
-*Track: AI-Powered Financial Journeys.*
+This project is open-source software licensed under the **MIT License**.
+
+Copyright (c) 2026 One97 Communications Limited / Sahayak Project Contributors.

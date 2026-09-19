@@ -41,7 +41,7 @@ export default function Navbar({
                 <span className="font-bold text-xl tracking-tight text-[#002970]">Pay</span>
                 <span className="font-bold text-xl tracking-tight text-[#00BAF2]">tm</span>
               </div>
-              <span className="bg-slate-100 text-slate-700 text-[11px] font-semibold px-2 py-0.5 rounded-md border border-slate-200">
+              <span className="bg-[#E8F8FD] text-[#002970] text-[11px] font-bold px-2 py-0.5 rounded-md border border-[#BCE8F9]">
                 Sahayak
               </span>
             </button>
@@ -54,9 +54,9 @@ export default function Navbar({
                   <button
                     key={tab.id}
                     onClick={() => setCurrentView(tab.id)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
                       isActive
-                        ? 'bg-white text-slate-900 shadow-xs font-semibold'
+                        ? 'bg-[#002970] text-white shadow-xs font-semibold'
                         : 'text-slate-600 hover:text-slate-900 hover:bg-white/60'
                     }`}
                   >

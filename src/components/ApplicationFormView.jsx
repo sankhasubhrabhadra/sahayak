@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowRight, Clock, RefreshCw, AlertCircle, Sparkles } from 'lucide-react';
+import { ArrowRight, Clock, RefreshCw, AlertCircle } from 'lucide-react';
 import { DEMO_PERSONAS, TRANSLATIONS } from '../data/mockData';
 
 export default function ApplicationFormView({

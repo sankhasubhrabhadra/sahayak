@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CheckCircle2, ArrowRight, Check, X, Sparkles } from 'lucide-react';
+import { CheckCircle2, ArrowRight, Check, X } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { TRANSLATIONS } from '../data/mockData';
 import { calculateReducingEmi } from '../utils/financialEngine';

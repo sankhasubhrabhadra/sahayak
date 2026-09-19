@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, Sparkles, Clock, ShieldCheck, Zap, TrendingUp, IndianRupee, Smartphone, Award, Activity } from 'lucide-react';
+import { ArrowRight, Clock, ShieldCheck, Zap, TrendingUp, IndianRupee, Smartphone, Award, Activity } from 'lucide-react';
 import { TRANSLATIONS } from '../data/mockData';
 
 export default function RoadmapView({

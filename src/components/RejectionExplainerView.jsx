@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowRight, Sliders, CheckCircle2, AlertCircle, Sparkles } from 'lucide-react';
+import { ArrowRight, Sliders, CheckCircle2, AlertCircle } from 'lucide-react';
 import { TRANSLATIONS } from '../data/mockData';
 
 export default function RejectionExplainerView({

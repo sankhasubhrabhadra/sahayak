@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, ShieldCheck, TrendingUp, CheckCircle2, Zap, Clock, Users, CreditCard, Award, Sparkles } from 'lucide-react';
+import { ArrowRight, ShieldCheck, TrendingUp, CheckCircle2, Zap, Clock, Users, CreditCard, Award } from 'lucide-react';
 import { DEMO_PERSONAS, TRANSLATIONS } from '../data/mockData';
 
 export default function LandingView({
@@ -11,35 +11,35 @@ export default function LandingView({
 
   const quickServices = [
     {
-      title: 'Personal Loan',
+      title: 'Paytm Personal Loan',
       badge: 'Up to ₹5L',
-      desc: 'Instant 2-min approval',
-      color: 'bg-blue-50 text-blue-600',
-      icon: <CreditCard className="w-5 h-5 text-blue-600" />,
+      desc: 'Instant 2-min paperless sanction',
+      color: 'bg-[#E8F8FD] text-[#002970]',
+      icon: <CreditCard className="w-5 h-5 text-[#00BAF2]" />,
       action: onStartApplication
     },
     {
-      title: 'Free Credit Report',
+      title: 'Paytm Free Credit Score',
       badge: 'RBI 15-Day',
-      desc: 'CIBIL & Experian score',
-      color: 'bg-amber-50 text-amber-600',
+      desc: 'Zero-inquiry bureau refresh',
+      color: 'bg-amber-50 text-amber-700',
       icon: <Award className="w-5 h-5 text-amber-600" />,
       action: onStartApplication
     },
     {
-      title: 'Sahayak AI Coach',
+      title: 'Paytm Sahayak Coach',
       badge: '90-Day Plan',
-      desc: 'Fix high DTI rejections',
-      color: 'bg-emerald-50 text-emerald-600',
+      desc: 'Turn loan rejections into approval',
+      color: 'bg-emerald-50 text-emerald-700',
       icon: <TrendingUp className="w-5 h-5 text-emerald-600" />,
       action: onStartApplication
     },
     {
-      title: 'UPI Auto-Pay',
+      title: 'Paytm UPI Auto-Pay',
       badge: '0 DPD',
-      desc: 'Timely EMI repayment',
-      color: 'bg-indigo-50 text-indigo-600',
-      icon: <Zap className="w-5 h-5 text-indigo-600" />,
+      desc: 'Automated on-time EMI repayments',
+      color: 'bg-[#EBF3FB] text-[#002970]',
+      icon: <Zap className="w-5 h-5 text-[#002970]" />,
       action: onStartApplication
     }
   ];

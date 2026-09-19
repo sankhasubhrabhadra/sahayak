@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Trophy, Sparkles, ArrowRight, Smartphone, RefreshCw, Volume2, Radio, CheckCircle2 } from 'lucide-react';
+import { Trophy, ArrowRight, Smartphone, RefreshCw, Volume2, Radio, CheckCircle2 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { calculateReducingEmi } from '../utils/financialEngine';
 
